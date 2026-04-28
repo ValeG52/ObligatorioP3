@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Iniciar Sesión</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login" method="post">
+            <div class="form-group">
+
+                <label class="control-label">Email</label>
+                <input name="email" value="vale@gmail.com" class="form-control" type="email" required />
+            
+            </div>
+            <div class="form-group">
+
+                <label class="control-label">Contraseña</label>
+                <input name="password" value="Vale123!" class="form-control" type="password" required />
+           
+            </div>
+            <br />
+            <div class="form-group">
+
+                <input type="submit" value="Entrar" class="btn btn-primary" />
+           
+            </div>
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <br />
+            <div class="alert alert-danger">
+                @ViewBag.Error
+            </div>
+        }
+    </div>
+</div>

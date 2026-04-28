@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DTOs\DTOUsuarios\Usuario.cs" />
+    <Compile Remove="DTOs\DTOUsuarios\UsuarioDTO.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LogicaAccesoDatos\LogicaAccesoDatos.csproj" />
+    <ProjectReference Include="..\LogicaNegocio\LogicaNegocio.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ManejoUsuarios\" />
+  </ItemGroup>
+
+</Project>

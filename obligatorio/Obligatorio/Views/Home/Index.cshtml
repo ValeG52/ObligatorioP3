@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Bienvenida - StellarMinds";
+}
+
+<div class="container py-5">
+    <div class="p-5 mb-4 bg-dark text-white rounded-3 shadow-lg">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-4 fw-bold">StellarMinds</h1>
+            <p class="fs-4">Observatorio Astronómico y Club de Aficionados</p>
+            <hr class="my-4 border-light">
+            <p>Bienvenido al sistema de gestión de equipos, préstamos y sesiones de observación astronómica.</p>
+            
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                @* Botón que redirige al Login según el RF01 *@
+                <a asp-controller="Usuario" asp-action="Login" class="btn btn-primary btn-lg px-4 gap-3">
+                    Ingresar al Sistema
+                </a>
+            </div>
+        </div>
+    </div>
+
+ 
+    </div>
+</div>
