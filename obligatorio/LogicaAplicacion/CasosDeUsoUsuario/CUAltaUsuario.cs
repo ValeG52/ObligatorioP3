@@ -21,20 +21,13 @@ namespace LogicaDeAplicacion.CasosDeUsoUsuario
 
         public void Ejecutar(DTOUsuario dtoUsuario)
         {
-            Usuario usuario = MapperUsuario.UsuarioDTOUsuarioToUsuario(dtoUsuario);
-            usuario.Validar();
-
-            if(RepoUsuario.FindByNombreUsuario(dtoUsuario.NombreUsu)!=null)
-            {
-                throw new Exception("El nombre de usuario ya existe.");
-            }
-
+            Usuario usuario = MapperUsuario.UsuarioDTOUsuarioToUsuario(dtoUsuario);           
             RepoUsuario.Add(usuario);
         }
 
-        public void AltaUsuario(Usuario nuevo)
-        {
-            throw new NotImplementedException();
-        }
+        //public void AltaUsuario(Usuario nuevo)
+       // {
+        //    throw new NotImplementedException();
+       // }
     }
 }

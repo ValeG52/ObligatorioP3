@@ -8,16 +8,16 @@ namespace CasosDeUso.ManejoUsuarios
 {
     public class CULoginUsuario : ICULoginUsuario
     {
-        private IRepositorioUsuario _repo;
+        private IRepositorioUsuario RepoUsuario { get; set; }
 
         public CULoginUsuario(IRepositorioUsuario repo)
         {
-            _repo = repo;
+            RepoUsuario = repo;
         }
 
         public DTOUsuario Ejecutar(string email, string password)
         {     
-            Usuario usuarioEncontrado = _repo.Login(email, password);
+            Usuario usuarioEncontrado = RepoUsuario.Login(email, password);
 
             if (usuarioEncontrado == null)
             {

@@ -36,7 +36,7 @@ namespace Web.Controllers
 
                     //si todo esta bien guardamos los datos en la sesion
                     HttpContext.Session.SetString("UsuarioEmail", usuarioLogueado.Email);
-                    HttpContext.Session.SetString("UsuarioRol", usuarioLogueado.Rol);
+                    HttpContext.Session.SetString("UsuarioRol", usuarioLogueado.Rol.ToString());
 
                     //mandamos al usuario a la pagina principal
                     return RedirectToAction("Index", "Home");
@@ -60,7 +60,7 @@ namespace Web.Controllers
             try
             {
                 CUAltaUsuario.Ejecutar(dtoUsuario);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Login));
             }
             catch
             {
