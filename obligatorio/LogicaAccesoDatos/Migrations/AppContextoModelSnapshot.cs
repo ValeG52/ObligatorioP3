@@ -45,9 +45,8 @@ namespace LogicaAccesoDatos.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Rol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Rol")
+                        .HasColumnType("int");
 
                     b.Property<string>("Telefono")
                         .IsRequired()

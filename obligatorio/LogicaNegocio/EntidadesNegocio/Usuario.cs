@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio.InteracesDominio;
+using LogicaNegocio.Enumerados;
 using LogicaNegocio.ValueObject;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,12 @@ namespace LogicaNegocio.EntidadesNegocio
         public string Telefono { get; set; }
         public string Email { get; set; }
         public string NombreUsu { get; set; }
-       public ContraseniaVO Contrasenia { get; set; }
-        public string Rol { get; set; } // o administrador, coordinador o socio
+        public ContraseniaVO Contrasenia { get; set; }
+        public Rol? Rol { get; set; } // o administrador, coordinador o socio
 
         public Usuario() { }
 
-        public Usuario(string nombre, string direccion, string telefono, string email, string nombreUsu, string contrasenia, string rol)
+        public Usuario(string nombre, string direccion, string telefono, string email, string nombreUsu, string contrasenia)
         {
             Nombre = nombre;
             Direccion = direccion;
@@ -29,7 +30,7 @@ namespace LogicaNegocio.EntidadesNegocio
             Email = email;
             NombreUsu = nombreUsu;
             Contrasenia = new ContraseniaVO(contrasenia);
-            Rol = rol;
+            
 
         }
 
@@ -48,20 +49,7 @@ namespace LogicaNegocio.EntidadesNegocio
                 throw new Exception("El email es obligatorio.");
 
             if (string.IsNullOrWhiteSpace(NombreUsu))
-                throw new Exception("El nombre de usuario es obligatorio.");
-
-            if (string.IsNullOrWhiteSpace(Rol))
-                throw new Exception("El rol es obligatorio.");
-
-            if (Rol != "Administrador" && Rol != "Coordinador" && Rol != "Socio")
-                throw new Exception("Rol inválido.");
-           
-           
-            
-
-            
-
-            
+                throw new Exception("El nombre de usuario es obligatorio.");      
         }
 
         public bool Equals(Usuario? other)

@@ -1,4 +1,5 @@
 ﻿using LogicaNegocio.ValueObject;
+using LogicaNegocio.Enumerados;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,6 @@ namespace CasosDeUso.DTOs.DTOUsuarios
         public string NombreUsu { get; set; }
         public string Contrasenia { get; set; }
 
-        public string Rol { get; set; } //administrador, coordinador o socio
+        public Rol? Rol { get; set; } //administrador, coordinador o socio
     }
 }
