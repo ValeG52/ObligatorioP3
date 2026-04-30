@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CasosDeUso.DTOs.DTOEquipos
+namespace LogicaNegocio.Enumerados
 {
-    public class EquipoDTO
+    public enum Sensor
     {
+        CMOS,
+        CCD
     }
 }

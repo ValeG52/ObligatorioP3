@@ -21,6 +21,42 @@ namespace LogicaAccesoDatos.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Equipo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Marca")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Modelo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Stock")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Equipos");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Equipo");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -55,6 +91,72 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Camara", b =>
+                {
+                    b.HasBaseType("LogicaNegocio.EntidadesNegocio.Equipo");
+
+                    b.Property<string>("Resolucion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Sensor")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TamPixel")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Camara");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Montura", b =>
+                {
+                    b.HasBaseType("LogicaNegocio.EntidadesNegocio.Equipo");
+
+                    b.Property<int>("Carga")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Computarizado")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TipoMontura")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Montura");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Oculares", b =>
+                {
+                    b.HasBaseType("LogicaNegocio.EntidadesNegocio.Equipo");
+
+                    b.Property<int>("AnguloVision")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Dieametro")
+                        .HasColumnType("int");
+
+                    b.HasDiscriminator().HasValue("Oculares");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Telescopio", b =>
+                {
+                    b.HasBaseType("LogicaNegocio.EntidadesNegocio.Equipo");
+
+                    b.Property<int>("Apertura")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DisFocal")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Peso")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RelFocal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Telescopio");
                 });
 
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Usuario", b =>
