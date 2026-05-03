@@ -1,0 +1,10 @@
+/* Visual Studio Settings File */
+{
+  "languages.csharp.scrollbars.verticalScrollBar": true,
+  "languages.csharp.scrollbars.verticalScrollBarAnnotations": true,
+  "languages.csharp.scrollbars.showChanges": true,
+  "languages.csharp.scrollbars.showMarks": true,
+  "languages.csharp.scrollbars.verticalScrollBarMode": "map",
+  "languages.csharp.scrollbars.mapModePreview": true,
+  "languages.csharp.scrollbars.sourceOverviewWidth": "off"
+}
