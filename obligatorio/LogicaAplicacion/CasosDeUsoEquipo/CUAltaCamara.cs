@@ -1,0 +1,29 @@
+﻿using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using LogicaNegocio.InteracesRepositorios;
+using LogicaNegocio.EntidadesNegocio;
+using CasosDeUso.DTOs.DTOEquipos;
+using LogicaAplicacion.Mappers;
+using LogicaNegocio.InterfacesRepositorios;
+
+namespace LogicaAplicacion.CasosDeUsoEquipo
+{
+    public class CUAltaCamara : ICUAltaCamara
+    {
+        public IRepositorioEquipo RepoEquipo { get; set; }
+
+        public CUAltaCamara(IRepositorioEquipo repoEquipo)
+        {
+            RepoEquipo = repoEquipo;
+        }
+
+        public void Ejecutar(DTOCamara dtoCamara)
+        {
+            Camara camara = MapperCamara.DTOLibroToLibro(dtoCamara);
+            RepoEquipo.Add(camara);
+        }
+
+    }
+}

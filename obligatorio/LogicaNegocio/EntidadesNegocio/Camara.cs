@@ -11,5 +11,10 @@ namespace LogicaNegocio.EntidadesNegocio
         public string Resolucion { get; set; }
         public int TamPixel { get; set; }
 
+        public override void Validar()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

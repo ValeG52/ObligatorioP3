@@ -11,5 +11,10 @@ namespace LogicaNegocio.EntidadesNegocio
         public int Carga { get; set; }
         public bool Computarizado   { get; set; }
 
+
+        public override void Validar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

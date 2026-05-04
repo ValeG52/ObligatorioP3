@@ -31,11 +31,11 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public  IActionResult Create(DTOEquipo dtoEquipo)
+        public  IActionResult CreateCamara(DTOCamara dtoCamara)
         {
             try
             {
-                CUAltaEquipo.Ejecutar(dtoEquipo);
+                CUAltaEquipo.Ejecutar(dtoCamara);
                 return RedirectToAction(nameof(Index));
             }
             catch
