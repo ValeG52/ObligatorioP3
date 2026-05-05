@@ -1,5 +1,6 @@
 ﻿using CasosDeUso.DTOs.DTOEquipos;
 using LogicaNegocio.EntidadesNegocio;
+using LogicaNegocio.Enumerados;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,8 +21,8 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoCamara.Marca,
                 Modelo = dtoCamara.Modelo,
                 Stock = dtoCamara.Stock,
-                Estado = dtoCamara.Estado,
-                Sensor = dtoCamara.Sensor,              
+                Estado = (Estado)Enum.Parse(typeof(Estado), dtoCamara.NombreEstado),
+                Sensor = (Sensor)Enum.Parse(typeof(Sensor), dtoCamara.NombreSensor),
                 TamPixel = dtoCamara.TamPixel,
                 Resolucion = dtoCamara.Resolucion,
             };

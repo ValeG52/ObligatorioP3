@@ -12,5 +12,9 @@ namespace CasosDeUso.DTOs.DTOEquipos
         public string Modelo { get; set; }
         public int Stock { get; set; }
         public Estado Estado { get; set; }
+
+        public int EstadoId {  get; set; }
+        public string[] Estados { get; set; }
+        public string NombreEstado { get; set; }
     }
 }

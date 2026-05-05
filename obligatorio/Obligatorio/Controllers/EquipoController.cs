@@ -1,6 +1,8 @@
 ﻿using CasosDeUso.DTOs.DTOEquipos;
+using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
 using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
 using LogicaAccesoDatos;
+using LogicaAplicacion.CasosDeUsoEnum;
 using LogicaAplicacion.CasosDeUsoEquipo;
 using LogicaNegocio.EntidadesNegocio;
 using Microsoft.AspNetCore.Mvc;
@@ -18,16 +20,28 @@ namespace Web.Controllers
     {
         public AppContexto Contexto { get; set; }
         public ICUAltaCamara CUAltaCamara { get; set; }
+        public ICUListadoSensor CUListadoSensores { get; set; }
+        public ICUListadoEstado CUListadoEstado { get; set; }
 
-        public EquipoController(ICUAltaCamara cuAltaCamara)
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUListadoEstado cuListadoEstado)
         {
             CUAltaCamara = cuAltaCamara;
+            CUListadoSensores = cuListadoSensores;
+            CUListadoEstado = cuListadoEstado;
         }
 
 
-        public IActionResult Create()
+        public IActionResult CreateCamara()
         {
-            return View();
+            DTOCamara dtoCamara = new DTOCamara();
+            try
+            {
+                dtoCamara.Estados = CUListadoEstado.Ejecutar();
+
+                dtoCamara.Sensores = CUListadoSensores.Ejecutar();
+            }
+            catch (Exception ex) { }
+            return View(dtoCamara);
         }
 
 
@@ -42,6 +56,7 @@ namespace Web.Controllers
             }
             catch
             {
+                
 
             }
             return View(dtoCamara);
@@ -96,7 +111,7 @@ namespace Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(equipo);
+            return View();
         }
 
         // GET: Equipoes/Delete/5
