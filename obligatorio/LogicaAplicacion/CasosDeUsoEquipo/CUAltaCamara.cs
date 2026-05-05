@@ -21,7 +21,7 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
 
         public void Ejecutar(DTOCamara dtoCamara)
         {
-            Camara camara = MapperCamara.DTOLibroToLibro(dtoCamara);
+            Camara camara = MapperEquipo.DTOCamaraToCamara(dtoCamara);
             RepoEquipo.Add(camara);
         }
 

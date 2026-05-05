@@ -9,7 +9,7 @@ namespace CasosDeUso.DTOs.DTOEquipos
     {
         public Sensor Sensor { get; set; }
         public string Resolucion { get; set; }
-        public int TamanioPixel { get; set; }
+        public int TamPixel { get; set; }
 
     }
 }

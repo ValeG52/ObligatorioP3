@@ -6,6 +6,6 @@ namespace LogicaNegocio.EntidadesNegocio
 {
     public class Observacion
     {
-        public 
+         
     }
 }

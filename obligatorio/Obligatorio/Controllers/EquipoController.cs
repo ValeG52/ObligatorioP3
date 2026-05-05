@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CasosDeUso.DTOs.DTOEquipos;
+using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
+using LogicaAccesoDatos;
+using LogicaAplicacion.CasosDeUsoEquipo;
+using LogicaNegocio.EntidadesNegocio;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LogicaAccesoDatos;
-using LogicaNegocio.EntidadesNegocio;
-using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
-using CasosDeUso.DTOs.DTOEquipos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace Web.Controllers
 {
     public class EquipoController : Controller
     {
         public AppContexto Contexto { get; set; }
-        public ICUAltaEquipo CUAltaEquipo { get; set; }
+        public ICUAltaCamara CUAltaCamara { get; set; }
 
-        public EquipoController(ICUAltaEquipo cuAltaEquipo)
+        public EquipoController(ICUAltaCamara cuAltaCamara)
         {
-            CUAltaEquipo = cuAltaEquipo;
+            CUAltaCamara = cuAltaCamara;
         }
 
 
@@ -35,14 +37,14 @@ namespace Web.Controllers
         {
             try
             {
-                CUAltaEquipo.Ejecutar(dtoCamara);
+                CUAltaCamara.Ejecutar(dtoCamara);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
 
             }
-            return View(dtoEquipo);
+            return View(dtoCamara);
 
         }
 
