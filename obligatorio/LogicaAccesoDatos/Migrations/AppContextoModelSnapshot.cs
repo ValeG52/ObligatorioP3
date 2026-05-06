@@ -126,7 +126,7 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasDiscriminator().HasValue("Montura");
                 });
 
-            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Oculares", b =>
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Ocular", b =>
                 {
                     b.HasBaseType("LogicaNegocio.EntidadesNegocio.Equipo");
 
@@ -136,7 +136,7 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("Dieametro")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Oculares");
+                    b.HasDiscriminator().HasValue("Ocular");
                 });
 
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Telescopio", b =>
