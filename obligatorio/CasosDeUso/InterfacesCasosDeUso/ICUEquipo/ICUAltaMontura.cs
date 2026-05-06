@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CasosDeUso.InterfacesCasosDeUso.ICUEquipo
 {
-    internal interface ICUAltaMontura
+    public interface ICUAltaMontura
     {
         void Ejecutar(DTOMontura dtoMontura);
 

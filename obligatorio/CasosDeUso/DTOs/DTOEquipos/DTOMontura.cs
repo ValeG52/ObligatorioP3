@@ -11,5 +11,7 @@ namespace CasosDeUso.DTOs.DTOEquipos
         public TipoMontura TipoMontura { get; set; }
         public int Carga { get; set; }
         public bool Computarizado { get; set; }
+        public string[] TipoMonturas { get; set; }
+        public int TipoMonturaId { get; set; }
     }
 }

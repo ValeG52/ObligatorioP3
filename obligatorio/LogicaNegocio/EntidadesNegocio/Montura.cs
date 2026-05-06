@@ -14,7 +14,7 @@ namespace LogicaNegocio.EntidadesNegocio
 
         public override void Validar()
         {
-            throw new NotImplementedException();
+           
         }
     }
 }
