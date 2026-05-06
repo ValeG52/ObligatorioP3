@@ -62,6 +62,38 @@ namespace Web.Controllers
             return View(dtoCamara);
 
         }
+        //----------------------------------------------Telescpio
+        public IActionResult CreateTelescpio()
+        {
+            DTOTelescopio dtoTelescopio = new DTOTelescopio();
+            try
+            {
+                dtoTelescopio.Estados = CUListadoEstado.Ejecutar();
+
+                
+            }
+            catch (Exception ex) { }
+            return View(dtoTelescopio);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateTelescopio(DTOTelescopio dtoTelescopio)
+        {
+            try
+            {
+                //CUAltaTelescopio.Ejecutar(dtoTelescopio);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+
+
+            }
+            return View(dtoTelescopio);
+
+        }
 
         // GET: Equipoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
