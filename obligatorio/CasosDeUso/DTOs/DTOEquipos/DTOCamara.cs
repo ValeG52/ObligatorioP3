@@ -12,7 +12,7 @@ namespace CasosDeUso.DTOs.DTOEquipos
         public int TamPixel { get; set; }
         public string[] Sensores { get; set; }
         public int SensorId { get; set; }
-        public string NombreSensor {  get; set; }
+        
 
     }
 }

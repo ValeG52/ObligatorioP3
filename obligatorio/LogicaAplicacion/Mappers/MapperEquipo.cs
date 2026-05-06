@@ -21,8 +21,8 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoCamara.Marca,
                 Modelo = dtoCamara.Modelo,
                 Stock = dtoCamara.Stock,
-                Estado = (Estado)Enum.Parse(typeof(Estado), dtoCamara.NombreEstado),
-                Sensor = (Sensor)Enum.Parse(typeof(Sensor), dtoCamara.NombreSensor),
+                Estado = dtoCamara.Estado,
+                Sensor = dtoCamara.Sensor,
                 TamPixel = dtoCamara.TamPixel,
                 Resolucion = dtoCamara.Resolucion,
             };

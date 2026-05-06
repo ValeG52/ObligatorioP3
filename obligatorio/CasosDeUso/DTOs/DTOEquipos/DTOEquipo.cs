@@ -15,6 +15,6 @@ namespace CasosDeUso.DTOs.DTOEquipos
 
         public int EstadoId {  get; set; }
         public string[] Estados { get; set; }
-        public string NombreEstado { get; set; }
+        
     }
 }
