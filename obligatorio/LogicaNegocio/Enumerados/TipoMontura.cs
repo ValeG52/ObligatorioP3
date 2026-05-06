@@ -6,8 +6,8 @@ namespace LogicaNegocio.Enumerados
 {
     public enum TipoMontura
     {
-        Ecuatorial,
-        AltAzimutal,
-        Hibrida
+        Ecuatorial,//0
+        AltAzimutal,//1
+        Hibrida//2
     }
 }

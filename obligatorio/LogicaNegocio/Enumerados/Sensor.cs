@@ -6,7 +6,7 @@ namespace LogicaNegocio.Enumerados
 {
     public enum Sensor
     {
-        CMOS,
-        CCD
+        CMOS,//0
+        CCD//1
     }
 }

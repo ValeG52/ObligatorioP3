@@ -1,12 +1,13 @@
 ﻿using CasosDeUso.DTOs.DTOEquipos;
+using LogicaNegocio.EntidadesNegocio;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CasosDeUso.InterfacesCasosDeUso.ICUEquipo
 {
-    public interface ICUAltaEquipo
+    public interface ICUAltaCamara
     {
-        void Ejecutar(DTOEquipo dtoEquipo);
+        void Ejecutar(DTOCamara dtoCamara);
     }
 }

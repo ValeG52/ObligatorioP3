@@ -4,7 +4,8 @@ using System.Text;
 
 namespace LogicaNegocio.EntidadesNegocio
 {
-    internal class Observacion
+    public class Observacion
     {
+         
     }
 }

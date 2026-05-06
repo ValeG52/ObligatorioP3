@@ -1,8 +1,12 @@
-using CasosDeUso.InterfacesCasosDeUso;
+    using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
+using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
 using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 using CasosDeUso.ManejoUsuarios;
 using LogicaAccesoDatos;
 using LogicaAccesoDatos.Repositorios;
+using LogicaAplicacion.CasosDeUsoEnum;
+using LogicaAplicacion.CasosDeUsoEquipo;
 using LogicaDeAplicacion.CasosDeUsoUsuario;
 using LogicaNegocio.InterfacesRepositorios;
 using Microsoft.EntityFrameworkCore;
@@ -31,7 +35,13 @@ namespace Obligatorio
             // Conectamos las interfaces con las clases reales
             builder.Services.AddScoped<ICULoginUsuario, CULoginUsuario>();
             builder.Services.AddScoped<IRepositorioUsuario, RepositorioUsuarioEF>();
+            builder.Services.AddScoped<IRepositorioEquipo, RepositorioEquipoEF>();
             builder.Services.AddScoped<ICUAltaUsuario, CUAltaUsuario>();
+            builder.Services.AddScoped<ICUAltaCamara, CUAltaCamara>();
+            builder.Services.AddScoped<ICUListadoSensor, CUListadoSensor>();
+            builder.Services.AddScoped<ICUListadoEstado, CUListadoEstado>();
+
+
 
             string cadenaConexion = builder.Configuration.GetConnectionString("CadenaConexion");
             builder.Services.AddDbContext<AppContexto>(options => options.UseSqlServer(cadenaConexion));

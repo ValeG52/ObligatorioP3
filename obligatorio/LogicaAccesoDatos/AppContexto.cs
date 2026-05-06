@@ -15,9 +15,13 @@ namespace LogicaAccesoDatos
         public DbSet<Camara>Camaras { get; set; }
         public DbSet<Montura>Monturas { get; set; }
         public DbSet<Telescopio>Telescopios { get; set; }
-        public DbSet<Oculares>Oculares { get; set; }
+        public DbSet<Ocular>Oculares { get; set; }
         public AppContexto (DbContextOptions options) : base(options) { }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

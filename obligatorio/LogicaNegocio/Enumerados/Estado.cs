@@ -6,7 +6,7 @@ namespace LogicaNegocio.Enumerados
 {
     public enum Estado
     {
-        EnPrestamo,
-        Devuelto
+        EnPrestamo,//0
+        Devuelto//1
     }
 }
