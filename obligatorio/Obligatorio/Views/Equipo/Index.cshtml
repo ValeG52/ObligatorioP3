@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LogicaNegocio.EntidadesNegocio.Equipo>
+﻿@model IEnumerable<CasosDeUso.DTOs.DTOEquipos.DTOEquipo>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,6 +12,9 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                Tipo
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Marca)
             </th>
@@ -30,6 +33,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @item.TipoEquipo
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Marca)
             </td>

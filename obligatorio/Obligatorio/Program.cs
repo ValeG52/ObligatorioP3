@@ -43,6 +43,7 @@ namespace Obligatorio
             builder.Services.AddScoped<ICUListadoTipoMontura, CUListadoTipoMontura>();
             builder.Services.AddScoped<ICUAltaMontura, CUAltaMontura>();
             builder.Services.AddScoped<ICUAltaOcular, CUAltaOcular>();
+            builder.Services.AddScoped<ICUListadoEquipo, CUListadoEquipo>();
 
 
 

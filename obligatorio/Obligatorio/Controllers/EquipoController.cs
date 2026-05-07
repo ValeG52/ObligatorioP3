@@ -25,8 +25,8 @@ namespace Web.Controllers
         public ICUListadoTipoMontura CUListadoTipoMontura { get; set; }
         public ICUAltaMontura CUAltaMontura { get; set; }
         public ICUAltaOcular CUAltaOcular { get; set; }
-
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular)
+        public ICUListadoEquipo CUListadoEquipo { get; set; }
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
@@ -34,6 +34,7 @@ namespace Web.Controllers
             CUListadoTipoMontura = cUListadoTipoMontura;
             CUAltaMontura = cUAltaMontura;
             CUAltaOcular = cUAltaOcular;
+            CUListadoEquipo = cUListadoEquipo;
         }
 
 
@@ -161,6 +162,29 @@ namespace Web.Controllers
             return View(dtoOcular);
 
         }
+
+
+
+        //----------------------------Listar equipo para dar de baja y editarlos
+
+        public ActionResult Index()
+        {
+            IEnumerable<DTOEquipo> equiposDTO = new List<DTOEquipo>();
+            try
+            {
+                equiposDTO = CUListadoEquipo.Ejecutar();
+
+            }
+            catch (Exception ex) { }
+            return View(equiposDTO);
+        }
+        
+        
+        
+        
+        
+        //-----------------------------------------
+
 
 
         // GET: Equipoes/Edit/5

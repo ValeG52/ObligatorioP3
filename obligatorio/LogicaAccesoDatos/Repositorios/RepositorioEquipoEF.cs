@@ -22,7 +22,7 @@ namespace LogicaAccesoDatos.Repositorios
             Contexto.SaveChanges();
         }
         public void Delete(int id) { }
-        public IEnumerable<Equipo> FindAll() { return null; }
+        public IEnumerable<Equipo> FindAll() { return Contexto.Equipos; }
         public Equipo FindById (int id) { return null; }
         public void Update(int id, Equipo equipo) { }
 
