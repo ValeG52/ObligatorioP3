@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CasosDeUso.InterfacesCasosDeUso.ICUEnumerados
 {
-    public interface ICUListadoEstado
+    public interface ICUListadoTipoMontura
     {
         string[] Ejecutar();
+
     }
 }

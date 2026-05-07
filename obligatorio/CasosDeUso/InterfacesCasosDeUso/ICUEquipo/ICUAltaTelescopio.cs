@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CasosDeUso.InterfacesCasosDeUso.ICUEquipo
 {
-    internal interface ICUAltaTelescopio
+    public interface ICUAltaTelescopio
     {
         void Ejecutar(DTOTelescopio  dtoTelescopio);
 

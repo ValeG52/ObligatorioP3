@@ -65,6 +65,25 @@ namespace LogicaAplicacion.Mappers
                 Computarizado = dtoMontura.Computarizado,
             };
         }
+        
+        public static Ocular DTOOcularToOcular(DTOOcular dtoOcular)
+        {
+            if (dtoOcular == null)
+            {
+                throw new ArgumentNullException("Datos incorrectos");
+            }
+            //List<int> monturaId = dtoMontura.Id.ToList();
+            return new Ocular()
+            {
+                Marca = dtoOcular.Marca,
+                Modelo = dtoOcular.Modelo,
+                Stock = dtoOcular.Stock,
+                Estado = dtoOcular.Estado,
+                Diametro = dtoOcular.Diametro,
+                AnguloVision = dtoOcular.AnguloVision,
+                
+            };
+        }
 
     }
 }

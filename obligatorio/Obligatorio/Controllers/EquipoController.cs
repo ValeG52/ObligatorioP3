@@ -21,13 +21,19 @@ namespace Web.Controllers
         public AppContexto Contexto { get; set; }
         public ICUAltaCamara CUAltaCamara { get; set; }
         public ICUListadoSensor CUListadoSensores { get; set; }
-        public ICUListadoEstado CUListadoEstado { get; set; }
+        public ICUAltaTelescopio CUAltaTelescopio { get; set; }
+        public ICUListadoTipoMontura CUListadoTipoMontura { get; set; }
+        public ICUAltaMontura CUAltaMontura { get; set; }
+        public ICUAltaOcular CUAltaOcular { get; set; }
 
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUListadoEstado cuListadoEstado)
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
-            CUListadoEstado = cuListadoEstado;
+            CUAltaTelescopio = cUAltaTelescopio;
+            CUListadoTipoMontura = cUListadoTipoMontura;
+            CUAltaMontura = cUAltaMontura;
+            CUAltaOcular = cUAltaOcular;
         }
 
 
@@ -36,7 +42,6 @@ namespace Web.Controllers
             DTOCamara dtoCamara = new DTOCamara();
             try
             {
-                dtoCamara.Estados = CUListadoEstado.Ejecutar();
 
                 dtoCamara.Sensores = CUListadoSensores.Ejecutar();
             }
@@ -63,12 +68,11 @@ namespace Web.Controllers
 
         }
         //----------------------------------------------Telescpio
-        public IActionResult CreateTelescpio()
+        public IActionResult CreateTelescopio()
         {
             DTOTelescopio dtoTelescopio = new DTOTelescopio();
             try
             {
-                dtoTelescopio.Estados = CUListadoEstado.Ejecutar();
 
                 
             }
@@ -83,7 +87,7 @@ namespace Web.Controllers
         {
             try
             {
-                //CUAltaTelescopio.Ejecutar(dtoTelescopio);
+                CUAltaTelescopio.Ejecutar(dtoTelescopio);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -94,6 +98,70 @@ namespace Web.Controllers
             return View(dtoTelescopio);
 
         }
+        //----------------------------------------------montura
+        public IActionResult CreateMontura()
+        {
+            DTOMontura dtoMontura = new DTOMontura();
+            try
+            {
+                dtoMontura.TipoMonturas = CUListadoTipoMontura.Ejecutar();
+
+
+            }
+            catch (Exception ex) { }
+            return View(dtoMontura);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateMontura(DTOMontura dtoMontura)
+        {
+            try
+            {
+                CUAltaMontura.Ejecutar(dtoMontura);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+
+
+            }
+            return View(dtoMontura);
+
+        }
+        //--------------------------ocular
+        public IActionResult CreateOcular()
+        {
+            DTOOcular dtoOcular = new DTOOcular();
+            try
+            {
+
+
+            }
+            catch (Exception ex) { }
+            return View(dtoOcular);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateOcular(DTOOcular dtoOcular)
+        {
+            try
+            {
+                CUAltaOcular.Ejecutar(dtoOcular);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+
+
+            }
+            return View(dtoOcular);
+
+        }
+
 
         // GET: Equipoes/Edit/5
         public async Task<IActionResult> Edit(int? id)

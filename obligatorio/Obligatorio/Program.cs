@@ -39,7 +39,12 @@ namespace Obligatorio
             builder.Services.AddScoped<ICUAltaUsuario, CUAltaUsuario>();
             builder.Services.AddScoped<ICUAltaCamara, CUAltaCamara>();
             builder.Services.AddScoped<ICUListadoSensor, CUListadoSensor>();
-            builder.Services.AddScoped<ICUListadoEstado, CUListadoEstado>();
+            builder.Services.AddScoped<ICUAltaTelescopio, CUAltaTelescopio>();
+            builder.Services.AddScoped<ICUListadoTipoMontura, CUListadoTipoMontura>();
+            builder.Services.AddScoped<ICUAltaMontura, CUAltaMontura>();
+            builder.Services.AddScoped<ICUAltaOcular, CUAltaOcular>();
+
+
 
 
 
