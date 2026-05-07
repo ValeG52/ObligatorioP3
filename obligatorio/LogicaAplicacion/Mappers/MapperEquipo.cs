@@ -85,5 +85,19 @@ namespace LogicaAplicacion.Mappers
             };
         }
 
+        public static IEnumerable<DTOEquipo> ListEquipoToListDTOEquipo (List<Equipo> equipos)
+        {
+            List<DTOEquipo> dtoEquipos = new List<DTOEquipo>();
+            dtoEquipos = equipos.Select(e => new DTOEquipo()
+            {
+                Id = e.Id,
+                Marca = e.Marca,
+                Modelo = e.Modelo,
+                Stock = e.Stock,
+                TipoEquipo = e.GetType().Name
+            }).ToList();
+            return dtoEquipos;
+        }
+
     }
 }
