@@ -133,7 +133,7 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("AnguloVision")
                         .HasColumnType("int");
 
-                    b.Property<int>("Dieametro")
+                    b.Property<int>("Diametro")
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Ocular");

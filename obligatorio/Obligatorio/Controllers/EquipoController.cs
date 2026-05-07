@@ -21,17 +21,15 @@ namespace Web.Controllers
         public AppContexto Contexto { get; set; }
         public ICUAltaCamara CUAltaCamara { get; set; }
         public ICUListadoSensor CUListadoSensores { get; set; }
-        public ICUListadoEstado CUListadoEstado { get; set; }
         public ICUAltaTelescopio CUAltaTelescopio { get; set; }
         public ICUListadoTipoMontura CUListadoTipoMontura { get; set; }
         public ICUAltaMontura CUAltaMontura { get; set; }
         public ICUAltaOcular CUAltaOcular { get; set; }
 
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUListadoEstado cuListadoEstado, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular)
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
-            CUListadoEstado = cuListadoEstado;
             CUAltaTelescopio = cUAltaTelescopio;
             CUListadoTipoMontura = cUListadoTipoMontura;
             CUAltaMontura = cUAltaMontura;
@@ -44,7 +42,6 @@ namespace Web.Controllers
             DTOCamara dtoCamara = new DTOCamara();
             try
             {
-                dtoCamara.Estados = CUListadoEstado.Ejecutar();
 
                 dtoCamara.Sensores = CUListadoSensores.Ejecutar();
             }
@@ -76,7 +73,6 @@ namespace Web.Controllers
             DTOTelescopio dtoTelescopio = new DTOTelescopio();
             try
             {
-                dtoTelescopio.Estados = CUListadoEstado.Ejecutar();
 
                 
             }
@@ -108,7 +104,6 @@ namespace Web.Controllers
             DTOMontura dtoMontura = new DTOMontura();
             try
             {
-                dtoMontura.Estados = CUListadoEstado.Ejecutar();
                 dtoMontura.TipoMonturas = CUListadoTipoMontura.Ejecutar();
 
 
@@ -141,7 +136,6 @@ namespace Web.Controllers
             DTOOcular dtoOcular = new DTOOcular();
             try
             {
-                dtoOcular.Estados = CUListadoEstado.Ejecutar();
 
 
             }
