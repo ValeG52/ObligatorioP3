@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using ExcepcionesPropias;
 
 namespace Web.Controllers
 {
@@ -27,7 +27,8 @@ namespace Web.Controllers
         public ICUAltaOcular CUAltaOcular { get; set; }
         public ICUListadoEquipo CUListadoEquipo { get; set; }
         public ICUDeleteEquipo CUDeleteEquipo { get; set; }
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo)
+        public ICUBuscarEquipo CUBuscarEquipo { get; set; }
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
@@ -37,6 +38,7 @@ namespace Web.Controllers
             CUAltaOcular = cUAltaOcular;
             CUListadoEquipo = cUListadoEquipo;
             CUDeleteEquipo = cuDeleteEquipo;
+            CUBuscarEquipo = cUBuscarEquipo;
         }
 
 

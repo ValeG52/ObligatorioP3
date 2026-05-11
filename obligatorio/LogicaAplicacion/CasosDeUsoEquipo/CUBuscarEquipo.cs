@@ -20,7 +20,7 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
             RepoEquipo = repo;
         }
     
-    public void Ejecutar(int id)
+    public DTOEquipo Ejecutar(int id)
         {
             if (id <= 0)
             {
