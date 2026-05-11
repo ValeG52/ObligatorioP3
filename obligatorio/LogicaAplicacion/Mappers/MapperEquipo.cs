@@ -99,5 +99,20 @@ namespace LogicaAplicacion.Mappers
             return dtoEquipos;
         }
 
+        public static DTOEquipo EquipoToListDTOEquipo(Equipo e)
+        {
+            if (e == null)
+            {
+                throw new ArgumentNullException("El país no puede ser nulo");
+            }
+            return new DTOEquipo()
+            {
+                Id = e.Id,
+                Marca = e.Marca,
+                Modelo = e.Modelo,
+                Stock = e.Stock,
+                TipoEquipo = e.GetType().Name
+            };
+        }
     }
 }

@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using ExcepcionesPropias;
 
 namespace Web.Controllers
 {
@@ -26,7 +26,9 @@ namespace Web.Controllers
         public ICUAltaMontura CUAltaMontura { get; set; }
         public ICUAltaOcular CUAltaOcular { get; set; }
         public ICUListadoEquipo CUListadoEquipo { get; set; }
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo)
+        public ICUDeleteEquipo CUDeleteEquipo { get; set; }
+        public ICUBuscarEquipo CUBuscarEquipo { get; set; }
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
@@ -35,6 +37,8 @@ namespace Web.Controllers
             CUAltaMontura = cUAltaMontura;
             CUAltaOcular = cUAltaOcular;
             CUListadoEquipo = cUListadoEquipo;
+            CUDeleteEquipo = cuDeleteEquipo;
+            CUBuscarEquipo = cUBuscarEquipo;
         }
 
 
@@ -163,8 +167,6 @@ namespace Web.Controllers
 
         }
 
-
-
         //----------------------------Listar equipo para dar de baja y editarlos
 
         public ActionResult Index()
@@ -180,14 +182,43 @@ namespace Web.Controllers
         }
         
         
-        
-        
-        
-        //-----------------------------------------
+        //-----------------------------------------DELETE
+        public ActionResult Delete(int id)
+        {
+            DTOEquipo dtoEquipo = new DTOEquipo();
+            try 
+            {
+                DTOEquipo dtoE = CUBuscarEquipo.Ejecutar(id);
+                ViewBag.Id = id;
+                
+            }catch(DatosInvalidosException ex)
+            {
+                ViewBag.Error = ex.Message;
+            }
+            catch(Exception ex) 
+            {
+                ViewBag.Error = "Error en los datos";
+            }
+            return View(dtoEquipo);
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, DTOEquipo dtoEquipo)
+        {
+            try
+            {
+                CUDeleteEquipo.Ejecutar(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+ 
 
-
-        // GET: Equipoes/Edit/5
+        //------------------------------------------------------------ GET: Equipoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -203,9 +234,7 @@ namespace Web.Controllers
             return View(equipo);
         }
 
-        // POST: Equipoes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Marca,Modelo,Stock,Estado")] Equipo equipo)
@@ -238,38 +267,8 @@ namespace Web.Controllers
             return View();
         }
 
-        // GET: Equipoes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipo = await Contexto.Equipos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (equipo == null)
-            {
-                return NotFound();
-            }
-
-            return View(equipo);
-        }
-
-        // POST: Equipoes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var equipo = await Contexto.Equipos.FindAsync(id);
-            if (equipo != null)
-            {
-                Contexto.Equipos.Remove(equipo);
-            }
-
-            await Contexto.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //------------------------------------------------------------------- GET: Equipoes/Exists/5
+       
 
         private bool EquipoExists(int id)
         {
