@@ -28,7 +28,8 @@ namespace Web.Controllers
         public ICUListadoEquipo CUListadoEquipo { get; set; }
         public ICUDeleteEquipo CUDeleteEquipo { get; set; }
         public ICUBuscarEquipo CUBuscarEquipo { get; set; }
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo)
+        public ICUModificarEquipo CUModificarEquipo { get; set; }
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo, ICUModificarEquipo cUModificarEquipo)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
@@ -39,6 +40,7 @@ namespace Web.Controllers
             CUListadoEquipo = cUListadoEquipo;
             CUDeleteEquipo = cuDeleteEquipo;
             CUBuscarEquipo = cUBuscarEquipo;
+            CUModificarEquipo = cUModificarEquipo;
         }
 
 
@@ -218,53 +220,40 @@ namespace Web.Controllers
         }
  
 
-        //------------------------------------------------------------ GET: Equipoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //------------------------------------------------------------ Edit
+        public ActionResult Edit(int id)
         {
-            if (id == null)
+            DTOEquipo dtoEquipo = new DTOEquipo();
+            try
             {
-                return NotFound();
+                DTOEquipo equipoDTO = CUBuscarEquipo.Ejecutar(id);
+                ViewBag.Id = id;
+                //return View(equipoDTO);
             }
-
-            var equipo = await Contexto.Equipos.FindAsync(id);
-            if (equipo == null)
+            catch (DatosInvalidosException ex)
             {
-                return NotFound();
+                ViewBag.Error = ex.Message;
             }
-            return View(equipo);
+            catch( Exception ex)
+            {
+                ViewBag.Error = "Error en los datos";
+            }
+            return View();
         }
 
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Marca,Modelo,Stock,Estado")] Equipo equipo)
+        public ActionResult Edit(int id, DTOEquipo dtoEquipo)
         {
-            if (id != equipo.Id)
+            try
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    Contexto.Update(equipo);
-                    await Contexto.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EquipoExists(equipo.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                CUModificarEquipo.Ejecutar(id, dtoEquipo);
                 return RedirectToAction(nameof(Index));
+            }catch
+            {
+                return View();
             }
-            return View();
         }
 
         //------------------------------------------------------------------- GET: Equipoes/Exists/5

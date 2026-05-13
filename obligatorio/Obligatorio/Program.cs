@@ -46,6 +46,7 @@ namespace Obligatorio
             builder.Services.AddScoped<ICUListadoEquipo, CUListadoEquipo>();
             builder.Services.AddScoped<ICUDeleteEquipo, CUDeleteEquipo>();
             builder.Services.AddScoped<ICUBuscarEquipo, CUBuscarEquipo>();
+            builder.Services.AddScoped<ICUModificarEquipo, CUModificarEquipo>();
 
 
 
