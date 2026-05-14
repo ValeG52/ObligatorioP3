@@ -11,7 +11,7 @@ namespace CasosDeUso.DTOs.DTOPrestamos
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
         public Usuario Usuario { get; set; }
-        public List<Equipo> Equipos { get; set; }
+        public List<int> EquiposIds { get; set; }
         public Estado Estado { get; set; }
     }
 }
