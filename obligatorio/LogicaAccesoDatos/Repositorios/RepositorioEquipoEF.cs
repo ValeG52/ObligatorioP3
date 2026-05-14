@@ -30,7 +30,7 @@ namespace LogicaAccesoDatos.Repositorios
             if (id > 0)
             {
                 Equipo eBuscado = FindById(id);
-                if (eBuscado != null && eBuscado.Estado == Estado.Devuelto)
+                if (eBuscado != null)
                 {
                     Contexto.Equipos.Remove(eBuscado);
                     Contexto.SaveChanges();

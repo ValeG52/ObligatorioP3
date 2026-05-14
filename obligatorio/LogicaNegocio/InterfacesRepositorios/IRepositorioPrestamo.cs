@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LogicaNegocio.InterfacesRepositorios
 {
-    internal interface IRepositorioPrestamo: IRepository<Prestamo>
+    public interface IRepositorioPrestamo: IRepository<Prestamo>
     {
     }
 }
