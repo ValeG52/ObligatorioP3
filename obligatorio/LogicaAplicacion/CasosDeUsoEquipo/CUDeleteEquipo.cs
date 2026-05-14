@@ -17,7 +17,7 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
         public void Ejecutar(int id)
         {
             //tendria que validar el id 
-            if (id > 0)
+            if (id > 0 )
             {
                 RepoEquipo.Delete(id);
             }
