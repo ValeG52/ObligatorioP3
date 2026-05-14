@@ -1,5 +1,6 @@
 ﻿using ExcepcionesPropias;
 using LogicaNegocio.EntidadesNegocio;
+using LogicaNegocio.Enumerados;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
 using System.Collections;
@@ -29,7 +30,7 @@ namespace LogicaAccesoDatos.Repositorios
             if (id > 0)
             {
                 Equipo eBuscado = FindById(id);
-                if (eBuscado != null)
+                if (eBuscado != null && eBuscado.Estado == Estado.Devuelto)
                 {
                     Contexto.Equipos.Remove(eBuscado);
                     Contexto.SaveChanges();
