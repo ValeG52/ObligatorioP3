@@ -8,6 +8,7 @@ namespace CasosDeUso.DTOs.DTOPrestamos
 {
     public class DTOPrestamo
     {
+        public int Id { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
         public Usuario Usuario { get; set; }

@@ -19,8 +19,8 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
         }
         public void Ejecutar (DTOPrestamo dtoPrestamo)
         {
-            Prestamo prestamo = MapperPrestamo.DTOPrestamoToPrestamo(dtoPrestamo);
-            RepoPrestamo.Add(prestamo);
+            //Prestamo prestamo = MapperPrestamo.DTOPrestamoToPrestamo(dtoPrestamo);
+            //RepoPrestamo.Add(prestamo);
         }
     }
 }
