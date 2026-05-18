@@ -24,7 +24,7 @@ namespace LogicaAplicacion.Mappers
                 Inicio = dtoPrestamo.Inicio,
                 Fin = dtoPrestamo.Fin,
                 Usuario = dtoPrestamo.Usuario,
-               // Equipos = dtoPrestamo.EquiposIds.Select(id => RepositorioPrestamoEF.FindById(id)).ToList(),
+                Equipos = dtoPrestamo.EquiposIds.Select(id => RepositorioPrestamoEF.FindById(id)).ToList(),
                 Estado = dtoPrestamo.Estado,
                 
             };
