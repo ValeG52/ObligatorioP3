@@ -130,5 +130,7 @@ namespace LogicaAplicacion.Mappers
             equipo.Modelo = dtoEquipo.Modelo;
             equipo.Stock = dtoEquipo.Stock;
         }
+
+        public static List<DTOListadoCamara> ListadoCamaraToDTOListadoCamara()
     }
 }
