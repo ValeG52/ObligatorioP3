@@ -12,7 +12,7 @@ namespace LogicaAplicacion.Mappers
     public class MapperPrestamo
     {
         
-        public Prestamo DTOPrestamoToPrestamo(DTOPrestamo dtoPrestamo)
+        public static Prestamo DTOPrestamoToPrestamo(DTOPrestamo dtoPrestamo, List<Equipo> equipos, Usuario usu)
         {
             if (dtoPrestamo == null)
             {
@@ -23,8 +23,8 @@ namespace LogicaAplicacion.Mappers
             {
                 Inicio = dtoPrestamo.Inicio,
                 Fin = dtoPrestamo.Fin,
-                Usuario = dtoPrestamo.Usuario,
-                Equipos = dtoPrestamo.EquiposIds.Select(id => RepositorioPrestamoEF.FindById(id)).ToList(),
+                Usuario = usu,
+                Equipos = equipos,
                 Estado = dtoPrestamo.Estado,
                 
             };

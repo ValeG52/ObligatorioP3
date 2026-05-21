@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ExcepcionesPropias;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using CasosDeUso.InterfacesCasosDeUso.ICUEquipo; 
 
 namespace Web.Controllers
 {
@@ -40,6 +41,7 @@ namespace Web.Controllers
                 dtoPrestamo.Telescopios = CUListadoTelescopio.Ejecutar();
                 dtoPrestamo.Oculares = CUListadoOcular.Ejecutar();
                 dtoPrestamo.Monturas = CUListadoMontura.Ejecutar();
+                dtoPrestamo.Usuarios = CUListadoUsuario.Ejecutar();
             }
             catch (Exception ex) 
             { 

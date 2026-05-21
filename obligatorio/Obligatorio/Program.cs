@@ -47,6 +47,12 @@ namespace Obligatorio
             builder.Services.AddScoped<ICUDeleteEquipo, CUDeleteEquipo>();
             builder.Services.AddScoped<ICUBuscarEquipo, CUBuscarEquipo>();
             builder.Services.AddScoped<ICUModificarEquipo, CUModificarEquipo>();
+            //builder.Services.AddScoped<ICUListadoMontura, CUListadoMontura>();
+            //builder.Services.AddScoped<ICUListadoOcular, CUListadoOcular>();
+            //builder.Services.AddScoped<ICUListadoTelescopio, CUListadoTelescopio>();
+            //builder.Services.AddScoped<ICUListadoUsuario, CUListadoUsuario>();
+            builder.Services.AddScoped<ICUListadoCamara, CUListadoCamara>();
+
 
 
 

@@ -7,19 +7,35 @@ using LogicaNegocio.EntidadesNegocio;
 using CasosDeUso.DTOs.DTOPrestamos;
 using LogicaAplicacion.Mappers;
 using LogicaNegocio.InterfacesRepositorios;
+using LogicaAccesoDatos.Repositorios;
 
 namespace LogicaAplicacion.CasosDeUsoPrestamo
 {
     public class CUAltaPrestamo : ICUAltaPrestamo
     {
         public IRepositorioPrestamo RepoPrestamo { get; set; }
-        public CUAltaPrestamo (IRepositorioPrestamo repo)
+        public IRepositorioEquipo RepoEquipo    { get; set; }
+        public IRepositorioUsuario RepoUsuario { get; set; }
+        public CUAltaPrestamo (IRepositorioPrestamo repo, IRepositorioEquipo repoequipo)
         {
             RepoPrestamo = repo;
+            RepoEquipo = repoequipo;
         }
         public void Ejecutar (DTOPrestamo dtoPrestamo)
         {
-            Prestamo prestamo = MapperPrestamo.DTOPrestamoToPrestamo(dtoPrestamo);
+            List <Equipo> equipos = new List <Equipo> ();
+            Usuario usuario = RepoUsuario.FindById(dtoPrestamo.UsuarioId);
+            Equipo camara = RepoEquipo.FindById((int)dtoPrestamo.CamaraId);
+            Equipo telescopio = RepoEquipo.FindById(dtoPrestamo.TelescopioId);
+            Equipo montura = RepoEquipo.FindById(dtoPrestamo.MonturaId);
+            Equipo ocular = RepoEquipo.FindById((int)dtoPrestamo.OcularId);
+            equipos.Add(camara);
+            equipos.Add(telescopio);
+            equipos.Add(montura);
+            equipos.Add(ocular);
+
+
+            Prestamo prestamo = MapperPrestamo.DTOPrestamoToPrestamo(dtoPrestamo, equipos, usuario);
             RepoPrestamo.Add(prestamo);
         }
     }
