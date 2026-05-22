@@ -1,12 +1,15 @@
-    using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.InterfacesCasosDeUso;
 using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
 using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
+using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
 using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 using CasosDeUso.ManejoUsuarios;
 using LogicaAccesoDatos;
 using LogicaAccesoDatos.Repositorios;
 using LogicaAplicacion.CasosDeUsoEnum;
 using LogicaAplicacion.CasosDeUsoEquipo;
+using LogicaAplicacion.CasosDeUsoPrestamo;
+using LogicaAplicacion.CasosDeUsoUsuario;
 using LogicaDeAplicacion.CasosDeUsoUsuario;
 using LogicaNegocio.InterfacesRepositorios;
 using Microsoft.EntityFrameworkCore;
@@ -47,11 +50,13 @@ namespace Obligatorio
             builder.Services.AddScoped<ICUDeleteEquipo, CUDeleteEquipo>();
             builder.Services.AddScoped<ICUBuscarEquipo, CUBuscarEquipo>();
             builder.Services.AddScoped<ICUModificarEquipo, CUModificarEquipo>();
-            //builder.Services.AddScoped<ICUListadoMontura, CUListadoMontura>();
-            //builder.Services.AddScoped<ICUListadoOcular, CUListadoOcular>();
-            //builder.Services.AddScoped<ICUListadoTelescopio, CUListadoTelescopio>();
-            //builder.Services.AddScoped<ICUListadoUsuario, CUListadoUsuario>();
+            builder.Services.AddScoped<ICUListadoMontura, CUListadoMontura>();
+            builder.Services.AddScoped<ICUListadoOcular, CUListadoOcular>();
+            builder.Services.AddScoped<ICUListadoTelescopio, CUListadoTelescopio>();
+            builder.Services.AddScoped<ICUListadoUsuario, CUListadoUsuario>();
             builder.Services.AddScoped<ICUListadoCamara, CUListadoCamara>();
+            builder.Services.AddScoped<ICUAltaPrestamo, CUAltaPrestamo>();
+            builder.Services.AddScoped<IRepositorioPrestamo, RepositorioPrestamoEF>();
 
 
 

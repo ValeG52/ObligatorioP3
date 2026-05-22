@@ -16,10 +16,11 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
         public IRepositorioPrestamo RepoPrestamo { get; set; }
         public IRepositorioEquipo RepoEquipo    { get; set; }
         public IRepositorioUsuario RepoUsuario { get; set; }
-        public CUAltaPrestamo (IRepositorioPrestamo repo, IRepositorioEquipo repoequipo)
+        public CUAltaPrestamo (IRepositorioPrestamo repo, IRepositorioEquipo repoequipo, IRepositorioUsuario repoUsu)
         {
             RepoPrestamo = repo;
             RepoEquipo = repoequipo;
+            RepoUsuario = repoUsu;
         }
         public void Ejecutar (DTOPrestamo dtoPrestamo)
         {

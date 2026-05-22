@@ -7,6 +7,7 @@ using ExcepcionesPropias;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CasosDeUso.InterfacesCasosDeUso.ICUEquipo; 
+using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 
 namespace Web.Controllers
 {
@@ -17,14 +18,16 @@ namespace Web.Controllers
         public ICUListadoOcular CUListadoOcular { get; set; }
         public ICUListadoMontura CUListadoMontura { get; set; }
         public ICUAltaPrestamo CUAltaPrestamo { get; set; }
+        public ICUListadoUsuario CUListadoUsuario { get; set; }
 
-        public PrestamoController (ICUAltaPrestamo cuAltaPrestamo, ICUListadoCamara cuListadoCamara, ICUListadoMontura cuListadoMontura, ICUListadoOcular cuListadoOcular, ICUListadoTelescopio cuListadoTelescopio)
+        public PrestamoController (ICUAltaPrestamo cuAltaPrestamo, ICUListadoCamara cuListadoCamara, ICUListadoMontura cuListadoMontura, ICUListadoOcular cuListadoOcular, ICUListadoTelescopio cuListadoTelescopio, ICUListadoUsuario cuListadoUsuario)
         {
             CUAltaPrestamo = cuAltaPrestamo;
             CUListadoCamara = cuListadoCamara;
             CUListadoMontura = cuListadoMontura;
             CUListadoOcular = cuListadoOcular;
             CUListadoTelescopio = cuListadoTelescopio;
+            CUListadoUsuario = cuListadoUsuario;
 
         } 
         
