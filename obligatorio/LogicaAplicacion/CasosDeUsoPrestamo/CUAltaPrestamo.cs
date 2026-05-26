@@ -26,16 +26,21 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
         {
             List <Equipo> equipos = new List <Equipo> ();
             Usuario usuario = RepoUsuario.FindById(dtoPrestamo.UsuarioId);
-            Equipo camara = RepoEquipo.FindById((int)dtoPrestamo.CamaraId);
             Equipo telescopio = RepoEquipo.FindById(dtoPrestamo.TelescopioId);
             Equipo montura = RepoEquipo.FindById(dtoPrestamo.MonturaId);
-            Equipo ocular = RepoEquipo.FindById((int)dtoPrestamo.OcularId);
-            equipos.Add(camara);
             equipos.Add(telescopio);
             equipos.Add(montura);
-            equipos.Add(ocular);
-
-
+            if (dtoPrestamo.CamaraId != null)
+            {
+                Equipo camara = RepoEquipo.FindById((int)dtoPrestamo.CamaraId);
+                equipos.Add(camara);
+            }
+            if (dtoPrestamo.OcularId != null)
+            {
+                Equipo ocular = RepoEquipo.FindById((int)dtoPrestamo.OcularId);
+                equipos.Add(ocular);
+            }
+            // validar si algun parametro e null antes de agregarlo a la lista
             Prestamo prestamo = MapperPrestamo.DTOPrestamoToPrestamo(dtoPrestamo, equipos, usuario);
             RepoPrestamo.Add(prestamo);
         }

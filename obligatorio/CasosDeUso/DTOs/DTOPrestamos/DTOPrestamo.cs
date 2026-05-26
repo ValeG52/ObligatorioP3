@@ -21,6 +21,8 @@ namespace CasosDeUso.DTOs.DTOPrestamos
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [DataType("Date")]
         public DateTime Fin { get; set; }
+        
+        [DisplayName("Usuario")]
         public int UsuarioId { get; set; }
         
         [DisplayName("Camaras")]
