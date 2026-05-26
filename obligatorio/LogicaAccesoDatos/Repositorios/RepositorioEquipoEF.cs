@@ -30,7 +30,7 @@ namespace LogicaAccesoDatos.Repositorios
             if (id > 0)
             {
                 Equipo eBuscado = FindById(id);
-                if (eBuscado != null && eBuscado.Estado == Estado.Devuelto)
+                if (eBuscado != null)
                 {
                     Contexto.Equipos.Remove(eBuscado);
                     Contexto.SaveChanges();
@@ -52,6 +52,10 @@ namespace LogicaAccesoDatos.Repositorios
             return Contexto.Equipos.Where(p => p.Id == id).SingleOrDefault();
 
         }
+        public IEnumerable<Camara> FindAllCamaras() { return Contexto.Equipos.OfType<Camara>(); }
+        public IEnumerable<Montura> FindAllMontura() { return Contexto.Equipos.OfType<Montura>(); }
+        public IEnumerable<Telescopio> FindAllTelescopio() { return Contexto.Equipos.OfType<Telescopio>(); }
+        public IEnumerable<Ocular> FindAllOcular() { return Contexto.Equipos.OfType<Ocular>(); }
         public void Update(int id, Equipo equipo) 
         {
             if (id > 0)

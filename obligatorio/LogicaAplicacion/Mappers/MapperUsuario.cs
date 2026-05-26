@@ -1,10 +1,11 @@
-﻿using LogicaNegocio.EntidadesNegocio;
+﻿using CasosDeUso.DTOs.DTOEquipos;
+using CasosDeUso.DTOs.DTOUsuarios;
+using LogicaNegocio.EntidadesNegocio;
+using LogicaNegocio.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-using LogicaNegocio.ValueObject;
-using CasosDeUso.DTOs.DTOUsuarios;
 
 namespace LogicaAplicacion.Mappers
 {
@@ -27,6 +28,18 @@ namespace LogicaAplicacion.Mappers
                 Contrasenia = new ContraseniaVO(dto.Contrasenia),
                 Rol = dto.Rol
             };
+        }
+        public static List<DTOListadoUsuario> ListUsuarosToDTOListadoUsuarios(IEnumerable<Usuario> usu)
+        {
+
+            List<DTOListadoUsuario> lista = new List<DTOListadoUsuario>();
+            lista = usu.Select(a => new DTOListadoUsuario()
+            {
+                Id = a.Id,
+                Nombre = a.Nombre,
+            }).ToList();
+            return lista;
+
         }
     }
 }

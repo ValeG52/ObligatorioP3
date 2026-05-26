@@ -8,6 +8,9 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioEquipo:IRepository<Equipo>
     {
-        
+        IEnumerable<Camara> FindAllCamaras();
+        IEnumerable<Montura> FindAllMontura();
+        IEnumerable<Telescopio> FindAllTelescopio();
+        IEnumerable<Ocular> FindAllOcular();
     }
 }
