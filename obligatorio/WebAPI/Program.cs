@@ -43,6 +43,10 @@ builder.Services.AddScoped<ICUListadoUsuario, CUListadoUsuario>();
 builder.Services.AddScoped<ICUListadoCamara, CUListadoCamara>();
 builder.Services.AddScoped<ICUAltaPrestamo, CUAltaPrestamo>();
 builder.Services.AddScoped<IRepositorioPrestamo, RepositorioPrestamoEF>();
+builder.Services.AddScoped<ICUListadoPrestamo, CUListadoPrestamo>();
+builder.Services.AddScoped<ICUModificarPrestamo, CUModificarPrestamo>();
+
+
 
 string cadenaConexion = builder.Configuration.GetConnectionString("CadenaConexion");
 builder.Services.AddDbContext<AppContexto>(options => options.UseSqlServer(cadenaConexion));

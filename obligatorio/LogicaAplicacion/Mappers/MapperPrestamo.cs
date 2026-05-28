@@ -1,8 +1,9 @@
-﻿using CasosDeUso.DTOs.DTOPrestamos;
-using LogicaNegocio.EntidadesNegocio;
+﻿using CasosDeUso.DTOs.DTOEquipos;
+using CasosDeUso.DTOs.DTOPrestamos;
 using LogicaAccesoDatos.Repositorios;
-using LogicaNegocio.ValueObject;
+using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.Enumerados;
+using LogicaNegocio.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,21 @@ namespace LogicaAplicacion.Mappers
                 Estado = dtoPrestamo.Estado,
                 
             };
+        }
+
+        public static List<DTOListadoPrestamo> ListPrestamoToDTOListadoPrestamo(IEnumerable<Prestamo> prestamos)
+        {
+
+            List<DTOListadoPrestamo> listprestamos = new List<DTOListadoPrestamo>();
+            listprestamos = prestamos.Select(a => new DTOListadoPrestamo()
+            {
+                Id = a.Id,
+                Inicio = a.Inicio,
+                Fin = a.Fin,
+                Estado = a.GetType().Name,
+            }).ToList();
+            return listprestamos;
+
         }
     }
     

@@ -8,5 +8,7 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioPrestamo: IRepository<Prestamo>
     {
+        IEnumerable<Prestamo> FindPrestamosUsuario(int id);
+
     }
 }
