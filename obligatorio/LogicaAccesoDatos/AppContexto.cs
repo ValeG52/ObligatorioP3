@@ -17,6 +17,7 @@ namespace LogicaAccesoDatos
         public DbSet<Telescopio>Telescopios { get; set; }
         public DbSet<Ocular>Oculares { get; set; }
         public DbSet<Prestamo>Prestamos { get; set; }
+        public DbSet<Auditoria>Auditorias { get; set; } 
         public AppContexto (DbContextOptions options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
