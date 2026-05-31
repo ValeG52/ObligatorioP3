@@ -1,37 +1,26 @@
-﻿@model CasosDeUso.DTOs.DTOEquipos.DTOCamara
+﻿@model DTOs.DTOEquipos.DTOOcular
 
 @{
-    ViewData["Title"] = "CreateCamara";
+    ViewData["Title"] = "CreateOcular";
 }
 
-<h1>CreateCamara</h1>
+<h1>CreateOcular</h1>
 
-<h4>Camara</h4>
+<h4>Ocular</h4>
 <hr />
 <div class="row">
-
     <div class="col-md-4">
-        <form asp-action="CreateCamara">
+        <form asp-action="CreateOcular">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Sensor" class="control-label"></label>
-                <select asp-for="SensorId" class="form-control">
-                    @for (var i=0; i< Model.Sensores.Length; i++)
-                            {
-                                <option value=" @i">@Model.Sensores[i]</option>
-                            }
-                </select>
-                <span asp-validation-for="SensorId" class="text-danger"></span>
+                <label asp-for="Diametro" class="control-label"></label>
+                <input asp-for="Diametro" class="form-control" />
+                <span asp-validation-for="Diametro" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Resolucion" class="control-label"></label>
-                <input asp-for="Resolucion" class="form-control" />
-                <span asp-validation-for="Resolucion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TamPixel" class="control-label"></label>
-                <input asp-for="TamPixel" class="form-control" />
-                <span asp-validation-for="TamPixel" class="text-danger"></span>
+                <label asp-for="AnguloVision" class="control-label"></label>
+                <input asp-for="AnguloVision" class="form-control" />
+                <span asp-validation-for="AnguloVision" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Marca" class="control-label"></label>
@@ -48,7 +37,7 @@
                 <input asp-for="Stock" class="form-control" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
             </div>
-            
+           
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
