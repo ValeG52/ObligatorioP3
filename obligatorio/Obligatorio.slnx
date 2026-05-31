@@ -4,6 +4,6 @@
   <Project Path="LogicaAccesoDatos/LogicaAccesoDatos.csproj" Id="a770efeb-4c52-4a51-9f3c-e96e8463b074" />
   <Project Path="LogicaAplicacion/LogicaAplicacion.csproj" Id="50d240b4-a513-4f76-adf0-236360d104f0" />
   <Project Path="LogicaNegocio/LogicaNegocio.csproj" Id="9a2b6b45-6040-4d96-8295-eaaa2c379012" />
-  <Project Path="Obligatorio/Web.csproj" />
+  <Project Path="Web/Web.csproj" />
   <Project Path="WebAPI/WebAPI.csproj" Id="dda3f083-02b1-438f-9bd0-e575f80ef1b3" />
 </Solution>
