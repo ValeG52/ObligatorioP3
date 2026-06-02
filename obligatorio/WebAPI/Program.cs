@@ -53,6 +53,28 @@ builder.Services.AddDbContext<AppContexto>(options => options.UseSqlServer(caden
 
 var app = builder.Build();
 
+////Comienza JWT////
+var claveSecreta = "ZWRpw6fDo28gZW0gY29tcHV0YWRvcmE=";
+
+builder.Services.AddAuthentication(aut =>
+{
+    aut.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    aut.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(aut =>
+{
+    aut.RequireHttpsMetadata = false;
+    aut.SaveToken = true;
+    aut.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(claveSecreta)),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true
+    };
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

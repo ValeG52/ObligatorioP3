@@ -33,6 +33,8 @@ namespace WebAPI.Controllers
             
         }
 
+        //cambiar lo que devuelv caa metodo(firma) por Iactionresult y copiar solo lo del post de cada metodo
+
         // GET api/<EquipoController>/5
         [HttpGet("{id}")]
         public string Get(int id)
