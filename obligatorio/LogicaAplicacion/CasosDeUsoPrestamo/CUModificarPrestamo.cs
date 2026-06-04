@@ -14,18 +14,28 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
     public class CUModificarPrestamo : ICUModificarPrestamo
     {
         public IRepositorioPrestamo RepoPrestamo { get; set; }
-        public CUModificarPrestamo (IRepositorioPrestamo repoPrestamo)
+        public IRepositorioAuditoria RepoAuditoria { get; set; }
+        public IRepositorioUsuario RepoUsuario {  get; set; }
+        public CUModificarPrestamo (IRepositorioPrestamo repoPrestamo,IRepositorioAuditoria repoAuditoria, IRepositorioUsuario repoUsu)
         {
             RepoPrestamo = repoPrestamo;
+            RepoUsuario = repoUsu;
+            RepoAuditoria = repoAuditoria;
         }
-        public void Ejecutar(int id)
+        public void Ejecutar(int id, int idCoordinador)
         {
             if (id > 0)
             {
 
-                Prestamo pBuscado = RepoPrestamo.FindById(id);
-                
+                Prestamo pBuscado = RepoPrestamo.FindById(id);                
                 RepoPrestamo.Update(id, pBuscado);
+                Auditoria aCreada = new Auditoria();
+                aCreada.Accion = "Devolucion";
+                aCreada.Fecha = DateTime.Now;
+                Usuario coordinador = RepoUsuario.FindById(idCoordinador);
+                aCreada.Coordinador = coordinador;
+                aCreada.Prestamo = pBuscado;
+                RepoAuditoria.Add(aCreada);
             }
             else
             {

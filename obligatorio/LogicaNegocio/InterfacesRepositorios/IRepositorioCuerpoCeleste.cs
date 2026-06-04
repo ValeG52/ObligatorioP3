@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LogicaNegocio.InterfacesRepositorios
 {
-    internal interface IRepositorioCuerpoCeleste: IRepository<CuerpoCeleste>
+    public interface IRepositorioCuerpoCeleste: IRepository<CuerpoCeleste>
     {
     }
 }

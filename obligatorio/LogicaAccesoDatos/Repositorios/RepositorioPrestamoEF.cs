@@ -28,9 +28,14 @@ namespace LogicaAccesoDatos.Repositorios
             
         }
 
-        public IEnumerable<Prestamo> FindPrestamosUsuario(int id)
+        public IEnumerable<Prestamo> FindPrestamosVigentesUsuario(int idUsu, DateTime fecha)
         {
-            return Contexto.Prestamos.Where(p => p.Id == id && p.Estado == Estado.EnPrestamo).ToList();
+            return Contexto.Prestamos.Where(p => p.Usuario.Id == idUsu && p.Estado == Estado.EnPrestamo && p.Inicio <= fecha && p.Fin >= fecha).ToList();
+        }
+
+        public IEnumerable<Prestamo> FindPrestamosUsuario(int idPrestamo)
+        {
+            return Contexto.Prestamos.Where(p => p.Id == idPrestamo && p.Estado == Estado.EnPrestamo).ToList();
         }
         public IEnumerable<Prestamo> FindAll() { return Contexto.Prestamos; }
         public Prestamo FindById(int id)

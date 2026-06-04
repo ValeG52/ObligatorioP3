@@ -22,5 +22,21 @@ namespace LogicaAccesoDatos.Repositorios
             Contexto.Auditorias.Add(item);
             Contexto.SaveChanges();
         }
+          public IEnumerable<Auditoria> FindAll()
+        {
+            throw new NotImplementedException();
+        }
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public Auditoria FindById(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public void Update(int id, Auditoria cc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

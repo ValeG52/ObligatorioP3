@@ -7,7 +7,7 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUPrestamo
 {
     public interface ICUModificarPrestamo
     {
-        void Ejecutar(int id);
+        void Ejecutar(int id, int idCoordinador);
 
     }
 }

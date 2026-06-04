@@ -9,6 +9,7 @@ namespace LogicaNegocio.EntidadesNegocio
         public string Accion {  get; set; }
         public DateTime Fecha { get; set; }
         public Usuario Coordinador { get; set; }
+        public Prestamo Prestamo   { get; set; }
 
         public void Validar() { }
     }
