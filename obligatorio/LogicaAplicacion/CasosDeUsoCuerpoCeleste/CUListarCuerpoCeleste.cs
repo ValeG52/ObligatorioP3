@@ -1,5 +1,6 @@
 ﻿using CasosDeUso.DTOs.DTOCuerpoCeleste;
 using CasosDeUso.InterfacesCasosDeUso;
+using LogicaAplicacion.Mappers;
 using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
@@ -18,7 +19,7 @@ namespace LogicaAplicacion.CasosDeUsoCuerpoCeleste
         public IEnumerable<DTOCuerpoCeleste> Ejecutar()
         {
             IEnumerable<CuerpoCeleste> ccBuscados = RepoCC.FindAll().ToList();
-            return MapperCuerpoCelete.ListCCToDTOListCC(ccBuscados);
+            return MapperCuerpoCeleste.ListCCToDTOListCC(ccBuscados);
         }
     }
 }
