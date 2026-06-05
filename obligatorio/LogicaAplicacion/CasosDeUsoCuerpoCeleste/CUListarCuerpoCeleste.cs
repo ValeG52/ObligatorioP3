@@ -1,5 +1,5 @@
 ﻿using CasosDeUso.DTOs.DTOCuerpoCeleste;
-using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.InterfacesCasosDeUso.ICUCuerpoCeleste;
 using LogicaAplicacion.Mappers;
 using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.InterfacesRepositorios;

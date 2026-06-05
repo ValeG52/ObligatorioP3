@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CasosDeUso.InterfacesCasosDeUso
+namespace CasosDeUso.InterfacesCasosDeUso.ICUCuerpoCeleste
 {
     public interface ICUListarCuerpoCeleste
     {
