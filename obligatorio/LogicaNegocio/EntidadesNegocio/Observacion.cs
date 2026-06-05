@@ -12,6 +12,10 @@ namespace LogicaNegocio.EntidadesNegocio
         public CuerpoCeleste CuerpoCeleste { get; set; }
         public Indicador Indicador { get; set; }
 
+        public void Validar()
+        {
+
+        }
          
     }
 }

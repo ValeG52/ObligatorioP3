@@ -8,6 +8,12 @@ namespace LogicaAccesoDatos.Repositorios
 {
     public class RepositorioCuerpoCeleste: IRepositorioCuerpoCeleste
     {
+
+        public AppContexto Contexto { get; set; }
+        public RepositorioCuerpoCeleste(AppContexto contexto)
+        {
+            Contexto = contexto;
+        }
         public void Add(CuerpoCeleste cc)
         {
             throw new NotImplementedException();

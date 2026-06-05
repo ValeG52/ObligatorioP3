@@ -18,14 +18,17 @@ namespace LogicaAplicacion.CasosDeUsoObservacion
             RepoPrestamo = repoPrestamo;
             RepoCC = repoCC;
         }
-        public void Ejecutar (int idPrestamo, int idCuerpo, DateTime fecha)
+        public void Ejecutar (int idPrestamo, int idCuerpo, DateTime fecha) //tambien recibe la evaluacion de gemini
         {
             Observacion obs = new Observacion();
             Prestamo pBusacado = RepoPrestamo.FindById(idPrestamo);
             CuerpoCeleste ccBusacado = RepoCC.FindById(idCuerpo);
             obs.Prestamo = pBusacado;
             obs.CuerpoCeleste = ccBusacado;
-            // hacer un if para verificar que la fecha que pone el usario este correcta con la que se hizo el prestamo
+            if(pBusacado.Inicio <= fecha && pBusacado.Fin >= fecha)
+            {
+                RepoObservacion.Add(obs);
+            }
 
 
         }
