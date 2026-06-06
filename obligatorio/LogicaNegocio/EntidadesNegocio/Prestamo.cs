@@ -16,7 +16,20 @@ namespace LogicaNegocio.EntidadesNegocio
 
         public void Validar()
         {
-
+            Telescopio telescopio = Equipos.OfType<Telescopio>().FirstOrDefault();
+            Montura montura = Equipos.OfType<Montura>().FirstOrDefault();
+            Camara camara = Equipos.OfType<Camara>().FirstOrDefault();
+            Ocular ocular = Equipos.OfType<Ocular>().FirstOrDefault();
+            if (telescopio == null) { }
+            
+            if (montura == null) { }
+            if (camara == null && ocular == null) { }
+            if (montura.TipoMontura == TipoMontura.AltAzimutal && camara != null) { }
+            if (telescopio.Stock <= 0) { }
+            if (montura.Stock <= 0) { }
+            if (montura.Carga < telescopio.Peso) { }
+            if (ocular.Stock <= 0) { }
+            if (camara.Stock <= 0) { }
         }
 
     }
