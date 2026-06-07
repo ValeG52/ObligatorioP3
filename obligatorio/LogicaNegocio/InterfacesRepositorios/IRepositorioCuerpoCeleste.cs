@@ -8,5 +8,6 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioCuerpoCeleste: IRepository<CuerpoCeleste>
     {
+        IEnumerable<CuerpoCeleste> FindRanking();
     }
 }

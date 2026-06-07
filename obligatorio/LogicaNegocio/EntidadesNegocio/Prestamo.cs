@@ -51,6 +51,20 @@ namespace LogicaNegocio.EntidadesNegocio
                 throw new DatosInvalidosException("La montura debe ser ecuatorial o híbrida para utilizar una cámara");
         }
 
+        public void DescontarStock()
+        {
+            foreach(Equipo e in Equipos)
+            {
+                e.Stock--;
+            }
+        }
+        public void DevolverStock()
+        {
+            foreach (Equipo e in Equipos)
+            {
+                e.Stock++;
+            }
+        }
 
 
 

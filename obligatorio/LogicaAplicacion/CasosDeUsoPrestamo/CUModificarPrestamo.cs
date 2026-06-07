@@ -4,6 +4,7 @@ using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
 using ExcepcionesPropias;
 using LogicaAplicacion.Mappers;
 using LogicaNegocio.EntidadesNegocio;
+using LogicaNegocio.Enumerados;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,9 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
             if (id > 0)
             {
 
-                Prestamo pBuscado = RepoPrestamo.FindById(id);                
+                Prestamo pBuscado = RepoPrestamo.FindById(id);
+                pBuscado.Estado = Estado.Devuelto;
+                pBuscado.DevolverStock();
                 RepoPrestamo.Update(id, pBuscado);
                 Auditoria aCreada = new Auditoria();
                 aCreada.Accion = "Devolucion";

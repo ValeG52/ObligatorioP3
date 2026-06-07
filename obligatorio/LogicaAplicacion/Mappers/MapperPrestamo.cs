@@ -40,7 +40,8 @@ namespace LogicaAplicacion.Mappers
                 Id = a.Id,
                 Inicio = a.Inicio,
                 Fin = a.Fin,
-                Estado = a.GetType().Name,
+                Estado = a.Estado.ToString(),
+                Atrasado = a.Estado == Estado.EnPrestamo && a.Fin < DateTime.Now //Atrasado es verdadero si: el estado es EnPrestamo y la fecha fin ya pasó
             }).ToList();
             return listprestamos;
 

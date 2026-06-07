@@ -20,6 +20,7 @@ namespace LogicaAccesoDatos.Repositorios
         public void Add(Prestamo item)
         {
             item.Validar();
+            item.DescontarStock();
             Contexto.Prestamos.Add(item);
             Contexto.SaveChanges();
         }
@@ -48,7 +49,7 @@ namespace LogicaAccesoDatos.Repositorios
             if (id > 0)
             {
                 prestamo.Validar();               
-                prestamo.Estado = Estado.Devuelto;               
+                               
                 Contexto.SaveChanges();
             }
             else
@@ -56,6 +57,21 @@ namespace LogicaAccesoDatos.Repositorios
                 throw new DatosInvalidosException("El id no es correcto");
             }
 
+        }
+        public IEnumerable<Prestamo> FindPrestamosMesAnioUsuario(int idUsuario, int mes, int anio)
+        {
+            return Contexto.Prestamos.Where(p => p.Usuario.Id == idUsuario && p.Inicio.Month == mes && p.Inicio.Year == anio).ToList();
+        }
+
+        public IEnumerable<Usuario> FindUsuariosByTelescopio(int idTelescopio)
+        {
+            IEnumerable<Prestamo> prestamos = Contexto.Prestamos.Where(p => p.Equipos.Any(e => e.Id == idTelescopio));
+            List<Usuario> usuarios = new List<Usuario>();
+            foreach (Prestamo p  in prestamos)
+            {
+               usuarios.Add(p.Usuario);
+            }
+            return usuarios.GroupBy(u => u.Id).Select(g => g.First()).OrderByDescending(u => u.Nombre).ToList();
         }
     }
 }

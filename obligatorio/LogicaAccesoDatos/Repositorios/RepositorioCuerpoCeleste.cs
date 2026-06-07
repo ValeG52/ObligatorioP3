@@ -1,5 +1,6 @@
 ﻿using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.InterfacesRepositorios;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,5 +36,10 @@ namespace LogicaAccesoDatos.Repositorios
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<CuerpoCeleste> FindRanking()
+        {
+            return Contexto.Observaciones.GroupBy(o => o.CuerpoCeleste).OrderByDescending(g => g.Count()).Select(g => g.Key).ToList();
+        }   
     }
 }

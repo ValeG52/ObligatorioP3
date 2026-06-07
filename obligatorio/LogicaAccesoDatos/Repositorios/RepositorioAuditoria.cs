@@ -19,6 +19,7 @@ namespace LogicaAccesoDatos.Repositorios
         public void Add(Auditoria item)
         {
             item.Validar();
+            
             Contexto.Auditorias.Add(item);
             Contexto.SaveChanges();
         }

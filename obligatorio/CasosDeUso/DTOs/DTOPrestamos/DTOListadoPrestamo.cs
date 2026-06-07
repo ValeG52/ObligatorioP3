@@ -13,5 +13,6 @@ namespace CasosDeUso.DTOs.DTOPrestamos
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
         public string Estado { get; set; }
+        public bool Atrasado { get; set; }
     }
 }
