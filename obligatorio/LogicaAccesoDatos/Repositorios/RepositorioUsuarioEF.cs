@@ -54,7 +54,7 @@ namespace LogicaAccesoDatos.Repositorios
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Usuario> FindCoordinadores(IEnumerable<Usuario> usuarios)
+        public IEnumerable<Usuario> FindCoordinadores()
         {
             return Contexto.Usuarios.Where(u => u.Rol == Rol.Coordinador).ToList();
 

@@ -36,7 +36,7 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
                 aCreada.Accion = "Devolucion";
                 aCreada.Fecha = DateTime.Now;
                 Usuario coordinador = RepoUsuario.FindById(idCoordinador);
-                aCreada.Coordinador = coordinador;
+                aCreada.Usuario = coordinador;
                 aCreada.Prestamo = pBuscado;
                 RepoAuditoria.Add(aCreada);
             }

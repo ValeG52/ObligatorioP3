@@ -6,36 +6,36 @@ using System.Text;
 
 namespace WebAPI.Autenticacion
 {
-    public class ManejadorToken
-    {
-        internal static string CrearToken(DTOUsuarioLogueado dtoUsuario)
-        {
+   public class ManejadorToken
+   {
+       internal static string CrearToken(DTOUsuarioLogueado dtoUsuario)
+       {
 
-            byte[] clave = Encoding.ASCII.GetBytes("ZWRpw6fDo28gZW0gY29tcHV0YWRvcmE=");
+           byte[] clave = Encoding.ASCII.GetBytes("ZWRpw6fDo28gZW0gY29tcHV0YWRvcmE=");
 
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+           JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
-            //clave secreta, generalmente se incluye en el archivo de configuración
-            //Debe ser un vector de bytes         
+           //clave secreta, generalmente se incluye en el archivo de configuración
+           //Debe ser un vector de bytes         
 
-            //Se incluye un claim para el email
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, dtoUsuario.NombreUsuario),
-                    new Claim(ClaimTypes.Role, dtoUsuario.Rol),
+           //Se incluye un claim para el email
+           SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+           {
+               Subject = new ClaimsIdentity(new Claim[]
+               {
+                   new Claim(ClaimTypes.Email, dtoUsuario.NombreUsuario),
+                   new Claim(ClaimTypes.Role, dtoUsuario.Rol),
 
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(clave),
-                SecurityAlgorithms.HmacSha256Signature)
-            };
+               }),
+               Expires = DateTime.UtcNow.AddMinutes(30),
+               SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(clave),
+               SecurityAlgorithms.HmacSha256Signature)
+           };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+           var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
-        }
-    }
+           return tokenHandler.WriteToken(token);
+       }
+   }
 }
 

@@ -12,12 +12,12 @@ namespace WebAPI.Controllers
     public class UsuarioController : ControllerBase
     {
         public ICULoginUsuario CULoginUsuario { get; set; }
-        public UsuarioController (ICULoginUsuario cuLoginUsuario)
+        public UsuarioController(ICULoginUsuario cuLoginUsuario)
         {
             CULoginUsuario = cuLoginUsuario;
         }
         [HttpPost]
-        public IActionResult Login([FromBody]DTOUsuarioLogin dtoLogin)//hay que crearlo 
+        /*public IActionResult Login([FromBody]DTOUsuarioLogin dtoLogin)//hay que crearlo 
         {
             DTOUsuarioLogueado dtoUsuarioLogueado = new DTOUsuarioLogueado;
             try
@@ -41,6 +41,6 @@ namespace WebAPI.Controllers
             {
                 return StatusCode(500, "Error");
             }
-        }
+        }*/
+
     }
-}

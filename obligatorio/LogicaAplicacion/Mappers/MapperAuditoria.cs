@@ -13,10 +13,10 @@ namespace LogicaAplicacion.Mappers
         public static DTOAuditoria AuditoriaToDTOAuditoria(Auditoria a)
         {
             DTOAuditoria dto = new DTOAuditoria();
-            dto.IdCoordinador = a.Coordinador.Id;
+            dto.IdCoordinador = a.Usuario.Id;
             dto.Id = a.Id;
             dto.IDPrestamo = a.Prestamo.Id;
-            dto.NombreUsu = a.Coordinador.Nombre;
+            dto.NombreUsu = a.Usuario.Nombre;
             dto.Fecha = a.Fecha;
             dto.Accion = a.Accion;
             return dto;
@@ -29,8 +29,8 @@ namespace LogicaAplicacion.Mappers
                 Id = a.Id,
                 Accion = a.Accion,
                 Fecha = a.Fecha,
-                IdCoordinador = a.Coordinador.Id,
-                NombreUsu = a.Coordinador.Nombre,
+                IdCoordinador = a.Usuario.Id,
+                NombreUsu = a.Usuario.Nombre,
                 IDPrestamo = a.Prestamo.Id,
             }).ToList();
             return ret;

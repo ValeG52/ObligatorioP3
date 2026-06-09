@@ -35,6 +35,10 @@ namespace LogicaAccesoDatos.Repositorios
         {
             return Contexto.Auditorias.Where(a => a.Id == id).FirstOrDefault();
         }
+        public IEnumerable<Auditoria> FindAuditoriasById(int idCoordinador)
+        {
+            return Contexto.Auditorias.Where(a => a.Usuario.Id == idCoordinador).ToList();
+        }
         public void Update(int id, Auditoria cc)
         {
             throw new NotImplementedException();
