@@ -46,6 +46,21 @@ namespace LogicaAplicacion.Mappers
             return listprestamos;
 
         }
+        public static DTOPrestamo PrestamoToDTOPrestamo(Prestamo prestamo)
+        {
+            DTOPrestamo creado = new DTOPrestamo();
+            creado.Id = prestamo.Id;
+            creado.Inicio = prestamo.Inicio;
+            creado.Fin = prestamo.Fin;
+            creado.UsuarioId = prestamo.Usuario.Id;
+            creado.CamaraId = prestamo.Equipos.OfType<Camara>().FirstOrDefault()?.Id;
+            creado.MonturaId = prestamo.Equipos.OfType<Montura>().FirstOrDefault().Id;
+            creado.TelescopioId = prestamo.Equipos.OfType<Telescopio>().FirstOrDefault().Id;
+            creado.OcularId = prestamo.Equipos.OfType<Ocular>().FirstOrDefault()?.Id;
+            creado.Estado = prestamo.Estado;
+
+            return creado;
+        }
     }
     
 }

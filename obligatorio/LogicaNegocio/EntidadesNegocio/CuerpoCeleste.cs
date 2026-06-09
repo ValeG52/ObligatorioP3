@@ -11,6 +11,7 @@ namespace LogicaNegocio.EntidadesNegocio
         public string Nombre { get; set; }
         public Tipo Tipo { get; set; }
         public decimal MagnitudAparente { get; set; }
+        public int Contador { get; set; }
 
     }
 }

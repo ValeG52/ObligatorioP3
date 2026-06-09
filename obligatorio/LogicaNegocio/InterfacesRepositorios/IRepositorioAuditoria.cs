@@ -8,5 +8,6 @@ namespace LogicaNegocio.InterfacesRepositorios
 {
     public interface IRepositorioAuditoria : IRepository<Auditoria>
     {
+        IEnumerable<Auditoria> FindAuditoriasById(int id);
     }
 }

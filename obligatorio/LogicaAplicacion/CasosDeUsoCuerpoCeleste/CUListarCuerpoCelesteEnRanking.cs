@@ -16,11 +16,11 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUCuerpoCeleste
         {
             RepoCC = repoCC;
         }
-        public IEnumerable<DTORankingCuerpoCeleste> Ejecutar()
+        public IEnumerable<DTOListadoCuerpoCeleste> Ejecutar()
         {
             IEnumerable<CuerpoCeleste> ccBuscados = RepoCC.FindRanking();
 
-            return MapperCuerpoCeleste.ListCCToDTOListCC(ccBuscados);
+            return MapperCuerpoCeleste.ListCCToDTOListCCRanking(ccBuscados);
         }
     }
 }

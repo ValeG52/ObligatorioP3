@@ -33,7 +33,7 @@ namespace LogicaAccesoDatos.Repositorios
         }
         public Auditoria FindById(int id)
         {
-            throw new NotImplementedException();
+            return Contexto.Auditorias.Where(a => a.Id == id).FirstOrDefault();
         }
         public void Update(int id, Auditoria cc)
         {

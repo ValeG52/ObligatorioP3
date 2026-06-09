@@ -39,7 +39,7 @@ namespace LogicaAccesoDatos.Repositorios
 
         public IEnumerable<CuerpoCeleste> FindRanking()
         {
-            return Contexto.Observaciones.GroupBy(o => o.CuerpoCeleste).OrderByDescending(g => g.Count()).Select(g => g.Key).ToList();
+            return Contexto.CuerposCelestes.Where(cc => cc.Contador > 0).OrderByDescending(cc => cc.Contador).ToList();
         }   
     }
 }

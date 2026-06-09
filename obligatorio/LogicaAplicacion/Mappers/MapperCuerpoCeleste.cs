@@ -22,6 +22,19 @@ namespace LogicaAplicacion.Mappers
             return ret;
 
         }
-       
+        public static IEnumerable<DTOListadoCuerpoCeleste> ListCCToDTOListCCRanking(IEnumerable<CuerpoCeleste> listaCC)
+        {
+            IEnumerable<DTOListadoCuerpoCeleste> ret = new List<DTOListadoCuerpoCeleste>();
+            ret = listaCC.Select(a => new DTOListadoCuerpoCeleste()
+            {
+                
+                Nombre = a.Nombre,
+                Tipo = a.Tipo,
+                Contador = a.Contador,
+            }).ToList();
+            return ret;
+
+        }
+
     }
 }

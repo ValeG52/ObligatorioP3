@@ -25,6 +25,7 @@ namespace LogicaAplicacion.CasosDeUsoObservacion
             CuerpoCeleste ccBusacado = RepoCC.FindById(idCuerpo);
             obs.Prestamo = pBusacado;
             obs.CuerpoCeleste = ccBusacado;
+            ccBusacado.Contador++;
             if(pBusacado.Inicio <= fecha && pBusacado.Fin >= fecha)
             {
                 RepoObservacion.Add(obs);

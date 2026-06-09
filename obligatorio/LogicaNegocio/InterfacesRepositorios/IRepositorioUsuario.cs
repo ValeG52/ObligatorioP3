@@ -10,5 +10,6 @@ namespace LogicaNegocio.InterfacesRepositorios
     {
         Usuario Login(string email, string contrasenia);
         Usuario FindByNombreUsuario(string nombreUsuario);
+        IEnumerable<Usuario> FindCoordinadores();
     }
 }
