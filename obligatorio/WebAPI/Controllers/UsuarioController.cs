@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
             CULoginUsuario = cuLoginUsuario;
         }
         [HttpPost]
-        /*public IActionResult Login([FromBody]DTOUsuarioLogin dtoLogin)//hay que crearlo 
+        public IActionResult Login([FromBody] DTOUsuarioLogin dtoLogin)//hay que crearlo 
         {
             DTOUsuarioLogueado dtoUsuarioLogueado = new DTOUsuarioLogueado;
             try
@@ -33,14 +33,15 @@ namespace WebAPI.Controllers
                     return NotFound("datos incrrectos");
                 }
 
-            } catch (DatosInvalidosException ex) 
+            } catch (DatosInvalidosException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, "Error");
             }
-        }*/
+        }
 
     }
+}
