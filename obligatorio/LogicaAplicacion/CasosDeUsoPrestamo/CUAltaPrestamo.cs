@@ -16,13 +16,15 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
         public IRepositorioPrestamo RepoPrestamo { get; set; }
         public IRepositorioEquipo RepoEquipo    { get; set; }
         public IRepositorioUsuario RepoUsuario { get; set; }
-        public CUAltaPrestamo (IRepositorioPrestamo repo, IRepositorioEquipo repoequipo, IRepositorioUsuario repoUsu)
+        public IRepositorioAuditoria RepoAuditoria { get; set; }
+        public CUAltaPrestamo (IRepositorioPrestamo repo, IRepositorioEquipo repoequipo, IRepositorioUsuario repoUsu, IRepositorioAuditoria repoAuditoria)
         {
             RepoPrestamo = repo;
             RepoEquipo = repoequipo;
             RepoUsuario = repoUsu;
+            RepoAuditoria = repoAuditoria;
         }
-        public void Ejecutar (DTOPrestamo dtoPrestamo)
+        public void Ejecutar (DTOPrestamo dtoPrestamo, int idCoordinador)
         {
             List <Equipo> equipos = new List <Equipo> ();
             Usuario usuario = RepoUsuario.FindById(dtoPrestamo.UsuarioId);
@@ -30,6 +32,8 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
             Equipo montura = RepoEquipo.FindById(dtoPrestamo.MonturaId);
             equipos.Add(telescopio);
             equipos.Add(montura);
+            
+
             if (dtoPrestamo.CamaraId != null)
             {
                 Equipo camara = RepoEquipo.FindById((int)dtoPrestamo.CamaraId);
@@ -40,9 +44,16 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
                 Equipo ocular = RepoEquipo.FindById((int)dtoPrestamo.OcularId);
                 equipos.Add(ocular);
             }
-            // validar si algun parametro e null antes de agregarlo a la lista
+            // validar si algun parametro es null antes de agregarlo a la lista
             Prestamo prestamo = MapperPrestamo.DTOPrestamoToPrestamo(dtoPrestamo, equipos, usuario);
             RepoPrestamo.Add(prestamo);
+            Auditoria aCreada = new Auditoria();
+            aCreada.Accion = "Prestamo";
+            aCreada.Fecha = DateTime.Now;
+            Usuario coordinador = RepoUsuario.FindById(idCoordinador);
+            aCreada.Usuario = coordinador;
+            aCreada.Prestamo = prestamo;
+            RepoAuditoria.Add(aCreada);
         }
     }
 }

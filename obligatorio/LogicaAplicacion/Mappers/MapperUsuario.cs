@@ -41,5 +41,14 @@ namespace LogicaAplicacion.Mappers
             return lista;
 
         }
+        public static  IEnumerable<DTOCoordinador> ListCoordinadorTODTOListCoordinador(IEnumerable<Usuario> coordinadores)
+        {
+            List<DTOCoordinador> lista = new List<DTOCoordinador>();
+            lista = coordinadores.Select(a => new DTOCoordinador()
+            {
+              Nombre = a.Nombre,
+            }).ToList();
+            return lista;
+        }
     }
 }

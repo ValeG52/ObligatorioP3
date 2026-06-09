@@ -1,7 +1,8 @@
-﻿using System;
+﻿using ExcepcionesPropias;
+using LogicaNegocio.Enumerados;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using LogicaNegocio.Enumerados;
 
 
 namespace LogicaNegocio.EntidadesNegocio
@@ -16,7 +17,21 @@ namespace LogicaNegocio.EntidadesNegocio
         public string NameTipoEquipo { get; set; }
 
 
-        public abstract void Validar();
+        public virtual void Validar()
+        {
+            if (string.IsNullOrEmpty(Marca))
+            {
+                throw new DatosInvalidosException("La marca es obligatoria.");
+            }
+            if (string.IsNullOrEmpty(Modelo))
+            {
+                throw new DatosInvalidosException("El modelo es obligatorio.");
+            }
+            if (Stock == null || Stock < 0)
+            {
+                throw new DatosInvalidosException("El stock es obligatorio y debe ser mayor a cero.");
+            }
+        }
 
     }
 

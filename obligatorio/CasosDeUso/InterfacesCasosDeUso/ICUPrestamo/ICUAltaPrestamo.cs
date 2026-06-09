@@ -8,7 +8,7 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUPrestamo
 {
     public interface ICUAltaPrestamo
     {
-        void Ejecutar(DTOPrestamo dtoPrestamo);
+        void Ejecutar(DTOPrestamo dtoPrestamo, int idCoordinador);
 
     }
 }

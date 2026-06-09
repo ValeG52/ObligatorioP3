@@ -1,9 +1,10 @@
 ﻿using LogicaNegocio.EntidadesNegocio;
+using LogicaNegocio.Enumerados;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 
 namespace LogicaAccesoDatos.Repositorios
@@ -51,6 +52,12 @@ namespace LogicaAccesoDatos.Repositorios
         public void Update(int id, Usuario item)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Usuario> FindCoordinadores()
+        {
+            return Contexto.Usuarios.Where(u => u.Rol == Rol.Coordinador).ToList();
+
         }
     }
 }

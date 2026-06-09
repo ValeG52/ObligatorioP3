@@ -1,8 +1,9 @@
-﻿using CasosDeUso.DTOs.DTOPrestamos;
-using LogicaNegocio.EntidadesNegocio;
+﻿using CasosDeUso.DTOs.DTOEquipos;
+using CasosDeUso.DTOs.DTOPrestamos;
 using LogicaAccesoDatos.Repositorios;
-using LogicaNegocio.ValueObject;
+using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.Enumerados;
+using LogicaNegocio.ValueObject;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,37 @@ namespace LogicaAplicacion.Mappers
                 Estado = dtoPrestamo.Estado,
                 
             };
+        }
+
+        public static List<DTOListadoPrestamo> ListPrestamoToDTOListadoPrestamo(IEnumerable<Prestamo> prestamos)
+        {
+
+            List<DTOListadoPrestamo> listprestamos = new List<DTOListadoPrestamo>();
+            listprestamos = prestamos.Select(a => new DTOListadoPrestamo()
+            {
+                Id = a.Id,
+                Inicio = a.Inicio,
+                Fin = a.Fin,
+                Estado = a.Estado.ToString(),
+                Atrasado = a.Estado == Estado.EnPrestamo && a.Fin < DateTime.Now //Atrasado es verdadero si: el estado es EnPrestamo y la fecha fin ya pasó
+            }).ToList();
+            return listprestamos;
+
+        }
+        public static DTOPrestamo PrestamoToDTOPrestamo(Prestamo prestamo)
+        {
+            DTOPrestamo creado = new DTOPrestamo();
+            creado.Id = prestamo.Id;
+            creado.Inicio = prestamo.Inicio;
+            creado.Fin = prestamo.Fin;
+            creado.UsuarioId = prestamo.Usuario.Id;
+            creado.CamaraId = prestamo.Equipos.OfType<Camara>().FirstOrDefault()?.Id;
+            creado.MonturaId = prestamo.Equipos.OfType<Montura>().FirstOrDefault().Id;
+            creado.TelescopioId = prestamo.Equipos.OfType<Telescopio>().FirstOrDefault().Id;
+            creado.OcularId = prestamo.Equipos.OfType<Ocular>().FirstOrDefault()?.Id;
+            creado.Estado = prestamo.Estado;
+
+            return creado;
         }
     }
     
