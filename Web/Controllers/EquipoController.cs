@@ -43,15 +43,48 @@ namespace Web.Controllers
             catch (Exception ex) { }
             return View(equiposDTO);
         }
+
+
+
+
+        //------------------------------------------------Camara
+        // GET: Equipo/CreateCamara
         public IActionResult CreateCamara()
         {
             DTOCamara dtoCamara = new DTOCamara();
+
             try
             {
 
-                dtoCamara.Sensores = dtoCamara.Sensores;
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                   // dtoCamara.Sensor = JsonConvert.De);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    ViewBag.Mensaje = datos;
+                }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = ex.Message;
+            }
+
+            // Asegurar que la propiedad Sensores no sea null para evitar NullReference en la vista
+            dtoCamara.Sensores = dtoCamara.Sensores ?? new string[0];
+
             return View(dtoCamara);
         }
 
@@ -63,22 +96,7 @@ namespace Web.Controllers
             try
             {
 
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoCamara);
-                datosAEnviar.Wait();
-                HttpResponseMessage respuesta = datosAEnviar.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datos = contenido.ReadAsStringAsync();
-                    datos.Wait();
-                    string mensaje = datos.Result;
-                    ViewBag.Mensaje = mensaje;
-                }
+                return RedirectToAction(nameof(Index));
             }
             catch
             {
@@ -89,15 +107,40 @@ namespace Web.Controllers
 
         }
         //----------------------------------------------Telescpio
+        //GET : Equipo/CreateTelescopio
         public IActionResult CreateTelescopio()
         {
             DTOTelescopio dtoTelescopio = new DTOTelescopio();
             try
             {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    //dtoTelescopio. = JsonConvert.DeserializeObject<Sensores>(datos);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    ViewBag.Mensaje = datos;
+                }
 
-                
+
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+
+            }
+
             return View(dtoTelescopio);
         }
 
@@ -108,23 +151,9 @@ namespace Web.Controllers
         {
             try
             {
+                return RedirectToAction(nameof(Index));
 
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoTelescopio);
-                datosAEnviar.Wait();
-                HttpResponseMessage respuesta = datosAEnviar.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datos = contenido.ReadAsStringAsync();
-                    datos.Wait();
-                    string mensaje = datos.Result;
-                    ViewBag.Mensaje = mensaje;
-                }
+
             }
             catch
             {
@@ -135,15 +164,40 @@ namespace Web.Controllers
 
         }
         //----------------------------------------------montura
+        //GET : Equipo/CreateMontura
         public IActionResult CreateMontura()
         {
             DTOMontura dtoMontura = new DTOMontura();
             try
             {
-                dtoMontura.TipoMonturas = null;
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    dtoMontura.TipoMontura = JsonConvert.DeserializeObject<TiposMontura>(datos);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    ViewBag.Mensaje = datos;
+                }
+
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+
+            }
+
             return View(dtoMontura);
         }
 
@@ -155,22 +209,8 @@ namespace Web.Controllers
             try
             {
 
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoMontura);
-                datosAEnviar.Wait();
-                HttpResponseMessage respuesta = datosAEnviar.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datos = contenido.ReadAsStringAsync();
-                    datos.Wait();
-                    string mensaje = datos.Result;
-                    ViewBag.Mensaje = mensaje;
-                }
+                return RedirectToAction(nameof(Index));
+
             }
             catch
             {
@@ -186,10 +226,34 @@ namespace Web.Controllers
             DTOOcular dtoOcular = new DTOOcular();
             try
             {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    //dtoOcular. = JsonConvert.DeserializeObject<TiposMontura>(datos);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    ViewBag.Mensaje = datos;
+                }
 
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+
+            }
+
             return View(dtoOcular);
         }
 
@@ -201,22 +265,8 @@ namespace Web.Controllers
             try
             {
 
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoOcular);
-                datosAEnviar.Wait();
-                HttpResponseMessage respuesta = datosAEnviar.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datos = contenido.ReadAsStringAsync();
-                    datos.Wait();
-                    string mensaje = datos.Result;
-                    ViewBag.Mensaje = mensaje;
-                }
+                return RedirectToAction(nameof(Index));
+
             }
             catch
             {

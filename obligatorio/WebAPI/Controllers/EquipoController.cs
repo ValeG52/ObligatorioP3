@@ -44,45 +44,26 @@ namespace WebAPI.Controllers
         [HttpGet("sensores")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult GetSensores()
-        {
-            try
-            {
-                string[] sensores = CUListadoSensores.Ejecutar();
-                return Ok(sensores);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Error");
-            }
-        }
+       
 
         // GET api/equipo/tiposmontura
-        [HttpGet("tiposmontura")]
+        [HttpGet("tipomontura")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetTiposMontura()
         {
-            try
-            {
-                string[] tipos = CUListadoTipoMontura.Ejecutar();
-                return Ok(tipos);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "Error");
-            }
+            return Ok(CUListadoTipoMontura.Ejecutar());
         }
 
         // GET api/equipo/form/camara
         [HttpGet("form/camara")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult GetFormCamara()
+        public IActionResult Get()
         {
+            DTOCamara dto = new DTOCamara();
             try
             {
-                DTOCamara dto = new DTOCamara();
                 dto.Sensores = CUListadoSensores.Ejecutar();
                 return Ok(dto);
             }
@@ -97,7 +78,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult Get()
+        public IActionResult GetEquipo()
         {
             try
             {

@@ -38,16 +38,41 @@ namespace Web.Controllers
             catch (Exception ex) { }
             return View(equiposDTO);
         }
+        //--------------------------------------ALTA PRESTAMO
         public ActionResult Create()
         {
             DTOPrestamo dtoPrestamo = new DTOPrestamo();
             try
             {
-                //listar lso equipos
-            }
-            catch (Exception ex) 
-            { 
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    dtoPrestamo.Camaras = JsonConvert.DeserializeObject<IEnumerable<DTOListadoCamara>>(datos);
+                    dtoPrestamo.Telescopios = JsonConvert.DeserializeObject<IEnumerable<DTOListadoTelescopio>>(datos);
+                    dtoPrestamo.Monturas = JsonConvert.DeserializeObject<IEnumerable<DTOListadoMontura>>(datos);
+                    dtoPrestamo.Oculares = JsonConvert.DeserializeObject<IEnumerable<DTOListadoOcular>>(datos);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    ViewBag.Mensaje = datos;
+                }
+
                 
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return View(dtoPrestamo);
@@ -55,27 +80,13 @@ namespace Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DTOPrestamo dtoPrestamo)
+        public ActionResult Create(IFormCollection dtoPrestamo)
         {
             try
             {
+                return RedirectToAction(nameof(Index));
 
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoPrestamo);
-                datosAEnviar.Wait();
-                HttpResponseMessage respuesta = datosAEnviar.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datos = contenido.ReadAsStringAsync();
-                    datos.Wait();
-                    string mensaje = datos.Result;
-                    ViewBag.Mensaje = mensaje;
-                }
+
             }
             catch
             {
@@ -84,6 +95,47 @@ namespace Web.Controllers
             }
             return View(dtoPrestamo);
         }
-        
+
+        //------------------------------ELIMINAR PRESTAMO
+
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: PrestamoController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        //------------------------------EDITAR PRESTAMO
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: PrestamoController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

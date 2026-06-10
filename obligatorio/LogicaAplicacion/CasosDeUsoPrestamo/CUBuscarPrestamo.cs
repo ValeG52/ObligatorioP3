@@ -7,7 +7,7 @@ using System.Text;
 
 namespace LogicaAplicacion.CasosDeUsoPrestamo
 {
-    public class CUBuscarPrestamo
+    public class CUBuscarPrestamo : ICUBuscarPrestamo
     {
         public IRepositorioPrestamo RepoPrestamo    { get; set; }
         public CUBuscarPrestamo(IRepositorioPrestamo repoPrestamo)
