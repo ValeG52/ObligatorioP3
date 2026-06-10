@@ -19,10 +19,11 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
             RepoEquipo = repoEquipo;
         }
 
-        public void Ejecutar(DTOCamara dtoCamara)
+        public int Ejecutar(DTOCamara dtoCamara)
         {
             Camara camara = MapperEquipo.DTOCamaraToCamara(dtoCamara);
             RepoEquipo.Add(camara);
+            return camara.Id;
         }
 
     }

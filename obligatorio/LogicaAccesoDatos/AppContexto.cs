@@ -24,6 +24,11 @@ namespace LogicaAccesoDatos
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Desactivar borrado en cascada para todas las relaciones
+            foreach (var foreignKey in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
 
             base.OnModelCreating(modelBuilder);
         }

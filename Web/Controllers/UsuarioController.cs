@@ -1,28 +1,20 @@
-﻿using CasosDeUso.DTOs.DTOUsuarios;
-using CasosDeUso.InterfacesCasosDeUso;
-using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
-using CasosDeUso.ManejoUsuarios;
-using LogicaDeAplicacion.CasosDeUsoUsuario;
+﻿using DTOs.DTOEquipos;
+using DTOs.DTOUsuarios;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
     public class UsuarioController : Controller
     {
-       
-            private ICULoginUsuario CULoginUsuario;
-        private ICUAltaUsuario CUAltaUsuario;
+        private string url = "";
+        public UsuarioController(IConfiguration configuration)
+        {
+            url = configuration.GetValue<string>("urlBase") + "Usuario";
+        }
 
-        //el constructor del controlador recibe por inyeccion de dependencias el caso de uso que necesita para loguear al socio
-        public UsuarioController(ICULoginUsuario cuLogin, ICUAltaUsuario cuAlta)
-            {
-               CUAltaUsuario = cuAlta;
-               CULoginUsuario = cuLogin;
-            }
+        //muestra el formulario de login (GET
 
-            //muestra el formulario de login (GET
-
-            public IActionResult Login()
+        public IActionResult Login()
             {
                 return View();
             }
@@ -31,18 +23,18 @@ namespace Web.Controllers
             {
                 try
                 {
-                    //ejecutamos la logica
-                    DTOUsuario usuarioLogueado = CULoginUsuario.Ejecutar(email, password);
 
-                    //si todo esta bien guardamos los datos en la sesion
-                    HttpContext.Session.SetString("UsuarioEmail", usuarioLogueado.Email);
-                    HttpContext.Session.SetString("UsuarioRol", usuarioLogueado.Rol.ToString());
+                DTOUsuario usuarioLogueado = null;
 
-                    //mandamos al usuario a la pagina principal
+                   
+                    //HttpContext.Session.SetString("UsuarioEmail", usuarioLogueado.Email);
+                    //HttpContext.Session.SetString("UsuarioRol", usuarioLogueado.Rol.ToString());
+
+                    
                     return RedirectToAction("Index", "Home");
                 } catch (Exception ex)
                 {
-                    //si hubo un error mostramos el mensaje del error
+                    
                     ViewBag.Error = ex.Message;
                     return View();
                 }
@@ -59,8 +51,23 @@ namespace Web.Controllers
         { 
             try
             {
-                CUAltaUsuario.Ejecutar(dtoUsuario);
-                return RedirectToAction(nameof(Login));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoUsuario);
+                datosAEnviar.Wait();
+                HttpResponseMessage respuesta = datosAEnviar.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {

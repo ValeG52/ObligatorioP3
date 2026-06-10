@@ -8,6 +8,7 @@ namespace LogicaNegocio.EntidadesNegocio
 {
     public class Observacion
     {
+        public int Id { get; set; }
         public DateTime Fecha {  get; set; }
         public Prestamo Prestamo { get; set; }
         public CuerpoCeleste CuerpoCeleste { get; set; }

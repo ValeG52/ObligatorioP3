@@ -7,7 +7,7 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUEquipo
 {
     public interface ICUAltaTelescopio
     {
-        void Ejecutar(DTOTelescopio  dtoTelescopio);
+        int Ejecutar(DTOTelescopio  dtoTelescopio);
 
     }
 }

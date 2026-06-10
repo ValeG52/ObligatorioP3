@@ -1,4 +1,5 @@
-﻿using LogicaNegocio.EntidadesNegocio;
+﻿using ExcepcionesPropias;
+using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.Enumerados;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
@@ -21,9 +22,17 @@ namespace LogicaAccesoDatos.Repositorios
 
         public void Add(Usuario item)
         {
-            item.Validar();
-            Contexto.Usuarios.Add(item);
-            Contexto.SaveChanges();
+            if(FindByNombreUsuario(item.NombreUsu) == null)
+            {
+                item.Validar();
+                Contexto.Usuarios.Add(item);
+                Contexto.SaveChanges();
+            }
+            else
+            {
+                throw new ConflictException("El nombre de usuario ya existe. Por favor, elija otro.");
+            }
+            
         }
         public IEnumerable<Usuario> FindAll()
         {

@@ -16,10 +16,12 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
         {
             RepoEquipo = repoEquipo;
         }
-        public void Ejecutar (DTOMontura dtoMontura)
+        public int Ejecutar (DTOMontura dtoMontura)
         {
             Montura montura = MapperEquipo.DTOMonturaToMontura (dtoMontura);
             RepoEquipo.Add(montura);
+            return montura.Id;
+
         }
     }
 }

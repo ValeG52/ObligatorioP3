@@ -1,50 +1,49 @@
-﻿using CasosDeUso.DTOs.DTOPrestamos;
-using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
-using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
-using LogicaAccesoDatos;
-using Microsoft.EntityFrameworkCore;
-using ExcepcionesPropias;
+﻿
+using DTOs.DTOEquipos;
+using DTOs.DTOPrestamos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using CasosDeUso.InterfacesCasosDeUso.ICUEquipo; 
-using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Web.Controllers
 {
     public class PrestamoController : Controller
     {
-        public ICUListadoCamara CUListadoCamara { get; set; }
-        public ICUListadoTelescopio CUListadoTelescopio { get; set; }
-        public ICUListadoOcular CUListadoOcular { get; set; }
-        public ICUListadoMontura CUListadoMontura { get; set; }
-        public ICUAltaPrestamo CUAltaPrestamo { get; set; }
-        public ICUListadoUsuario CUListadoUsuario { get; set; }
-
-        public PrestamoController (ICUAltaPrestamo cuAltaPrestamo, ICUListadoCamara cuListadoCamara, ICUListadoMontura cuListadoMontura, ICUListadoOcular cuListadoOcular, ICUListadoTelescopio cuListadoTelescopio, ICUListadoUsuario cuListadoUsuario)
-        {
-            CUAltaPrestamo = cuAltaPrestamo;
-            CUListadoCamara = cuListadoCamara;
-            CUListadoMontura = cuListadoMontura;
-            CUListadoOcular = cuListadoOcular;
-            CUListadoTelescopio = cuListadoTelescopio;
-            CUListadoUsuario = cuListadoUsuario;
-
-        } 
         
+        private string url = "";
+        public PrestamoController(IConfiguration configuration)
+        {
+            url = configuration.GetValue<string>("urlBase") + "Prestamo";
+        }
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<DTOListadoPrestamo> equiposDTO = new List<DTOListadoPrestamo>();
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string resultado = datos.Result;
+                    equiposDTO = JsonConvert.DeserializeObject<IEnumerable<DTOListadoPrestamo>>(resultado);
+                }
+
+            }
+            catch (Exception ex) { }
+            return View(equiposDTO);
         }
         public ActionResult Create()
         {
             DTOPrestamo dtoPrestamo = new DTOPrestamo();
             try
             {
-                dtoPrestamo.Camaras = CUListadoCamara.Ejecutar();
-                dtoPrestamo.Telescopios = CUListadoTelescopio.Ejecutar();
-                dtoPrestamo.Oculares = CUListadoOcular.Ejecutar();
-                dtoPrestamo.Monturas = CUListadoMontura.Ejecutar();
-                dtoPrestamo.Usuarios = CUListadoUsuario.Ejecutar();
+                //listar lso equipos
             }
             catch (Exception ex) 
             { 
@@ -60,18 +59,29 @@ namespace Web.Controllers
         {
             try
             {
-                CUAltaPrestamo.Ejecutar(dtoPrestamo);
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoPrestamo);
+                datosAEnviar.Wait();
+                HttpResponseMessage respuesta = datosAEnviar.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {
-                
-            }
-            dtoPrestamo.Camaras = CUListadoCamara.Ejecutar();
-            dtoPrestamo.Telescopios = CUListadoTelescopio.Ejecutar();
-            dtoPrestamo.Oculares = CUListadoOcular.Ejecutar();
-            dtoPrestamo.Monturas = CUListadoMontura.Ejecutar();
 
+
+            }
             return View(dtoPrestamo);
         }
         

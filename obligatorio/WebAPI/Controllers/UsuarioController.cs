@@ -1,8 +1,8 @@
 ﻿using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.DTOs.DTOUsuarios;
 using ExcepcionesPropias;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 using WebAPI.Autenticacion;
 
 namespace WebAPI.Controllers
@@ -16,32 +16,33 @@ namespace WebAPI.Controllers
         {
             CULoginUsuario = cuLoginUsuario;
         }
-        [HttpPost]
-        public IActionResult Login([FromBody] DTOUsuarioLogin dtoLogin)//hay que crearlo 
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] DTOUsuarioLogin dtoLogin)
         {
-            DTOUsuarioLogueado dtoUsuarioLogueado = new DTOUsuarioLogueado;
+            DTOUsuarioLogueado dtoUsuarioLogueado = new DTOUsuarioLogueado();
             try
             {
-                dtoUsuarioLogueado = CULoginUsuario.Ejecutar(dtoLogin);
-                if (dtoUsuarioLogueado != null)
-                {
-                    dtoUsuarioLogueado.Token = ManejadorToken.CrearToken(dtoUsuarioLogueado);
-                    return OK(dtoUsuarioLogueado);
-                }
-                else
-                {
-                    return NotFound("datos incrrectos");
-                }
+                // Llamamos a la firma existente del caso de uso
+                var dto = CULoginUsuario.Ejecutar(dtoLogin.Email, dtoLogin.Contrasenia);
 
-            } catch (DatosInvalidosException ex)
+                // dto (DTOUsuario) puede traer Email y Rol según la implementación actual.
+                dtoUsuarioLogueado.Email = dto.Email;
+                dtoUsuarioLogueado.Rol = dto.Rol?.ToString();
+                dtoUsuarioLogueado.NombreUsuario = dto.NombreUsu ?? dto.Email;
+
+                dtoUsuarioLogueado.Token = ManejadorToken.CrearToken(dtoUsuarioLogueado);
+                return Ok(dtoUsuarioLogueado);
+            }
+            catch (DatosInvalidosException ex)
             {
                 return BadRequest(ex.Message);
             }
-            catch (Exception ex)
+            catch
             {
                 return StatusCode(500, "Error");
             }
-        }
 
+        }
     }
 }

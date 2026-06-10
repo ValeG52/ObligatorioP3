@@ -1,5 +1,4 @@
-﻿using LogicaNegocio.Enumerados;
-using LogicaNegocio.ValueObject;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -31,6 +30,6 @@ namespace DTOs.DTOUsuarios
         public string Contrasenia { get; set; }
 
         [Required]
-        public Rol? Rol { get; set; }
+        public int? Rol { get; set; }
     }
 }

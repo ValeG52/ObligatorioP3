@@ -1,7 +1,6 @@
-﻿using CasosDeUso.DTOs.DTOEquipos;
-using CasosDeUso.DTOs.DTOUsuarios;
-using LogicaNegocio.EntidadesNegocio;
-using LogicaNegocio.Enumerados;
+﻿
+using DTOs.DTOEquipos;
+using DTOs.DTOUsuarios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +32,7 @@ namespace DTOs.DTOPrestamos
         public int TelescopioId { get; set; }
         [DisplayName("Oculares")]
         public int? OcularId { get; set; }
-        public Estado Estado { get; set; }
+        public int Estado { get; set; }
         // propiedades para cargar los select
         public IEnumerable<DTOListadoUsuario> Usuarios { get; set; } = new List<DTOListadoUsuario>();
 

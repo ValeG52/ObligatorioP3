@@ -1,4 +1,4 @@
-﻿ @model LogicaNegocio.EntidadesNegocio.Usuario
+﻿@model DTOs.DTOUsuarios.DTOUsuario
 
 @{
     ViewData["Title"] = "Create";
@@ -45,7 +45,7 @@
             <div class="form-group">
                 <label asp-for="Rol" class="control-label"></label>
                 <select name="Rol">
-                    @foreach (var rol in Enum.GetValues(typeof(LogicaNegocio.Enumerados.Rol)))
+                    @foreach (var rol in Enum.GetValues(typeof(DTOs.DTOUsuarios.DTOUsuario))) //cambier esto para que ande bien el enum
                     {
                         <option value="@rol">@rol</option>
                     }

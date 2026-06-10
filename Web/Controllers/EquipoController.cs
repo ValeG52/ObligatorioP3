@@ -1,56 +1,55 @@
-﻿using CasosDeUso.DTOs.DTOEquipos;
-using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
-using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
-using LogicaAccesoDatos;
-using LogicaAplicacion.CasosDeUsoEnum;
-using LogicaAplicacion.CasosDeUsoEquipo;
-using LogicaNegocio.EntidadesNegocio;
+﻿using DTOs.DTOEquipos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ExcepcionesPropias;
+
 
 namespace Web.Controllers
 {
-    public class EquipoController : Controller
+    public class EquipoController  : Controller
     {
-        public AppContexto Contexto { get; set; }
-        public ICUAltaCamara CUAltaCamara { get; set; }
-        public ICUListadoSensor CUListadoSensores { get; set; }
-        public ICUAltaTelescopio CUAltaTelescopio { get; set; }
-        public ICUListadoTipoMontura CUListadoTipoMontura { get; set; }
-        public ICUAltaMontura CUAltaMontura { get; set; }
-        public ICUAltaOcular CUAltaOcular { get; set; }
-        public ICUListadoEquipo CUListadoEquipo { get; set; }
-        public ICUDeleteEquipo CUDeleteEquipo { get; set; }
-        public ICUBuscarEquipo CUBuscarEquipo { get; set; }
-        public ICUModificarEquipo CUModificarEquipo { get; set; }
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo, ICUModificarEquipo cUModificarEquipo)
+        private string url = "";
+        public EquipoController(IConfiguration configuration)
         {
-            CUAltaCamara = cuAltaCamara;
-            CUListadoSensores = cuListadoSensores;
-            CUAltaTelescopio = cUAltaTelescopio;
-            CUListadoTipoMontura = cUListadoTipoMontura;
-            CUAltaMontura = cUAltaMontura;
-            CUAltaOcular = cUAltaOcular;
-            CUListadoEquipo = cUListadoEquipo;
-            CUDeleteEquipo = cuDeleteEquipo;
-            CUBuscarEquipo = cUBuscarEquipo;
-            CUModificarEquipo = cUModificarEquipo;
+            url = configuration.GetValue<string>("urlBase") + "Equipo";
         }
 
+        //----------------------------Listar equipo para dar de baja y editarlos
 
+        public ActionResult Index()
+        {
+            IEnumerable<DTOEquipo> equiposDTO = new List<DTOEquipo>();
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string resultado = datos.Result;
+                    equiposDTO = JsonConvert.DeserializeObject<IEnumerable<DTOEquipo>>(resultado);
+                }
+
+            }
+            catch (Exception ex) { }
+            return View(equiposDTO);
+        }
         public IActionResult CreateCamara()
         {
             DTOCamara dtoCamara = new DTOCamara();
             try
             {
 
-                dtoCamara.Sensores = CUListadoSensores.Ejecutar();
+                dtoCamara.Sensores = dtoCamara.Sensores;
             }
             catch (Exception ex) { }
             return View(dtoCamara);
@@ -63,8 +62,23 @@ namespace Web.Controllers
         {
             try
             {
-                CUAltaCamara.Ejecutar(dtoCamara);
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoCamara);
+                datosAEnviar.Wait();
+                HttpResponseMessage respuesta = datosAEnviar.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {
@@ -94,8 +108,23 @@ namespace Web.Controllers
         {
             try
             {
-                CUAltaTelescopio.Ejecutar(dtoTelescopio);
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoTelescopio);
+                datosAEnviar.Wait();
+                HttpResponseMessage respuesta = datosAEnviar.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {
@@ -111,8 +140,7 @@ namespace Web.Controllers
             DTOMontura dtoMontura = new DTOMontura();
             try
             {
-                dtoMontura.TipoMonturas = CUListadoTipoMontura.Ejecutar();
-
+                dtoMontura.TipoMonturas = null;
 
             }
             catch (Exception ex) { }
@@ -126,8 +154,23 @@ namespace Web.Controllers
         {
             try
             {
-                CUAltaMontura.Ejecutar(dtoMontura);
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoMontura);
+                datosAEnviar.Wait();
+                HttpResponseMessage respuesta = datosAEnviar.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {
@@ -157,8 +200,23 @@ namespace Web.Controllers
         {
             try
             {
-                CUAltaOcular.Ejecutar(dtoOcular);
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> datosAEnviar = client.PostAsJsonAsync(url, dtoOcular);
+                datosAEnviar.Wait();
+                HttpResponseMessage respuesta = datosAEnviar.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {
@@ -169,19 +227,7 @@ namespace Web.Controllers
 
         }
 
-        //----------------------------Listar equipo para dar de baja y editarlos
-
-        public ActionResult Index()
-        {
-            IEnumerable<DTOEquipo> equiposDTO = new List<DTOEquipo>();
-            try
-            {
-                equiposDTO = CUListadoEquipo.Ejecutar();
-
-            }
-            catch (Exception ex) { }
-            return View(equiposDTO);
-        }
+       
         
         
         //-----------------------------------------DELETE
@@ -190,12 +236,9 @@ namespace Web.Controllers
             DTOEquipo dtoEquipo = new DTOEquipo();
             try 
             {
-                DTOEquipo dtoE = CUBuscarEquipo.Ejecutar(id);
+                DTOEquipo dtoE = 
                 ViewBag.Id = id;
                 
-            }catch(DatosInvalidosException ex)
-            {
-                ViewBag.Error = ex.Message;
             }
             catch(Exception ex) 
             {
@@ -210,7 +253,7 @@ namespace Web.Controllers
         {
             try
             {
-                CUDeleteEquipo.Ejecutar(id);
+               
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -226,14 +269,11 @@ namespace Web.Controllers
             DTOEquipo dtoEquipo = new DTOEquipo();
             try
             {
-                DTOEquipo equipoDTO = CUBuscarEquipo.Ejecutar(id);
+                DTOEquipo equipoDTO = 
                 ViewBag.Id = id;
                 //return View(equipoDTO);
             }
-            catch (DatosInvalidosException ex)
-            {
-                ViewBag.Error = ex.Message;
-            }
+            
             catch( Exception ex)
             {
                 ViewBag.Error = "Error en los datos";
@@ -248,7 +288,7 @@ namespace Web.Controllers
         {
             try
             {
-                CUModificarEquipo.Ejecutar(id, dtoEquipo);
+                
                 return RedirectToAction(nameof(Index));
             }catch
             {
@@ -261,24 +301,31 @@ namespace Web.Controllers
 
         private bool EquipoExists(int id)
         {
-            return Contexto.Equipos.Any(e => e.Id == id);
+            return true;
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
+            DTOEquipo dtoEquipo = new DTOEquipo();
+            try
             {
-                return NotFound();
+                DTOEquipo dtoListadoPais = new DTOEquipo();
+                dtoEquipo.Id = dtoListadoPais.Id;
+                dtoEquipo.Marca = dtoListadoPais.Marca;
+                dtoEquipo.Modelo = dtoListadoPais.Modelo;
+                dtoEquipo.Stock = dtoListadoPais.Stock;
+                dtoEquipo.TipoEquipo = dtoListadoPais.TipoEquipo;
+               
+                ViewBag.Id = id;
+
             }
 
-            var equipo = await Contexto.Equipos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (equipo == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                ViewBag.Error = "Error en los datos";
             }
 
-            return View(equipo);
+            return View(dtoEquipo);
         }
     }
 }
