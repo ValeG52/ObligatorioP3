@@ -21,6 +21,10 @@ namespace LogicaAccesoDatos.Repositorios
 
         public void Add(Equipo item)
         {
+            if(item == null)
+            {
+                throw new DatosInvalidosException("El equipo no puede ser nulo");
+            }
             item.Validar();
             Contexto.Equipos.Add(item);
             Contexto.SaveChanges();
@@ -37,7 +41,7 @@ namespace LogicaAccesoDatos.Repositorios
                 }
                 else
                 {
-                    throw new DatosInvalidosException("No se encontro un pais con ese id");
+                    throw new DatosInvalidosException("No se encontro un equipo con ese id");
 
                 }
             }
@@ -56,6 +60,8 @@ namespace LogicaAccesoDatos.Repositorios
         public IEnumerable<Montura> FindAllMontura() { return Contexto.Equipos.OfType<Montura>(); }
         public IEnumerable<Telescopio> FindAllTelescopio() { return Contexto.Equipos.OfType<Telescopio>(); }
         public IEnumerable<Ocular> FindAllOcular() { return Contexto.Equipos.OfType<Ocular>(); }
+        
+        
         public void Update(int id, Equipo equipo) 
         {
             if (id > 0)

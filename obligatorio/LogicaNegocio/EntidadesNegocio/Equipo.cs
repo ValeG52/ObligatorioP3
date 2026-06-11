@@ -13,6 +13,7 @@ namespace LogicaNegocio.EntidadesNegocio
         public string Marca { get; set; }
         public string Modelo { get; set; }
         public int Stock { get; set; }
+        //public List<Prestamo> Prestamos { get; set; }
 
         public string NameTipoEquipo { get; set; }
 

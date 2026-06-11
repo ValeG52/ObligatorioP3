@@ -32,5 +32,7 @@ namespace CasosDeUso.DTOs.DTOUsuarios
 
         [Required]
         public Rol? Rol { get; set; }
+        public List<string>? Roles { get; set; }
+
     }
 }

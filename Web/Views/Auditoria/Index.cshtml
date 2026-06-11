@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Auditoría de préstamos";
+    var coords = ViewBag.Coordinadores as IEnumerable<CasosDeUso.DTOs.DTOUsuarios.DTOCoordinador> ?? new List<CasosDeUso.DTOs.DTOUsuarios.DTOCoordinador>();
+}
+
+<div class="container mt-4">
+    <h2>Auditoría de préstamos</h2>
+
+    <div class="card p-3 mt-3">
+        <div class="row g-2">
+            <div class="col-md-6">
+                <label class="form-label">Coordinador</label>
+                <select id="coordSelect" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var c in coords)
+                    {
+                        <option value="@c.Id">@c.Nombre</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-3 align-self-end">
+                <button id="btnBuscar" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+
+        <div id="prestamosContainer" class="mt-3"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('btnBuscar').addEventListener('click', function () {
+            var id = document.getElementById('coordSelect').value;
+            if (!id) return;
+            fetch('@Url.Action("PrestamosPorCoordinador","Auditoria")?idCoordinador=' + id)
+                .then(r => r.text())
+                .then(html => document.getElementById('prestamosContainer').innerHTML = html);
+        });
+
+        function verAuditoria(prestamoId) {
+            fetch('@Url.Action("AuditoriasPorPrestamo","Auditoria")?idPrestamo=' + prestamoId)
+                .then(r => r.text())
+                .then(html => {
+                    var w = window.open('', '_blank');
+                    w.document.write(html);
+                });
+        }
+    </script>
+}

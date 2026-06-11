@@ -24,12 +24,12 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
         {
             if (id <= 0)
             {
-                throw new DatosInvalidosException("El id del país debe ser un número positivo.");
+                throw new DatosInvalidosException("El id del equipo debe ser un número positivo.");
             }
             Equipo equipo = RepoEquipo .FindById(id);
             if (equipo == null)
             {
-                throw new DatosInvalidosException($"No se encontró ningún país con el id {id}.");
+                throw new NotFoundException($"No se encontró ningún equipo con el id {id}.");
             }
             return MapperEquipo.EquipoToListDTOEquipo(equipo);
         }

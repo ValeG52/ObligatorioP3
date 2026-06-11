@@ -17,10 +17,66 @@ namespace LogicaAccesoDatos.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.7")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Auditoria", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Accion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PrestamoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrestamoId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Auditorias");
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.CuerpoCeleste", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Contador")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MagnitudAparente")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Tipo")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CuerposCelestes");
+                });
 
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Equipo", b =>
                 {
@@ -62,6 +118,39 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Equipo");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Observacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CuerpoCelesteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Indicador")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Motivo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PrestamoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CuerpoCelesteId");
+
+                    b.HasIndex("PrestamoId");
+
+                    b.ToTable("Observaciones");
                 });
 
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Prestamo", b =>
@@ -170,6 +259,9 @@ namespace LogicaAccesoDatos.Migrations
                     b.Property<int>("Diametro")
                         .HasColumnType("int");
 
+                    b.Property<int>("DisFolcalOcular")
+                        .HasColumnType("int");
+
                     b.HasDiscriminator().HasValue("Ocular");
                 });
 
@@ -193,11 +285,50 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasDiscriminator().HasValue("Telescopio");
                 });
 
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Auditoria", b =>
+                {
+                    b.HasOne("LogicaNegocio.EntidadesNegocio.Prestamo", "Prestamo")
+                        .WithMany()
+                        .HasForeignKey("PrestamoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LogicaNegocio.EntidadesNegocio.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Prestamo");
+
+                    b.Navigation("Usuario");
+                });
+
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Equipo", b =>
                 {
                     b.HasOne("LogicaNegocio.EntidadesNegocio.Prestamo", null)
                         .WithMany("Equipos")
-                        .HasForeignKey("PrestamoId");
+                        .HasForeignKey("PrestamoId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Observacion", b =>
+                {
+                    b.HasOne("LogicaNegocio.EntidadesNegocio.CuerpoCeleste", "CuerpoCeleste")
+                        .WithMany()
+                        .HasForeignKey("CuerpoCelesteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LogicaNegocio.EntidadesNegocio.Prestamo", "Prestamo")
+                        .WithMany()
+                        .HasForeignKey("PrestamoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CuerpoCeleste");
+
+                    b.Navigation("Prestamo");
                 });
 
             modelBuilder.Entity("LogicaNegocio.EntidadesNegocio.Prestamo", b =>
@@ -205,7 +336,7 @@ namespace LogicaAccesoDatos.Migrations
                     b.HasOne("LogicaNegocio.EntidadesNegocio.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Usuario");

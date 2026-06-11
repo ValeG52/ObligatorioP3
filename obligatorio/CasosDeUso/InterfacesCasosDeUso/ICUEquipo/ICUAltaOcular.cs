@@ -7,7 +7,7 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUEquipo
 {
     public interface ICUAltaOcular
     {
-        void Ejecutar(DTOOcular dtoOcular);
+        int Ejecutar(DTOOcular dtoOcular);
 
     }
 }

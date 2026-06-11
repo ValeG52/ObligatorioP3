@@ -1,35 +1,44 @@
 ﻿@model DTOs.DTOEquipos.DTOEquipo
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar equipo";
 }
 
-<h1>Delete</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Eliminar equipo</h4>
+                </div>
+                <div class="card-body">
+                    <p class="lead">¿Está seguro de que desea eliminar el siguiente equipo?</p>
 
-<h3>Estas seguro e eliminar este equipo?</h3>
-<div>
-    <h4>Equipo</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Id
-        </dt>
-        <dd class="col-sm-10">
-            @ViewBag.Id
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoEquipo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Marca)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+                    <dl class="row">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Id)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Id)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Marca)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Marca)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Modelo)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Modelo)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.TipoEquipo)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.TipoEquipo)</dd>
+
+                        <dt class="col-sm-4">@Html.DisplayNameFor(m => m.Stock)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(m => m.Stock)</dd>
+                    </dl>
+
+                    <form asp-action="Delete" method="post" class="mt-3">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <a asp-action="Index" class="btn btn-secondary ms-2">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

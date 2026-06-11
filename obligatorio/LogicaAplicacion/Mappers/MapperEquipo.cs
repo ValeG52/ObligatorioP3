@@ -25,7 +25,7 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoCamara.Marca,
                 Modelo = dtoCamara.Modelo,
                 Stock = dtoCamara.Stock,
-
+                NameTipoEquipo = "Camara",
                 Sensor = dtoCamara.Sensor,
                 TamPixel = dtoCamara.TamPixel,
                 Resolucion = dtoCamara.Resolucion,
@@ -44,6 +44,7 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoTelescopio.Marca,
                 Modelo = dtoTelescopio.Modelo,
                 Stock = dtoTelescopio.Stock,
+                NameTipoEquipo = "Telescopio",
 
                 Apertura = dtoTelescopio.Apertura,
                 RelFocal = dtoTelescopio.RelFocal,
@@ -63,6 +64,8 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoMontura.Marca,
                 Modelo = dtoMontura.Modelo,
                 Stock = dtoMontura.Stock,
+                NameTipoEquipo = "Montura",
+
 
                 TipoMontura = dtoMontura.TipoMontura,
                 Carga = dtoMontura.Carga,
@@ -82,7 +85,7 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoOcular.Marca,
                 Modelo = dtoOcular.Modelo,
                 Stock = dtoOcular.Stock,
-
+                NameTipoEquipo = "Ocular",
                 Diametro = dtoOcular.Diametro,
                 AnguloVision = dtoOcular.AnguloVision,
 

@@ -7,9 +7,9 @@ namespace LogicaNegocio.Enumerados
 {
     public enum Tipo
     {
-        Planeta,
-        Galaxia,
-        Nebulosa,
-        Estrella
+        Planeta, //0
+        Galaxia, //1
+        Nebulosa, //2
+        Estrella //3
     }
 }

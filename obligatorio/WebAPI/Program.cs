@@ -1,4 +1,5 @@
 using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.InterfacesCasosDeUso.ICUAuditorias;
 using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
 using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
 using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
@@ -6,6 +7,7 @@ using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 using CasosDeUso.ManejoUsuarios;
 using LogicaAccesoDatos;
 using LogicaAccesoDatos.Repositorios;
+using LogicaAplicacion.CasosDeUsoAuditoria;
 using LogicaAplicacion.CasosDeUsoEnum;
 using LogicaAplicacion.CasosDeUsoEquipo;
 using LogicaAplicacion.CasosDeUsoPrestamo;
@@ -13,11 +15,12 @@ using LogicaAplicacion.CasosDeUsoUsuario;
 using LogicaDeAplicacion.CasosDeUsoUsuario;
 using LogicaNegocio.InterfacesRepositorios;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -45,18 +48,31 @@ builder.Services.AddScoped<ICUAltaPrestamo, CUAltaPrestamo>();
 builder.Services.AddScoped<IRepositorioPrestamo, RepositorioPrestamoEF>();
 builder.Services.AddScoped<ICUListadoPrestamo, CUListadoPrestamo>();
 builder.Services.AddScoped<ICUModificarPrestamo, CUModificarPrestamo>();
+builder.Services.AddScoped<IRepositorioAuditoria, RepositorioAuditoria>();
+builder.Services.AddScoped<IRepositorioObservacion, RepositorioObservacionEF>();
+builder.Services.AddScoped<IRepositorioCuerpoCeleste, RepositorioCuerpoCeleste>();
+builder.Services.AddScoped<ICUListarPrestamosVigentesUsuario, CUListarPrestamosVigentesUsuario>();
+builder.Services.AddScoped<ICUListadoPrestamosEntreFechas, CUListadoPrestamosEntreFechas>();
+builder.Services.AddScoped<ICUBuscarPrestamo, CUBuscarPrestamo>();
+builder.Services.AddScoped<ICUBuscarAuditoriaByID, CUBuscarAuditoriaByID>();
+builder.Services.AddScoped<ICUListadoCoordinadores, CUListadoCoordinadores>();
+builder.Services.AddScoped<ICUListadoRol, CUListadoRol>();
+builder.Services.AddScoped<ICUListadoSociosPorTelescopio, CUListadoSociosPorTelescopio>();
+builder.Services.AddScoped<ICUListadoPrestamoById, CUListadoPrestamoById>();
+builder.Services.AddScoped<ICUListadoSocios, CUListadoSocios>();
+
+
+
 
 
 
 string cadenaConexion = builder.Configuration.GetConnectionString("CadenaConexion");
 builder.Services.AddDbContext<AppContexto>(options => options.UseSqlServer(cadenaConexion));
 
-var app = builder.Build();
-
-////Comienza JWT////
+//// Comienza JWT ////
 var claveSecreta = "ZWRpw6fDo28gZW0gY29tcHV0YWRvcmE=";
 
-builder.Services.AddAuthentication(aut =>
+/*builder.Services.AddAuthentication(aut =>
 {
     aut.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     aut.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -68,12 +84,14 @@ builder.Services.AddAuthentication(aut =>
     aut.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(claveSecreta)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(claveSecreta)),
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true
     };
-});
+});*/
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -83,6 +101,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

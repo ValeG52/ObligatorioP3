@@ -6,6 +6,6 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUEnumerados
 {
     public interface ICUListadoSensor
     {
-        string[] Ejecutar();
+        List<string> Ejecutar();
     }
 }

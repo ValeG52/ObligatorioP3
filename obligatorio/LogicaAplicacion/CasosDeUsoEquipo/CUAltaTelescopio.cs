@@ -18,10 +18,11 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
             RepoEquipo = repoEquipo;
         }
 
-        public void Ejecutar(DTOTelescopio dtoTelescopio)
+        public int Ejecutar(DTOTelescopio dtoTelescopio)
         {
             Telescopio telescopio = MapperEquipo.DTOTelescopioToTelescopio(dtoTelescopio);
             RepoEquipo.Add(telescopio);
+            return telescopio.Id;
         }
     }
 

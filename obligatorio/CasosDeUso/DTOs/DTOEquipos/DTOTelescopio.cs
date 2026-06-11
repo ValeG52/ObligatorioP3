@@ -8,14 +8,14 @@ namespace CasosDeUso.DTOs.DTOEquipos
 {
     public class DTOTelescopio : DTOEquipo
     {
-        [DisplayName("Apertura en mm")]
+        [Display(Name = "Apertura en mm")]
         public int Apertura { get; set; }
-        [DisplayName("Relacion focal ej. f/10, f/11, f/5")]
+        [Display(Name = "Relacion focal ej. f/10, f/11, f/5")]
 
         public string RelFocal  { get; set; }
-        [DisplayName("Distancia focal en mm")]
+        [Display(Name = "Distancia focal en mm")]
         public int DisFocal { get; set; }
-        [DisplayName("Peso en Kg")]
+        [Display(Name = "Peso en Kg")]
         [Range(0, double.MaxValue)]
         public int Peso {  get; set; }
     }

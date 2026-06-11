@@ -17,10 +17,11 @@ namespace LogicaAplicacion.CasosDeUsoEquipo
             RepoEquipo = repo;
         }
 
-        public void Ejecutar (DTOOcular dtoOcular)
+        public int Ejecutar (DTOOcular dtoOcular)
         {
             Ocular ocular = MapperEquipo.DTOOcularToOcular (dtoOcular);
             RepoEquipo.Add(ocular);
+            return ocular.Id;
         }
     }
 }

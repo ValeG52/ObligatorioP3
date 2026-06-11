@@ -1,0 +1,35 @@
+@model IEnumerable<DTOs.DTOPrestamos.DTOListadoPrestamo>
+
+@if (Model != null && Model.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Id</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Inicio.ToString("dd/MM/yyyy")</td>
+                        <td>@p.Fin.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <a href="javascript:verAuditoria(@p.Id)" class="btn btn-sm btn-outline-primary">Ver auditoría</a>
+                            <a asp-controller="Auditoria" asp-action="Details" asp-route-idPrestamo="@p.Id" class="btn btn-sm btn-outline-secondary">Detalles del préstamo</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center text-muted">No hay préstamos para ese coordinador.</div>
+}

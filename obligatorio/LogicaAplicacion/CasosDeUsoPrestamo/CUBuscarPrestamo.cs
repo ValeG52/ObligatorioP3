@@ -1,4 +1,5 @@
 ﻿using CasosDeUso.DTOs.DTOPrestamos;
+using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
 using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.InterfacesRepositorios;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace LogicaAplicacion.CasosDeUsoPrestamo
 {
-    public class CUBuscarPrestamo
+    public class CUBuscarPrestamo : ICUBuscarPrestamo
     {
         public IRepositorioPrestamo RepoPrestamo    { get; set; }
         public CUBuscarPrestamo(IRepositorioPrestamo repoPrestamo)

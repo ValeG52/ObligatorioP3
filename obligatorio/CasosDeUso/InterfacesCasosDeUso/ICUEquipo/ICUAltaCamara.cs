@@ -8,6 +8,6 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUEquipo
 {
     public interface ICUAltaCamara
     {
-        void Ejecutar(DTOCamara dtoCamara);
+        int Ejecutar(DTOCamara dtoCamara);
     }
 }

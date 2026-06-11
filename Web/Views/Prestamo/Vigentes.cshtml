@@ -1,0 +1,61 @@
+@model DTOs.DTOPrestamos.DTOPrestamo
+
+@{
+    ViewData["Title"] = "Préstamos vigentes";
+    var socios = Model.Socios ?? new List<CasosDeUso.DTOs.DTOUsuarios.DTOSocio>();
+}
+
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-8">
+            <h2 class="mb-0">Préstamos vigentes por socio</h2>
+            <small class="text-muted">Seleccione un socio para ver sus préstamos vigentes</small>
+        </div>
+    </div>
+
+    <div class="card shadow-sm p-3">
+        <div class="row g-2 align-items-end">
+            <div class="col-md-9">
+                <label for="socioSelect" class="form-label">Socio</label>
+                <select id="socioSelect" class="form-select">
+                    <option value="">-- Seleccione --</option>
+                    @foreach (var s in socios)
+                    {
+                        <option value="@s.Id">@s.Nombre</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-3 text-end">
+                <button id="btnBuscar" class="btn btn-primary">Buscar</button>
+            </div>
+        </div>
+
+        <div id="resultados" class="mt-3">
+            <!-- Aquí se cargará la tabla parcial de préstamos vigentes -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('btnBuscar').addEventListener('click', function () {
+            var id = document.getElementById('socioSelect').value;
+            if (!id) return;
+            var url = '@Url.Action("GetPrestamosVigentesUsuario", "Prestamo")' + '?id=' + encodeURIComponent(id);
+            // mostrar cargando
+            document.getElementById('resultados').innerHTML = '<div class="text-center text-muted">Cargando...</div>';
+            fetch(url)
+                .then(function (r) { return r.text(); })
+                .then(function (html) {
+                    document.getElementById('resultados').innerHTML = html;
+                })
+                .catch(function (err) {
+                    document.getElementById('resultados').innerHTML = '<div class="text-danger">Error al cargar los préstamos.</div>';
+                    console.error(err);
+                });
+        });
+
+        // no se necesita función de devolución en esta vista
+    </script>
+}
