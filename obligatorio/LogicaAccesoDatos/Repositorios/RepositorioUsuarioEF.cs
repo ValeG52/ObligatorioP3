@@ -68,5 +68,10 @@ namespace LogicaAccesoDatos.Repositorios
             return Contexto.Usuarios.Where(u => u.Rol == Rol.Coordinador).ToList();
 
         }
+
+        public IEnumerable<Usuario> FindSocios()
+        {
+            return Contexto.Usuarios.Where(u => u.Rol == Rol.Socio).ToList();
+        }
     }
 }

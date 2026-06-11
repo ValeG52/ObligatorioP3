@@ -1,0 +1,43 @@
+@model IEnumerable<CasosDeUso.DTOs.DTOAuditoria.DTOAuditoria>
+
+@{
+    ViewData["Title"] = "Auditoría del préstamo";
+    var prestamoId = ViewBag.PrestamoId as int? ?? 0;
+}
+
+<div class="container mt-4">
+    <h2>Auditoría del préstamo @prestamoId</h2>
+
+    <div class="card p-3 mt-3">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Usuario coordinador</th>
+                            <th>Acción</th>
+                            <th>Préstamo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model)
+                        {
+                            <tr>
+                                <td>@a.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@a.NombreUsu</td>
+                                <td>@a.Accion</td>
+                                <td>@a.IDPrestamo</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted">No hay auditorías para este préstamo.</div>
+        }
+    </div>
+</div>

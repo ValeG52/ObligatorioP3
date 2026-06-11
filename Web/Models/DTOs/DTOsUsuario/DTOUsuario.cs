@@ -31,5 +31,7 @@ namespace DTOs.DTOUsuarios
 
         [Required]
         public int? Rol { get; set; }
+
+        public List<string>? Roles { get; set; }
     }
 }

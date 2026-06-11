@@ -1,0 +1,40 @@
+@model IEnumerable<CasosDeUso.DTOs.DTOCuerpoCeleste.DTOListadoCuerpoCeleste>
+
+@{
+    ViewData["Title"] = "Ranking de objetos celestes";
+}
+
+<div class="container mt-4">
+    <h2>Ranking de objetos celestes observados</h2>
+
+    <div class="card p-3 mt-3">
+        @if (Model != null && Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in Model)
+                        {
+                            <tr>
+                                <td>@c.Nombre</td>
+                                <td>@c.Tipo</td>
+                                <td>@c.Contador</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center text-muted">No hay objetos celestes observados aún.</div>
+        }
+    </div>
+</div>

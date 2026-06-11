@@ -13,26 +13,28 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PrestamoController : ControllerBase
     {
+        public ICUListadoPrestamoById CUListadoPrestamoById { get; set; }
         public ICUListadoPrestamo CUListadoPrestamo { get; set; }
         public ICUAltaPrestamo CUAltaPrestamo { get; set; }
         public ICUModificarPrestamo CUModificarPrestamo { get; set; }
         public ICUListadoPrestamosEntreFechas CUListadoPrestamosEntreFechas { get; set; }
         public ICUListarPrestamosVigentesUsuario CUListarPrestamosVigentesUsuario { get; set; }
         public ICUBuscarPrestamo CUBuscarPrestamo { get; set; }
-        public PrestamoController(ICUListadoPrestamo cUListadoPrestamo, ICUAltaPrestamo cUAltaPrestamo, ICUModificarPrestamo cUModificarPrestamo, ICUListadoPrestamosEntreFechas cUListadoPrestamosEntreFechas, ICUListarPrestamosVigentesUsuario cUListarPrestamosVigentesUsuario, ICUBuscarPrestamo cUBuscarPrestamo)
+        public PrestamoController(ICUListadoPrestamoById cUListadoPrestamo, ICUAltaPrestamo cUAltaPrestamo, ICUModificarPrestamo cUModificarPrestamo, ICUListadoPrestamosEntreFechas cUListadoPrestamosEntreFechas, ICUListarPrestamosVigentesUsuario cUListarPrestamosVigentesUsuario, ICUBuscarPrestamo cUBuscarPrestamo, ICUListadoPrestamo cuListadoPrestamo)
         {
-            CUListadoPrestamo = cUListadoPrestamo;
+            CUListadoPrestamoById = cUListadoPrestamo;
             CUAltaPrestamo = cUAltaPrestamo;
             CUModificarPrestamo = cUModificarPrestamo;
             CUListadoPrestamosEntreFechas = cUListadoPrestamosEntreFechas;
             CUListarPrestamosVigentesUsuario = cUListarPrestamosVigentesUsuario;
             CUBuscarPrestamo = cUBuscarPrestamo;
+            CUListadoPrestamo = cuListadoPrestamo;
         }
 
         
         
         
-        // POST api/Prestamo/create
+        // -------------------------------------------------------POST api/Prestamo/create
         [HttpPost("create")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -42,11 +44,9 @@ namespace WebAPI.Controllers
         {
             try
             {
-                //int idUsuario = url de la clase;
-                //dtoPrestamo.UsuarioId = idUsuario;
-                 
+                
                 CUAltaPrestamo.Ejecutar(dtoPrestamo);
-                return CreatedAtRoute("FindById", dtoPrestamo);
+                return Ok(dtoPrestamo);
             }
             catch (DatosInvalidosException ex)
             {
@@ -61,43 +61,91 @@ namespace WebAPI.Controllers
                 return StatusCode(500, "Error");
             }
         }
-       
-        
-        
-        
-        
-        
-        
-        // GET: api/<PrestamoController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+
+        // ----------------------------------------LISTADO Prestamo--------------------------------------
+
+        [HttpGet("listadoPrestamo")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetPrestamos()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                IEnumerable<DTOListadoPrestamo> dtoPrestamo = CUListadoPrestamo.Ejecutar();
+                return Ok(dtoPrestamo);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error");
+            }
+        }
+        // ----------------------------------------Prestamos Vigentes DEL Usuario--------------------------------------
+
+        [HttpGet("listadoPrestamosVigentesUsuario/{id}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        public IActionResult GetPrestamosVigentesUsuario(int id)
+        {
+            try
+            {
+                IEnumerable<DTOListadoPrestamo> dtoPrestamo = CUListarPrestamosVigentesUsuario.Ejecutar(id, DateTime.Now);
+                return Ok(dtoPrestamo);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error");
+            }
+        }
+        // ----------------------------------------Prestamos Entre Fechas--------------------------------------
+
+        [HttpGet("listadoPrestamosEntreFechas/{idSocio}/{mes}/{anio}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult GetPrestamosEntreFechas(int idSocio, int mes, int anio)
+        {
+            try
+            {
+                IEnumerable<DTOListadoPrestamo> prestamos = CUListadoPrestamosEntreFechas.Ejecutar(idSocio, mes, anio);
+                if (prestamos == null || !prestamos.Any())
+                {
+                    return NotFound($"No se encontraron préstamos para el socio {idSocio} en {mes}/{anio}.");
+                }
+                return Ok(prestamos);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error");
+            }
         }
 
-        // GET api/<PrestamoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        // ----------------------------------------Devolver Prestamo--------------------------------------
 
-        // POST api/<PrestamoController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("devolver/{idPrestamo}/{idCoordinador}")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public IActionResult DevolverPrestamo(int idPrestamo, int idCoordinador)
         {
-        }
-
-        // PUT api/<PrestamoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PrestamoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                CUModificarPrestamo.Ejecutar(idPrestamo, idCoordinador);
+                return Ok();
+            }
+            catch (DatosInvalidosException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error");
+            }
         }
     }
 }

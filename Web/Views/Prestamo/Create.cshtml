@@ -11,6 +11,12 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
+        @if (ViewBag.Mensaje != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.Mensaje
+            </div>
+        }
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -26,6 +32,7 @@
            <div class="form-group">
                 <label asp-for="CamaraId" class="control-label"></label>
                 <select asp-for="CamaraId" class="form-control">
+                    <option value="">Ninguno</option>
                     @if (Model.Camaras != null)
                     {
                         foreach(var tema in Model.Camaras)
@@ -66,6 +73,7 @@
             <div class="form-group">
                 <label asp-for="OcularId" class="control-label"></label>
                 <select asp-for="OcularId" class="form-control">
+                    <option value="">Ninguno</option>
                     @if (Model.Oculares != null)
                     {
                         foreach (var tema in Model.Oculares)
@@ -77,11 +85,11 @@
                 <span asp-validation-for="OcularId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UsuarioId" class="control-label"></label>
-                <select asp-for="UsuarioId" class="form-control">
-                    @if (Model.Usuarios != null)
+                <label asp-for="Socio.Id" class="control-label">Socio</label>
+                <select asp-for="Socio.Id" class="form-control" name="Socio.Id">
+                    @if (Model.Socios != null)
                     {
-                        foreach (var tema in Model.Usuarios)
+                        foreach (var tema in Model.Socios)
                         {
                             <option value="@tema.Id">@tema.Nombre</option>
                         }

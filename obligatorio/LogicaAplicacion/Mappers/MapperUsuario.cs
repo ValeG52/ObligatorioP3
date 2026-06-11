@@ -47,6 +47,7 @@ namespace LogicaAplicacion.Mappers
             lista = coordinadores.Select(a => new DTOCoordinador()
             {
               Nombre = a.Nombre,
+              Id = a.Id,
             }).ToList();
             return lista;
         }

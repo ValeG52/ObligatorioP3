@@ -1,12 +1,9 @@
-﻿using System;
+﻿using CasosDeUso.DTOs.DTOPrestamos;
+using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
+using LogicaNegocio.InterfacesRepositorios;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using CasosDeUso.DTOs.DTOPrestamos;
-using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
-using LogicaAplicacion.Mappers;
-using LogicaNegocio.EntidadesNegocio;
-using LogicaNegocio.InterfacesRepositorios;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace LogicaAplicacion.CasosDeUsoPrestamo
 {
@@ -17,10 +14,10 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
         {
             RepoPrestamo = repoPrestamo;
         }
-        public IEnumerable<DTOListadoPrestamo> Ejecutar(int id)
+        public IEnumerable<DTOListadoPrestamo> Ejecutar()
         {
-            IEnumerable<Prestamo> prestamos = RepoPrestamo.FindPrestamosUsuario(id);
-            return MapperPrestamo.ListPrestamoToDTOListadoPrestamo(prestamos);
+            IEnumerable<LogicaNegocio.EntidadesNegocio.Prestamo> prestamos = RepoPrestamo.FindAll();
+            return Mappers.MapperPrestamo.ListPrestamoToDTOListadoPrestamo(prestamos);
         }
     }
 }

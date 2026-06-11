@@ -373,7 +373,7 @@ namespace Web.Controllers
         }
 
 
-        //------------------------------------------------------------ Edit
+        //------------------------------------------------------------ EDIT
         //GET: Equipoes/Edit/5  
         public ActionResult Edit(int id)
         {

@@ -1,4 +1,5 @@
 ﻿
+using CasosDeUso.DTOs.DTOUsuarios;
 using DTOs.DTOEquipos;
 using DTOs.DTOUsuarios;
 using System;
@@ -34,7 +35,10 @@ namespace DTOs.DTOPrestamos
         public int? OcularId { get; set; }
         public int Estado { get; set; }
         // propiedades para cargar los select
-        public IEnumerable<DTOListadoUsuario> Usuarios { get; set; } = new List<DTOListadoUsuario>();
+        public IEnumerable<DTOSocio> Socios { get; set; } = new List<DTOSocio>();
+
+        // propiedad para guardar un socio seleccionado (otro usuario de tipo socio)
+        public DTOSocio Socio { get; set; }
 
         public IEnumerable<DTOListadoCamara> Camaras { get; set; } = new List<DTOListadoCamara>();
         public IEnumerable<DTOListadoMontura> Monturas { get; set; } = new List<DTOListadoMontura>();

@@ -19,7 +19,6 @@ namespace CasosDeUso.DTOs.DTOObservacion
         public Prestamo Prestamo { get; set; }
         [DisplayName("Seleccione un Cuerpo Celeste")]
         public CuerpoCeleste CuerpoCeleste { get; set; }
-        public Indicador Indicador { get; set; }
-        public string Motivo { get; set; }
+      
     }
 }

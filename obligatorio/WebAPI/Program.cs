@@ -57,6 +57,9 @@ builder.Services.AddScoped<ICUBuscarPrestamo, CUBuscarPrestamo>();
 builder.Services.AddScoped<ICUBuscarAuditoriaByID, CUBuscarAuditoriaByID>();
 builder.Services.AddScoped<ICUListadoCoordinadores, CUListadoCoordinadores>();
 builder.Services.AddScoped<ICUListadoRol, CUListadoRol>();
+builder.Services.AddScoped<ICUListadoSociosPorTelescopio, CUListadoSociosPorTelescopio>();
+builder.Services.AddScoped<ICUListadoPrestamoById, CUListadoPrestamoById>();
+builder.Services.AddScoped<ICUListadoSocios, CUListadoSocios>();
 
 
 

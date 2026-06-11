@@ -31,7 +31,9 @@ namespace LogicaAccesoDatos.Repositorios
 
         public IEnumerable<Prestamo> FindPrestamosVigentesUsuario(int idUsu, DateTime fecha)
         {
-            return Contexto.Prestamos.Where(p => p.Usuario.Id == idUsu && p.Estado == Estado.EnPrestamo && p.Inicio <= fecha && p.Fin >= fecha).ToList();
+            // Incluir todos los préstamos no devueltos (Estado.EnPrestamo) del usuario,
+            // incluso si la fecha de fin ya pasó (se consideran atrasados pero siguen sin devolver).
+            return Contexto.Prestamos.Where(p => p.Usuario.Id == idUsu && p.Estado == Estado.EnPrestamo).ToList();
         }
 
         public IEnumerable<Prestamo> FindPrestamosUsuario(int idPrestamo)
@@ -41,7 +43,7 @@ namespace LogicaAccesoDatos.Repositorios
         public IEnumerable<Prestamo> FindAll() { return Contexto.Prestamos; }
         public Prestamo FindById(int id)
         {
-            return Contexto.Prestamos.Where(p => p.Usuario.Id == id).SingleOrDefault();
+            return Contexto.Prestamos.Where(p => p.Id == id).SingleOrDefault();
 
         }
         public void Update(int id,Prestamo prestamo)
@@ -60,7 +62,12 @@ namespace LogicaAccesoDatos.Repositorios
         }
         public IEnumerable<Prestamo> FindPrestamosMesAnioUsuario(int idUsuario, int mes, int anio)
         {
-            return Contexto.Prestamos.Where(p => p.Usuario.Id == idUsuario && p.Inicio.Month == mes && p.Inicio.Year == anio).ToList();
+            // Filtrar por rango de fechas para evitar problemas de traducción de Member access (Month/Year) a SQL
+            var inicioMes = new DateTime(anio, mes, 1);
+            var inicioMesSiguiente = inicioMes.AddMonths(1);
+            return Contexto.Prestamos
+                .Where(p => p.Usuario.Id == idUsuario && p.Inicio >= inicioMes && p.Inicio < inicioMesSiguiente)
+                .ToList();
         }
 
         public IEnumerable<Usuario> FindUsuariosByTelescopio(int idTelescopio)

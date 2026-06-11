@@ -1,5 +1,4 @@
-﻿@using LogicaNegocio.Enumerados
-@model DTOs.DTOUsuarios.DTOUsuario
+﻿@model DTOs.DTOUsuarios.DTOUsuario
 
 @{
     ViewData["Title"] = "Registrar usuario";
@@ -13,6 +12,12 @@
                     <h4 class="mb-0">Registrar Usuario</h4>
                 </div>
                 <div class="card-body">
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
                     <form asp-action="Create" method="post">
                         @Html.AntiForgeryToken()
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
@@ -54,14 +59,19 @@
                                 <span asp-validation-for="Contrasenia" class="text-danger"></span>
                             </div>
                         </div>
-
+                        
                         <div class="mb-3">
                             <label asp-for="Rol" class="form-label"></label>
                             <select asp-for="Rol" class="form-select">
                                 <option value="">Selecciona un rol</option>
-                                @foreach (Rol r in Enum.GetValues(typeof(Rol)))
+                                @if (Model?.Roles != null)
                                 {
-                                    <option value="@((int)r)">@r.ToString()</option>
+                                    var __i = 0;
+                                    foreach (var s in Model.Roles)
+                                    {
+                                        <option value="@__i">@s</option>
+                                        __i++;
+                                    }
                                 }
                             </select>
                             <span asp-validation-for="Rol" class="text-danger"></span>

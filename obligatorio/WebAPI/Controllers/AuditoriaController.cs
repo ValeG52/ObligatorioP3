@@ -1,5 +1,10 @@
 ﻿using CasosDeUso.InterfacesCasosDeUso.ICUAuditorias;
+using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
+using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
+using CasosDeUso.DTOs.DTOUsuarios;
+using CasosDeUso.DTOs.DTOPrestamos;
 using Microsoft.AspNetCore.Mvc;
+using CasosDeUso.DTOs.DTOAuditoria;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,42 +16,82 @@ namespace WebAPI.Controllers
     {
         public ICUBuscarAuditoriaByID CUBuscarAuditoriaByID { get; set; }
         public ICUListadoAuditoriasById CUListadoAuditoriasById { get; set; }
-        public AuditoriaController(ICUBuscarAuditoriaByID cUBuscarAuditoriaByID, ICUListadoAuditoriasById cUListadoAuditoriasById)
+        public ICUListadoCoordinadores CUListadoCoordinadores { get; set; }
+        public ICUListadoPrestamoById CUListadoPrestamoById { get; set; }
+        public AuditoriaController(ICUBuscarAuditoriaByID cUBuscarAuditoriaByID, ICUListadoAuditoriasById cUListadoAuditoriasById, ICUListadoCoordinadores cUListadoCoordinadores, ICUListadoPrestamoById cUListadoPrestamoById)
         {
             CUBuscarAuditoriaByID = cUBuscarAuditoriaByID;
             CUListadoAuditoriasById = cUListadoAuditoriasById;
+            CUListadoCoordinadores = cUListadoCoordinadores;
+            CUListadoPrestamoById = cUListadoPrestamoById;
         }
 
-        // GET: api/<AuditoriaController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+
+        // ----------------------------------------DETALLE PRESTAMO--------------------------------------
+
+
+        // GET api/<AuditoriaController>/detallePrestamo/5
+        [HttpGet("detallePrestamo/{id}")]
+        public IActionResult GetDetallePrestamo(int id)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                IEnumerable<DTOListadoPrestamo> prestamos = CUListadoPrestamoById.Ejecutar(id);
+                return Ok(prestamos);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error");
+            }
+        }
+        // ----------------------------------------GET COORDINADORES --------------------------------------
+
+        [HttpGet("coordinadores")]
+        public IActionResult GetCoordinadores()
+        {
+            try
+            {
+                IEnumerable<DTOCoordinador> dto = CUListadoCoordinadores.Ejecutar();
+                return Ok(dto);
+            }
+            catch
+            {
+                return StatusCode(500, "Error");
+            }
         }
 
-        // GET api/<AuditoriaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        // ----------------------------------------PRESTAMOS POR COORDINADOR --------------------------------------
+
+        [HttpGet("prestamosPorCoordinador/{idCoordinador}")]
+        public IActionResult GetPrestamosPorCoordinador(int idCoordinador)
         {
-            return "value";
+            try
+            {
+                IEnumerable<DTOListadoPrestamo> dto  = CUListadoPrestamoById.Ejecutar(idCoordinador);
+                return Ok(dto);
+            }
+            catch
+            {
+                return StatusCode(500, "Error");
+            }
+        }
+        // ----------------------------------------Auditorias Por Prestamo--------------------------------------
+
+        [HttpGet("auditoriasPorPrestamo/{idPrestamo}")]
+        public IActionResult GetAuditoriasPorPrestamo(int idPrestamo)
+        {
+            try
+            {
+                IEnumerable<DTOAuditoria> dto = CUListadoAuditoriasById.Ejecutar(idPrestamo);
+                return Ok(dto);
+            }
+            catch
+            {
+                return StatusCode(500, "Error");
+            }
         }
 
-        // POST api/<AuditoriaController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<AuditoriaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<AuditoriaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

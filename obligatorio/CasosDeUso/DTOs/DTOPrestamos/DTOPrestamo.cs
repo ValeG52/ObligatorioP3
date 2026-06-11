@@ -35,7 +35,7 @@ namespace CasosDeUso.DTOs.DTOPrestamos
         public int? OcularId { get; set; }
         public Estado Estado { get; set; }
         // propiedades para cargar los select
-        public IEnumerable<DTOListadoUsuario> Usuarios { get; set; } = new List<DTOListadoUsuario>();
+        public IEnumerable<DTOCoordinador> Usuarios { get; set; } = new List<DTOCoordinador>();
 
         public IEnumerable<DTOListadoCamara> Camaras { get; set; } = new List<DTOListadoCamara>();
         public IEnumerable<DTOListadoMontura> Monturas { get; set; } = new List<DTOListadoMontura>();

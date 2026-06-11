@@ -30,7 +30,7 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
 
                 Prestamo pBuscado = RepoPrestamo.FindById(id);
                 pBuscado.Estado = Estado.Devuelto;
-                pBuscado.DevolverStock();
+                //pBuscado.DevolverStock();
                 RepoPrestamo.Update(id, pBuscado);
                 Auditoria aCreada = new Auditoria();
                 aCreada.Accion = "Devolucion";

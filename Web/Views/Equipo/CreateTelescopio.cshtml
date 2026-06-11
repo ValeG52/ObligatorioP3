@@ -12,6 +12,12 @@
                     <h4 class="mb-0">Nuevo Telescopio</h4>
                 </div>
                 <div class="card-body">
+                    @if (ViewBag.Mensaje != null)
+                    {
+                        <div class="alert alert-danger" role="alert">
+                            @ViewBag.Mensaje
+                        </div>
+                    }
                     <form asp-action="CreateTelescopio" method="post">
                         @Html.AntiForgeryToken()
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>

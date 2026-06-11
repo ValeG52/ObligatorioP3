@@ -1,4 +1,5 @@
 ﻿
+using CasosDeUso.DTOs.DTOUsuarios;
 using DTOs.DTOEquipos;
 using DTOs.DTOPrestamos;
 using DTOs.DTOUsuarios;
@@ -24,13 +25,97 @@ namespace Web.Controllers
             urlEquipo = urlBase + "Equipo";
             urlUsuarios = urlBase + "Usuario";
         }
-        public ActionResult Index()
+
+        // GET: Prestamo/Vigentes
+        public ActionResult Vigentes()
         {
-            IEnumerable<DTOListadoPrestamo> equiposDTO = new List<DTOListadoPrestamo>();
+            // cargar select de socios
+            IEnumerable<DTOSocio> socios = new List<DTOSocio>();
+            IEnumerable<DTOCoordinador> coordinadores = new List<DTOCoordinador>();
             try
             {
                 HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(urlPrestamo);
+                Task<HttpResponseMessage> tarea = client.GetAsync(urlUsuarios + "/listadoSocios");
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    string datos = respuesta.Content.ReadAsStringAsync().Result;
+                    socios = JsonConvert.DeserializeObject<IEnumerable<DTOSocio>>(datos);
+                }
+                // cargar select de coordinadores
+                Task<HttpResponseMessage> tareaCoord = client.GetAsync(urlUsuarios + "/listadoCoordinadores");
+                tareaCoord.Wait();
+                HttpResponseMessage respCoord = tareaCoord.Result;
+                if (respCoord.IsSuccessStatusCode)
+                {
+                    string datosCoord = respCoord.Content.ReadAsStringAsync().Result;
+                    coordinadores = JsonConvert.DeserializeObject<IEnumerable<DTOCoordinador>>(datosCoord);
+                }
+            }
+            catch { }
+
+            ViewBag.Socios = socios;
+            ViewBag.Coordinadores = coordinadores;
+            // devolver un modelo similar al Create para reutilizar la lista de socios
+            DTOPrestamo dto = new DTOPrestamo();
+            dto.Socios = socios;
+            return View(dto);
+        }
+
+        [HttpGet]
+        public ActionResult GetPrestamosVigentesUsuario(int id)
+        {
+            IEnumerable<DTOListadoPrestamo> prestamosDTO = new List<DTOListadoPrestamo>();
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(urlPrestamo + $"/listadoPrestamosVigentesUsuario/{id}");
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    string resultado = respuesta.Content.ReadAsStringAsync().Result;
+                    prestamosDTO = JsonConvert.DeserializeObject<IEnumerable<DTOListadoPrestamo>>(resultado);
+                }
+            }
+            catch { }
+
+            return PartialView("_PrestamosVigentesTable", prestamosDTO);
+        }
+
+        [HttpPost]
+        public ActionResult Devolver(int idPrestamo, int idCoordinador)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.PostAsync(urlPrestamo + $"/devolver/{idPrestamo}/{idCoordinador}", null);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Vigentes));
+                }
+                else
+                {
+                    TempData["Error"] = respuesta.Content.ReadAsStringAsync().Result;
+                    return RedirectToAction(nameof(Vigentes));
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction(nameof(Vigentes));
+            }
+        }
+        public ActionResult Index()
+        {
+            IEnumerable<DTOListadoPrestamo> prestamosDTO = new List<DTOListadoPrestamo>();
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(urlPrestamo + "/listadoPrestamo");
                 tarea.Wait();
                 HttpResponseMessage respuesta = tarea.Result;
                 if (respuesta.IsSuccessStatusCode)
@@ -39,13 +124,89 @@ namespace Web.Controllers
                     Task<string> datos = contenido.ReadAsStringAsync();
                     datos.Wait();
                     string resultado = datos.Result;
-                    equiposDTO = JsonConvert.DeserializeObject<IEnumerable<DTOListadoPrestamo>>(resultado);
+                    prestamosDTO = JsonConvert.DeserializeObject<IEnumerable<DTOListadoPrestamo>>(resultado);
                 }
 
             }
             catch (Exception ex) { }
-            return View(equiposDTO);
+            return View(prestamosDTO);
         }
+
+        // GET: Prestamo/PorMes
+        public ActionResult PorMes()
+        {
+            // cargar lista de socios para permitir buscar por socio (opcional)
+            IEnumerable<DTOSocio> socios = new List<DTOSocio>();
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.GetAsync(urlUsuarios + "/listadoSocios");
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    string datos = respuesta.Content.ReadAsStringAsync().Result;
+                    socios = JsonConvert.DeserializeObject<IEnumerable<DTOSocio>>(datos);
+                }
+            }
+            catch { }
+            ViewBag.Socios = socios;
+            return View(new List<DTOListadoPrestamo>());
+        }
+
+        // POST: Prestamo/PorMes
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PorMes(int mes, int anio, int? idSocio)
+        {
+            try
+            {
+                // usar el socio seleccionado si se pasó, si no usar el usuario en session
+                int userId = idSocio ?? (HttpContext.Session.GetInt32("UsuarioId") ?? 0);
+                if (userId == 0)
+                {
+                    ViewBag.Error = "No hay usuario logueado ni socio seleccionado.";
+                    return View(new List<DTOListadoPrestamo>());
+                }
+
+                // volver a cargar la lista de socios para la vista
+                IEnumerable<DTOSocio> socios = new List<DTOSocio>();
+                try
+                {
+                    HttpClient client2 = new HttpClient();
+                    Task<HttpResponseMessage> tarea2 = client2.GetAsync(urlUsuarios + "/listadoSocios");
+                    tarea2.Wait();
+                    HttpResponseMessage resp2 = tarea2.Result;
+                    if (resp2.IsSuccessStatusCode)
+                    {
+                        string datos2 = resp2.Content.ReadAsStringAsync().Result;
+                        socios = JsonConvert.DeserializeObject<IEnumerable<DTOSocio>>(datos2);
+                    }
+                }
+                catch { }
+                ViewBag.Socios = socios;
+
+                HttpClient client = new HttpClient();
+                // Llamada al API para obtener prestamos entre fechas por usuario
+                Task<HttpResponseMessage> tarea = client.GetAsync(urlPrestamo + $"/listadoPrestamosEntreFechas/{userId}/{mes}/{anio}");
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                IEnumerable<DTOListadoPrestamo> prestamos = new List<DTOListadoPrestamo>();
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    string datos = respuesta.Content.ReadAsStringAsync().Result;
+                    prestamos = JsonConvert.DeserializeObject<IEnumerable<DTOListadoPrestamo>>(datos);
+                }
+
+                return View(prestamos);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(new List<DTOListadoPrestamo>());
+            }
+        }
+        
         //--------------------------------------ALTA PRESTAMO
         // GET: Prestamo/Create
         public ActionResult Create()
@@ -53,12 +214,65 @@ namespace Web.Controllers
             DTOPrestamo dtoPrestamo = new DTOPrestamo();
             try
             {
+
+                CargarSelect(dtoPrestamo);
+                return View(dtoPrestamo);
+
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return View(dtoPrestamo);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult Create(DTOPrestamo dtoPrestamo)
+        {
+            try
+            {
+
                 HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> usuarios = client.GetAsync(urlUsuarios + "/usuarios");
-                Task<HttpResponseMessage> camaras = client.GetAsync(urlEquipo + "/camaras");// varias tareas para acceder a los distintos metodos
-                Task<HttpResponseMessage> telescopios = client.GetAsync(urlEquipo + "/telescopios");
-                Task<HttpResponseMessage> monturas = client.GetAsync(urlEquipo + "/monturas");
-                Task<HttpResponseMessage> oculares = client.GetAsync(urlEquipo + "/oculares");
+
+                Task<HttpResponseMessage> tarea = client.PostAsJsonAsync(urlPrestamo + "/create", dtoPrestamo);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                    CargarSelect(dtoPrestamo);
+                    return View(dtoPrestamo);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Mensaje = ex.Message;
+                CargarSelect(dtoPrestamo);
+                return View(dtoPrestamo);
+            }
+        }
+
+        [HttpGet]
+        public void CargarSelect(DTOPrestamo dtoPrestamo) 
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> usuarios = client.GetAsync(urlUsuarios + "/listadoSocios");
+                Task<HttpResponseMessage> camaras = client.GetAsync(urlEquipo + "/listadoCamaras");// varias tareas para acceder a los distintos metodos
+                Task<HttpResponseMessage> telescopios = client.GetAsync(urlEquipo + "/listadoTelescopios");
+                Task<HttpResponseMessage> monturas = client.GetAsync(urlEquipo + "/listadoMonturas");
+                Task<HttpResponseMessage> oculares = client.GetAsync(urlEquipo + "/listadoOculares");
                 usuarios.Wait();
                 camaras.Wait();
                 telescopios.Wait();
@@ -73,12 +287,12 @@ namespace Web.Controllers
                 {
                     Console.WriteLine(respuestaMonturas.StatusCode);
                     string datosUsuario = respuestaUsuarios.Content.ReadAsStringAsync().Result;
-                    dtoPrestamo.Usuarios = JsonConvert.DeserializeObject<IEnumerable<DTOListadoUsuario>>(datosUsuario);
+                    dtoPrestamo.Socios = JsonConvert.DeserializeObject<IEnumerable<DTOSocio>>(datosUsuario);
                 }
-                
-               if (respuestaCamaras.IsSuccessStatusCode)
+
+                if (respuestaCamaras.IsSuccessStatusCode)
                 {
-                    
+
                     string datosCamaras = respuestaCamaras.Content.ReadAsStringAsync().Result;
                     dtoPrestamo.Camaras = JsonConvert.DeserializeObject<IEnumerable<DTOListadoCamara>>(datosCamaras);
                 }
@@ -107,34 +321,11 @@ namespace Web.Controllers
             {
 
             }
-            ViewBag.Debug =
-    $"Camaras: {dtoPrestamo.Camaras?.Count() ?? 0} - " +
-    $"Telescopios: {dtoPrestamo.Telescopios?.Count() ?? 0} - " +
-    $"Monturas: {dtoPrestamo.Monturas?.Count() ?? 0} - " +
-    $"Oculares: {dtoPrestamo.Oculares?.Count() ?? 0} - " +
-    $"Usuarios: {dtoPrestamo.Usuarios?.Count() ?? 0}";
-
-            return View(dtoPrestamo);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(DTOPrestamo dtoPrestamo)
-        {
-            HttpClient client = new HttpClient();
-
-            HttpResponseMessage respuesta = client.PostAsJsonAsync(urlPrestamo + "/create", dtoPrestamo).Result; 
-
-            if (respuesta.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Mensaje = respuesta.Content.ReadAsStringAsync().Result;
-
-            // si falla, tenés que volver a cargar las listas
-            return View(dtoPrestamo);
-        }
+        
 
         //------------------------------ELIMINAR PRESTAMO
 

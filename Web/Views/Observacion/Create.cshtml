@@ -1,0 +1,117 @@
+@model CasosDeUso.DTOs.DTOObservacion.DTOObservacion
+
+@{
+    ViewData["Title"] = "Alta Observación";
+    var prestamos = ViewBag.Prestamos as IEnumerable<DTOs.DTOPrestamos.DTOListadoPrestamo> ?? new List<DTOs.DTOPrestamos.DTOListadoPrestamo>();
+    var cuerpos = ViewBag.Cuerpos as IEnumerable<CasosDeUso.DTOs.DTOCuerpoCeleste.DTOCuerpoCeleste> ?? new List<CasosDeUso.DTOs.DTOCuerpoCeleste.DTOCuerpoCeleste>();
+}
+
+<div class="container mt-4">
+    <h2>Alta de Observación</h2>
+
+    <div class="card p-3 mt-3">
+        <form id="formObservacion">
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <label class="form-label">Préstamo (vigente)</label>
+                    <select id="prestamoSelect" name="Prestamo" class="form-select">
+                        <option value="">-- Seleccione --</option>
+                        @foreach (var p in prestamos)
+                        {
+                            if (string.Equals(p.Estado, "EN PRÉSTAMO", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option value="@p.Id">@p.Inicio.ToString("dd/MM/yyyy") - @p.Fin.ToString("dd/MM/yyyy")</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Objeto celeste</label>
+                    <select id="cuerpoSelect" name="CuerpoCeleste" class="form-select">
+                        <option value="">-- Seleccione --</option>
+                        @foreach (var c in cuerpos)
+                        {
+                            <option value="@c.Id">@c.Nombre</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-4 mt-2">
+                    <label class="form-label">Fecha</label>
+                    <input id="fechaInput" name="Fecha" type="date" class="form-control" />
+                </div>
+
+                <div class="col-12 mt-3">
+                    <button type="button" id="btnEvaluar" class="btn btn-primary">Evaluar</button>
+                    <button type="button" id="btnConfirmar" class="btn btn-success" disabled>Confirmar alta</button>
+                </div>
+
+                <div class="col-12 mt-3">
+                    <div id="resultadoEvaluacion" class="d-none">
+                        <h5>Resultado</h5>
+                        <div id="indicador" class="mb-2"></div>
+                        <div id="motivo" class="text-muted"></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function getAntiforgeryToken() {
+            var token = document.querySelector('input[name="__RequestVerificationToken"]');
+            return token ? token.value : '';
+        }
+
+        document.getElementById('btnEvaluar').addEventListener('click', function () {
+            var prestamo = document.getElementById('prestamoSelect').value;
+            var cuerpo = document.getElementById('cuerpoSelect').value;
+            var fecha = document.getElementById('fechaInput').value;
+            if (!prestamo || !cuerpo || !fecha) { alert('Complete todos los campos'); return; }
+
+            var dto = { Prestamo: parseInt(prestamo), CuerpoCeleste: parseInt(cuerpo), Fecha: fecha };
+
+            fetch('@Url.Action("Evaluar","Observacion")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getAntiforgeryToken() },
+                body: JSON.stringify(dto)
+            })
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('resultadoEvaluacion').classList.remove('d-none');
+                    var indicador = document.getElementById('indicador');
+                    var motivo = document.getElementById('motivo');
+                    indicador.innerText = data.indicador;
+                    motivo.innerText = data.motivo;
+                    document.getElementById('btnConfirmar').disabled = false;
+                })
+                .catch(e => alert('Error al evaluar'));
+        });
+
+        document.getElementById('btnConfirmar').addEventListener('click', function () {
+            var prestamo = document.getElementById('prestamoSelect').value;
+            var cuerpo = document.getElementById('cuerpoSelect').value;
+            var fecha = document.getElementById('fechaInput').value;
+            if (!prestamo || !cuerpo || !fecha) { alert('Complete todos los campos'); return; }
+            var dto = { Prestamo: parseInt(prestamo), CuerpoCeleste: parseInt(cuerpo), Fecha: fecha };
+
+            fetch('@Url.Action("Confirmar","Observacion")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'RequestVerificationToken': getAntiforgeryToken() },
+                body: JSON.stringify(dto)
+            })
+                .then(r => {
+                    if (r.ok) {
+                        alert('Observación dada de alta');
+                        window.location.href = '@Url.Action("Index","Observacion")';
+                    } else {
+                        r.text().then(t => alert('Error: ' + t));
+                    }
+                })
+                .catch(e => alert('Error al confirmar'));
+        });
+    </script>
+}
