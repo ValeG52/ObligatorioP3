@@ -82,7 +82,7 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Mensaje = ex.Message;
+                
             }
             return View(dtoCamara);
         }
@@ -94,8 +94,22 @@ namespace Web.Controllers
         {
             try
             {
+                HttpClient client = new HttpClient();
 
-                return RedirectToAction(nameof(Index));
+                Task<HttpResponseMessage> tarea = client.PostAsJsonAsync(url + "/createCamara", dtoCamara);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             catch
             {

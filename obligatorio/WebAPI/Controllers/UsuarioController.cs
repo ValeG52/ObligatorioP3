@@ -1,10 +1,12 @@
-﻿using CasosDeUso.InterfacesCasosDeUso;
+﻿using CasosDeUso.DTOs.DTOEquipos;
 using CasosDeUso.DTOs.DTOUsuarios;
+using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 using ExcepcionesPropias;
+using LogicaAplicacion.CasosDeUsoEquipo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Autenticacion;
-using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 
 namespace WebAPI.Controllers
 {
@@ -48,6 +50,21 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
             catch
+            {
+                return StatusCode(500, "Error");
+            }
+
+        }
+        [HttpPost("usuarios")]
+        public IActionResult GetUsuarios()
+        {
+            IEnumerable<DTOListadoUsuario> temas = new List<DTOListadoUsuario>();
+            try
+            {
+                temas = CUListadoUsuarios.Ejecutar();
+                return Ok(temas);
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, "Error");
             }

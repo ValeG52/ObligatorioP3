@@ -1,5 +1,6 @@
 ﻿@model DTOs.DTOPrestamos.DTOPrestamo
 
+
 @{
     ViewData["Title"] = "Create";
 }
@@ -24,53 +25,68 @@
             </div>
            <div class="form-group">
                 <label asp-for="CamaraId" class="control-label"></label>
-                <select name="CamaraId">
-                    @foreach(var tema in Model.Camaras)
+                <select asp-for="CamaraId" class="form-control">
+                    @if (Model.Camaras != null)
+                    {
+                        foreach(var tema in Model.Camaras)
                         {
                             <option value="@tema.Id">@tema.Marca @tema.Modelo</option>
                         }
-                    </select>
+                    }
+                </select>
                 <span asp-validation-for="CamaraId" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="TelescopioId" class="control-label"></label>
-                <select name="TelescopioId">
-                    @foreach(var tema in Model.Telescopios)
+                <select asp-for="TelescopioId" class="form-control">
+                    @if (Model.Telescopios != null)
+                    {
+                        foreach (var tema in Model.Telescopios)
                         {
                             <option value="@tema.Id">@tema.Marca @tema.Modelo</option>
                         }
-                    </select>
+                    }
+                </select>
                 <span asp-validation-for="TelescopioId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MonturaId" class="control-label"></label>
-                <select name="MonturaId">
-                    @foreach(var tema in Model.Monturas)
+                <select asp-for="MonturaId" class="form-control">
+                    @if (Model.Monturas != null)
+                    {
+                        foreach (var tema in Model.Monturas)
                         {
                             <option value="@tema.Id">@tema.Marca @tema.Modelo</option>
                         }
-                    </select>
+                    }
+                </select>
                 <span asp-validation-for="MonturaId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OcularId" class="control-label"></label>
-                <select name="OcularId">
-                    @foreach(var tema in Model.Oculares)
+                <select asp-for="OcularId" class="form-control">
+                    @if (Model.Oculares != null)
+                    {
+                        foreach (var tema in Model.Oculares)
                         {
                             <option value="@tema.Id">@tema.Marca @tema.Modelo</option>
                         }
-                    </select>
+                    }
+                </select>
                 <span asp-validation-for="OcularId" class="text-danger"></span>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="UsuarioId" class="control-label"></label>
-                <select name="UsuarioId">
-                    @foreach(var tema in Model.Usuarios)
+                <select asp-for="UsuarioId" class="form-control">
+                    @if (Model.Usuarios != null)
+                    {
+                        foreach (var tema in Model.Usuarios)
                         {
-                            <option value="@tema.Id">@tema.Nombre </option>
+                            <option value="@tema.Id">@tema.Nombre</option>
                         }
-                    </select>
+                    }
+                </select>
                 <span asp-validation-for="UsuarioId" class="text-danger"></span>
             </div>
             <div class="form-group">

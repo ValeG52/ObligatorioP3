@@ -13,7 +13,7 @@ namespace CasosDeUso.DTOs.DTOEquipos
         public string Resolucion { get; set; }
         [DisplayName("Tamanio de mixel en micras")]
         public int TamPixel { get; set; }
-        public string[] Sensores { get; set; }
+        public string[]? Sensores { get; set; }
         public int SensorId { get; set; }
         
 

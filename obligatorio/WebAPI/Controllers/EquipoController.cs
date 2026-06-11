@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "Error");
+                return StatusCode(500, ex.Message);
             }
         }
         [HttpGet("telescopios")]
@@ -133,7 +133,7 @@ namespace WebAPI.Controllers
 
         // GET: api/<EquipoController> LISTADO DE EQUIPO   
         // GET: api/equipo
-        [HttpGet]
+        [HttpGet("listadoEquipo")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetEquipo()
@@ -177,7 +177,7 @@ namespace WebAPI.Controllers
         }
 
         // POST api/equipo/camara
-        [HttpPost]
+        [HttpPost("createCamara")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -187,7 +187,7 @@ namespace WebAPI.Controllers
             try
             {
                 CUAltaCamara.Ejecutar(dtoCamara);
-                return CreatedAtRoute("FindById", dtoCamara);
+                return Ok(dtoCamara);
             }
             catch (DatosInvalidosException ex)
             {
@@ -197,14 +197,15 @@ namespace WebAPI.Controllers
             {
                 return Conflict(ex.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Error");
+                return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+                //return StatusCode(500, "Error");
             }
         }
 
         // POST api/equipo/telescopio
-        [HttpPost("telescopio")]
+        [HttpPost("createTelescopio")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -213,8 +214,9 @@ namespace WebAPI.Controllers
         {
             try
             {
-                int id = CUAltaTelescopio.Ejecutar(dtoTelescopio);
-                return CreatedAtRoute("FindById", new { id = id }, dtoTelescopio);
+                CUAltaTelescopio.Ejecutar(dtoTelescopio);
+                return Ok(dtoTelescopio);
+                
             }
             catch (DatosInvalidosException ex)
             {
@@ -231,7 +233,7 @@ namespace WebAPI.Controllers
         }
 
         // POST api/equipo/montura
-        [HttpPost("montura")]
+        [HttpPost("createMontura")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -258,7 +260,7 @@ namespace WebAPI.Controllers
         }
 
         // POST api/equipo/ocular
-        [HttpPost("ocular")]
+        [HttpPost("createOcular")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
