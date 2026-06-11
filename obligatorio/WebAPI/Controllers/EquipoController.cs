@@ -136,7 +136,7 @@ namespace WebAPI.Controllers
         [HttpGet("listadoEquipo")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult GetEquipo()
+        public IActionResult GetEquipos()
         {
             try
             {
@@ -199,12 +199,11 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
-                //return StatusCode(500, "Error");
+                return StatusCode(500, "Error");
             }
         }
 
-        // POST api/equipo/telescopio
+        // ------------------------------------------------------------POST api/equipo/telescopio
         [HttpPost("createTelescopio")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -232,7 +231,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        // POST api/equipo/montura
+        // ------------------------------------------------------------POST api/equipo/montura
         [HttpPost("createMontura")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -242,8 +241,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                int id = CUAltaMontura.Ejecutar(dtoMontura);
-                return CreatedAtRoute("FindById", new { id = id }, dtoMontura);
+                CUAltaMontura.Ejecutar(dtoMontura);
+                return Ok(dtoMontura);
             }
             catch (DatosInvalidosException ex)
             {
@@ -253,13 +252,13 @@ namespace WebAPI.Controllers
             {
                 return Conflict(ex.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, "Error");
             }
         }
 
-        // POST api/equipo/ocular
+        // ------------------------------------------------------------POST api/equipo/ocular
         [HttpPost("createOcular")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -269,8 +268,24 @@ namespace WebAPI.Controllers
         {
             try
             {
-                int id = CUAltaOcular.Ejecutar(dtoOcular);
-                return CreatedAtRoute("FindById", new { id = id }, dtoOcular);
+                try
+                {
+                    CUAltaOcular.Ejecutar(dtoOcular);
+                    return Ok(dtoOcular);
+                }
+                catch (DatosInvalidosException ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+                catch (ConflictException ex)
+                {
+                    return Conflict(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    //return StatusCode(500, ex.InnerException?.Message ?? ex.Message);
+                    return StatusCode(500, "Error");
+                }
             }
             catch (DatosInvalidosException ex)
             {
@@ -285,19 +300,19 @@ namespace WebAPI.Controllers
                 return StatusCode(500, "Error");
             }
         }
-
+        //---------------------------------------------------EDIT
         // PUT api/equipo/{id}
         [HttpPut("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public IActionResult Put(int id, [FromBody] DTOEquipo dtoEquipo)
+        public IActionResult Edit(int id, [FromBody] DTOEquipo dtoEquipo)
         {
             try
             {
                 CUModificarEquipo.Ejecutar(id, dtoEquipo);
-                return NoContent();
+                return Ok(dtoEquipo);
             }
             catch (DatosInvalidosException ex)
             {
@@ -313,7 +328,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        // DELETE api/equipo/{id}
+        // -----------------------------------------------DELETE api/equipo/{id}
         [HttpDelete("{id}")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]

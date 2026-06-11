@@ -27,7 +27,7 @@ namespace Web.Controllers
             try
             {
                 HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "/listadoEquipo");
                 tarea.Wait();
                 HttpResponseMessage respuesta = tarea.Result;
                 if (respuesta.IsSuccessStatusCode)
@@ -126,26 +126,7 @@ namespace Web.Controllers
             DTOTelescopio dtoTelescopio = new DTOTelescopio();
             try
             {
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(url);
-                tarea.Wait();
-                HttpResponseMessage respuesta = tarea.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
-                    datosRespuesta.Wait();
-                    string datos = datosRespuesta.Result;
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
-                    datosRespuesta.Wait();
-                    string datos = datosRespuesta.Result;
-                    ViewBag.Mensaje = datos;
-                }
-
+                
 
             }
             catch (Exception ex)
@@ -163,7 +144,23 @@ namespace Web.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                HttpClient client = new HttpClient();
+
+                Task<HttpResponseMessage> tarea = client.PostAsJsonAsync(url + "/createTelescopio", dtoTelescopio);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
 
 
             }
@@ -183,7 +180,8 @@ namespace Web.Controllers
             try
             {
                 HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "/tiposmontura");
                 tarea.Wait();
                 HttpResponseMessage respuesta = tarea.Result;
                 if (respuesta.IsSuccessStatusCode)
@@ -192,7 +190,9 @@ namespace Web.Controllers
                     Task<string> datosRespuesta = contenido.ReadAsStringAsync();
                     datosRespuesta.Wait();
                     string datos = datosRespuesta.Result;
-                    dtoMontura.TipoMonturas = datos.Split(','); // Suponiendo que el API devuelve un string con los tipos de montura separados por comas
+                    dtoMontura.TipoMonturas = JsonConvert.DeserializeObject<List<string>>(datos);
+
+
                 }
                 else
                 {
@@ -221,7 +221,23 @@ namespace Web.Controllers
             try
             {
 
-                return RedirectToAction(nameof(Index));
+                HttpClient client = new HttpClient();
+
+                Task<HttpResponseMessage> tarea = client.PostAsJsonAsync(url + "/createMontura", dtoMontura);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
 
             }
             catch
@@ -238,28 +254,7 @@ namespace Web.Controllers
             DTOOcular dtoOcular = new DTOOcular();
             try
             {
-                HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(url);
-                tarea.Wait();
-                HttpResponseMessage respuesta = tarea.Result;
-                if (respuesta.IsSuccessStatusCode)
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
-                    datosRespuesta.Wait();
-                    string datos = datosRespuesta.Result;
-                    //dtoOcular. = JsonConvert.DeserializeObject<TiposMontura>(datos);
-                }
-                else
-                {
-                    HttpContent contenido = respuesta.Content;
-                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
-                    datosRespuesta.Wait();
-                    string datos = datosRespuesta.Result;
-                    ViewBag.Mensaje = datos;
-                }
-
-
+                
             }
             catch (Exception ex)
             {
@@ -277,7 +272,23 @@ namespace Web.Controllers
             try
             {
 
-                return RedirectToAction(nameof(Index));
+                HttpClient client = new HttpClient();
+
+                Task<HttpResponseMessage> tarea = client.PostAsJsonAsync(url + "/createOcular", dtoOcular);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
 
             }
             catch
@@ -293,18 +304,39 @@ namespace Web.Controllers
         
         
         //-----------------------------------------DELETE
-        public ActionResult Delete(int id)
+        //GET
+        public ActionResult Delete(int id )
         {
+
             DTOEquipo dtoEquipo = new DTOEquipo();
             try 
             {
-                DTOEquipo dtoE = 
-                ViewBag.Id = id;
-                
+                HttpClient client = new HttpClient();
+
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "/" + id);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    dtoEquipo = JsonConvert.DeserializeObject<DTOEquipo>(datos);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
+
             catch(Exception ex) 
             {
-                ViewBag.Error = "Error en los datos";
+               
             }
             return View(dtoEquipo);
         }
@@ -315,32 +347,67 @@ namespace Web.Controllers
         {
             try
             {
-               
-                return RedirectToAction(nameof(Index));
+
+                HttpClient client = new HttpClient();
+                Task<HttpResponseMessage> tarea = client.DeleteAsync(url + "/" + id);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
             }
+            return View(dtoEquipo);
+
         }
- 
+
 
         //------------------------------------------------------------ Edit
+        //GET: Equipoes/Edit/5  
         public ActionResult Edit(int id)
         {
             DTOEquipo dtoEquipo = new DTOEquipo();
             try
             {
-                DTOEquipo equipoDTO = 
-                ViewBag.Id = id;
-                //return View(equipoDTO);
+                HttpClient client = new HttpClient();
+
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "/" + id);
+                tarea.Wait();
+                HttpResponseMessage respuesta = tarea.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datosRespuesta = contenido.ReadAsStringAsync();
+                    datosRespuesta.Wait();
+                    string datos = datosRespuesta.Result;
+                    dtoEquipo = JsonConvert.DeserializeObject<DTOEquipo>(datos);
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
             
             catch( Exception ex)
             {
                 ViewBag.Error = "Error en los datos";
             }
-            return View();
+            return View(dtoEquipo);
         }
 
         
@@ -350,12 +417,26 @@ namespace Web.Controllers
         {
             try
             {
-                
-                return RedirectToAction(nameof(Index));
-            }catch
-            {
-                return View();
+                HttpClient client = new HttpClient();
+                HttpResponseMessage respuesta =client.PutAsJsonAsync(url + "/" + id, dtoEquipo).Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    HttpContent contenido = respuesta.Content;
+                    Task<string> datos = contenido.ReadAsStringAsync();
+                    datos.Wait();
+                    string mensaje = datos.Result;
+                    ViewBag.Mensaje = mensaje;
+                }
             }
+            catch(Exception ex)
+            {
+                ViewBag.Error = "Error en los datos";
+            }
+            return View(dtoEquipo);
         }
 
         //------------------------------------------------------------------- GET: Equipoes/Exists/5

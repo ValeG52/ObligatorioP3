@@ -64,6 +64,8 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoMontura.Marca,
                 Modelo = dtoMontura.Modelo,
                 Stock = dtoMontura.Stock,
+                NameTipoEquipo = "Montura",
+
 
                 TipoMontura = dtoMontura.TipoMontura,
                 Carga = dtoMontura.Carga,
@@ -83,7 +85,7 @@ namespace LogicaAplicacion.Mappers
                 Marca = dtoOcular.Marca,
                 Modelo = dtoOcular.Modelo,
                 Stock = dtoOcular.Stock,
-
+                NameTipoEquipo = "Ocular",
                 Diametro = dtoOcular.Diametro,
                 AnguloVision = dtoOcular.AnguloVision,
 

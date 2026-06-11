@@ -41,7 +41,7 @@ namespace LogicaAccesoDatos.Repositorios
                 }
                 else
                 {
-                    throw new DatosInvalidosException("No se encontro un pais con ese id");
+                    throw new DatosInvalidosException("No se encontro un equipo con ese id");
 
                 }
             }

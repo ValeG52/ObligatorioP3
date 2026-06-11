@@ -1,65 +1,81 @@
-﻿@model DTOs.DTOUsuarios.DTOUsuario
+﻿@using LogicaNegocio.Enumerados
+@model DTOs.DTOUsuarios.DTOUsuario
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Registrar usuario";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h4 class="mb-0">Registrar Usuario</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
 
-<h4>Usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label"></label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Nombre completo" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Direccion" class="form-label"></label>
+                            <input asp-for="Direccion" class="form-control" placeholder="Calle, número, ciudad" />
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Telefono" class="form-label"></label>
+                                <input asp-for="Telefono" class="form-control" placeholder="Ej: 099123456" />
+                                <span asp-validation-for="Telefono" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" placeholder="correo@ejemplo.com" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="NombreUsu" class="form-label">Nombre de usuario</label>
+                                <input asp-for="NombreUsu" class="form-control" />
+                                <span asp-validation-for="NombreUsu" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Contrasenia" class="form-label">Contraseña</label>
+                                <input asp-for="Contrasenia" class="form-control" type="password" />
+                                <span asp-validation-for="Contrasenia" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Rol" class="form-label"></label>
+                            <select asp-for="Rol" class="form-select">
+                                <option value="">Selecciona un rol</option>
+                                @foreach (Rol r in Enum.GetValues(typeof(Rol)))
+                                {
+                                    <option value="@((int)r)">@r.ToString()</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Rol" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <a asp-action="Index" class="btn btn-secondary me-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Direccion" class="control-label"></label>
-                <input asp-for="Direccion" class="form-control" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreUsu"  class="control-label">Nombre de Usuario</label>
-                <input asp-for="NombreUsu" class="form-control" />
-                <span asp-validation-for="NombreUsu" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contrasenia" class="control-label">Contraseña</label>
-                <input asp-for="Contrasenia" class="form-control" />
-                <span asp-validation-for="Contrasenia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rol" class="control-label"></label>
-                <select name="Rol">
-                    @foreach (var rol in Enum.GetValues(typeof(DTOs.DTOUsuarios.DTOUsuario))) //cambier esto para que ande bien el enum
-                    {
-                        <option value="@rol">@rol</option>
-                    }
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Registrarse" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
