@@ -4,16 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Diagnostics;
 
 namespace LogicaAplicacion.CasosDeUsoEnum
 {
     public class CUListadoSensor : ICUListadoSensor
 
     {
-        public string[] Ejecutar()
+        public List<string> Ejecutar()
         {
             string[] lista = Enum.GetNames(typeof(Sensor));
-            return lista;
+            List<string> sensores = lista.ToList();
+            return sensores;
         }
     }
 }

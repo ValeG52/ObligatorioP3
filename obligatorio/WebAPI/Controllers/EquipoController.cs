@@ -3,6 +3,7 @@ using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
 using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
 using ExcepcionesPropias;
 using LogicaAccesoDatos;
+using LogicaAplicacion.CasosDeUsoEquipo;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -26,7 +27,12 @@ namespace WebAPI.Controllers
         public ICUDeleteEquipo CUDeleteEquipo { get; set; }
         public ICUBuscarEquipo CUBuscarEquipo { get; set; }
         public ICUModificarEquipo CUModificarEquipo { get; set; }
-        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo, ICUModificarEquipo cUModificarEquipo)
+        public ICUListadoCamara CUListadoCamara { get; set; }
+        public ICUListadoTelescopio CUListadoTelescopio { get; set; }
+        public ICUListadoMontura CUListadoMontura   { get; set; }
+        public ICUListadoOcular CUListadoOcular { get; set; }
+
+        public EquipoController(ICUAltaCamara cuAltaCamara, ICUListadoSensor cuListadoSensores, ICUAltaTelescopio cUAltaTelescopio, ICUListadoTipoMontura cUListadoTipoMontura, ICUAltaMontura cUAltaMontura, ICUAltaOcular cUAltaOcular, ICUListadoEquipo cUListadoEquipo, ICUDeleteEquipo cuDeleteEquipo, ICUBuscarEquipo cUBuscarEquipo, ICUModificarEquipo cUModificarEquipo, ICUListadoCamara cUListadoCamara, ICUListadoTelescopio cUListadoTelescopio, ICUListadoMontura cUListadoMontura, ICUListadoOcular cUListadoOcular)
         {
             CUAltaCamara = cuAltaCamara;
             CUListadoSensores = cuListadoSensores;
@@ -38,16 +44,23 @@ namespace WebAPI.Controllers
             CUDeleteEquipo = cuDeleteEquipo;
             CUBuscarEquipo = cUBuscarEquipo;
             CUModificarEquipo = cUModificarEquipo;
+            CUListadoCamara = cUListadoCamara;
+            CUListadoTelescopio = cUListadoTelescopio;
+            CUListadoMontura = cUListadoMontura;
+            CUListadoOcular = cUListadoOcular;
         }
 
         // GET api/equipo/sensores
         [HttpGet("sensores")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-       
+        public IActionResult GetSensores()
+        {
+            return Ok(CUListadoSensores.Ejecutar());
+        }
 
         // GET api/equipo/tiposmontura
-        [HttpGet("tipomontura")]
+        [HttpGet("tiposmontura")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         public IActionResult GetTiposMontura()
@@ -55,22 +68,67 @@ namespace WebAPI.Controllers
             return Ok(CUListadoTipoMontura.Ejecutar());
         }
 
-        // GET api/equipo/form/camara
-        [HttpGet("form/camara")]
+        // GET api/equipo/                LISTADO DE CAMARAS
+        [HttpGet("camaras")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public IActionResult Get()
+        public IActionResult GetCamaras()
         {
-            DTOCamara dto = new DTOCamara();
+            IEnumerable<DTOListadoCamara> camaras = new List<DTOListadoCamara>();
             try
             {
-                dto.Sensores = CUListadoSensores.Ejecutar();
-                return Ok(dto);
+                camaras = CUListadoCamara.Ejecutar();
+                return Ok(camaras);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(500, "Error");
             }
+        }
+        [HttpGet("telescopios")]
+        public IActionResult GetTelescopios()
+        {
+            IEnumerable<DTOListadoTelescopio> temas = new List<DTOListadoTelescopio>();
+            try
+            {
+                temas = CUListadoTelescopio.Ejecutar();
+                return Ok(temas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error");
+            }
+
+        }
+        [HttpGet("monturas")]
+        public IActionResult GetMonturas()
+        {
+            IEnumerable<DTOListadoMontura> temas = new List<DTOListadoMontura>();
+            try
+            {
+                temas = CUListadoMontura.Ejecutar();
+                return Ok(temas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error");
+            }
+
+        }
+        [HttpGet("oculares")]
+        public IActionResult GetOculares()
+        {
+            IEnumerable<DTOListadoOcular> temas = new List<DTOListadoOcular>();
+            try
+            {
+                temas = CUListadoOcular.Ejecutar();
+                return Ok(temas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Error");
+            }
+
         }
 
         // GET: api/<EquipoController> LISTADO DE EQUIPO   
@@ -119,7 +177,7 @@ namespace WebAPI.Controllers
         }
 
         // POST api/equipo/camara
-        [HttpPost("camara")]
+        [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
@@ -128,8 +186,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                int id = CUAltaCamara.Ejecutar(dtoCamara);
-                return CreatedAtRoute("FindById", new { id = id }, dtoCamara);
+                CUAltaCamara.Ejecutar(dtoCamara);
+                return CreatedAtRoute("FindById", dtoCamara);
             }
             catch (DatosInvalidosException ex)
             {

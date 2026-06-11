@@ -24,7 +24,7 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
             RepoUsuario = repoUsu;
             RepoAuditoria = repoAuditoria;
         }
-        public void Ejecutar (DTOPrestamo dtoPrestamo, int idCoordinador)
+        public void Ejecutar (DTOPrestamo dtoPrestamo)
         {
             List <Equipo> equipos = new List <Equipo> ();
             Usuario usuario = RepoUsuario.FindById(dtoPrestamo.UsuarioId);
@@ -50,7 +50,7 @@ namespace LogicaAplicacion.CasosDeUsoPrestamo
             Auditoria aCreada = new Auditoria();
             aCreada.Accion = "Prestamo";
             aCreada.Fecha = DateTime.Now;
-            Usuario coordinador = RepoUsuario.FindById(idCoordinador);
+            Usuario coordinador = usuario; //lo buscomas arriba 
             aCreada.Usuario = coordinador;
             aCreada.Prestamo = prestamo;
             RepoAuditoria.Add(aCreada);

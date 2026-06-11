@@ -1,4 +1,5 @@
 using CasosDeUso.InterfacesCasosDeUso;
+using CasosDeUso.InterfacesCasosDeUso.ICUAuditorias;
 using CasosDeUso.InterfacesCasosDeUso.ICUEnumerados;
 using CasosDeUso.InterfacesCasosDeUso.ICUEquipo;
 using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
@@ -6,6 +7,7 @@ using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 using CasosDeUso.ManejoUsuarios;
 using LogicaAccesoDatos;
 using LogicaAccesoDatos.Repositorios;
+using LogicaAplicacion.CasosDeUsoAuditoria;
 using LogicaAplicacion.CasosDeUsoEnum;
 using LogicaAplicacion.CasosDeUsoEquipo;
 using LogicaAplicacion.CasosDeUsoPrestamo;
@@ -49,6 +51,15 @@ builder.Services.AddScoped<ICUModificarPrestamo, CUModificarPrestamo>();
 builder.Services.AddScoped<IRepositorioAuditoria, RepositorioAuditoria>();
 builder.Services.AddScoped<IRepositorioObservacion, RepositorioObservacionEF>();
 builder.Services.AddScoped<IRepositorioCuerpoCeleste, RepositorioCuerpoCeleste>();
+builder.Services.AddScoped<ICUListarPrestamosVigentesUsuario, CUListarPrestamosVigentesUsuario>();
+builder.Services.AddScoped<ICUListadoPrestamosEntreFechas, CUListadoPrestamosEntreFechas>();
+builder.Services.AddScoped<ICUBuscarPrestamo, CUBuscarPrestamo>();
+builder.Services.AddScoped<ICUBuscarAuditoriaByID, CUBuscarAuditoriaByID>();
+builder.Services.AddScoped<ICUListadoCoordinadores, CUListadoCoordinadores>();
+builder.Services.AddScoped<ICUListadoRol, CUListadoRol>();
+
+
+
 
 
 

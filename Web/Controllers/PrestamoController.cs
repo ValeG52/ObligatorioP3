@@ -45,7 +45,8 @@ namespace Web.Controllers
             try
             {
                 HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "/create");
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "Equipo/create");// varias tareas para acceder a los distintos metodos 
                 tarea.Wait();
                 HttpResponseMessage respuesta = tarea.Result;
                 if (respuesta.IsSuccessStatusCode)
@@ -86,11 +87,9 @@ namespace Web.Controllers
             {
                 return RedirectToAction(nameof(Index));
 
-
             }
             catch
             {
-
 
             }
             return View(dtoPrestamo);

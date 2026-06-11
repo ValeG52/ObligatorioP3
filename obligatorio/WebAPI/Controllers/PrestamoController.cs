@@ -1,4 +1,8 @@
-﻿using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
+﻿using CasosDeUso.DTOs.DTOEquipos;
+using CasosDeUso.DTOs.DTOPrestamos;
+using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
+using ExcepcionesPropias;
+using LogicaAplicacion.CasosDeUsoEquipo;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,6 +28,46 @@ namespace WebAPI.Controllers
             CUListarPrestamosVigentesUsuario = cUListarPrestamosVigentesUsuario;
             CUBuscarPrestamo = cUBuscarPrestamo;
         }
+
+        
+        
+        
+        // POST api/Prestamo/create
+        [HttpPost("create")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+        [ProducesResponseType(500)]
+        public IActionResult CreatePrestamo([FromBody] DTOPrestamo dtoPrestamo)
+        {
+            try
+            {
+                //int idUsuario = url de la clase;
+                //dtoPrestamo.UsuarioId = idUsuario;
+                 
+                CUAltaPrestamo.Ejecutar(dtoPrestamo);
+                return CreatedAtRoute("FindById", dtoPrestamo);
+            }
+            catch (DatosInvalidosException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (ConflictException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Error");
+            }
+        }
+       
+        
+        
+        
+        
+        
+        
         // GET: api/<PrestamoController>
         [HttpGet]
         public IEnumerable<string> Get()

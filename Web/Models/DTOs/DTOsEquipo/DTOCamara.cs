@@ -9,7 +9,7 @@ namespace DTOs.DTOEquipos
         public int Sensor { get; set; }
         public string Resolucion { get; set; }
         public int TamPixel { get; set; }
-        public string[] Sensores { get; set; }
+        public List<string> Sensores { get; set; } = new List<string>();
         public int SensorId { get; set; }
         
 

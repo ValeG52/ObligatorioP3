@@ -57,7 +57,8 @@ namespace Web.Controllers
             {
 
                 HttpClient client = new HttpClient();
-                Task<HttpResponseMessage> tarea = client.GetAsync(url);
+                
+                Task<HttpResponseMessage> tarea = client.GetAsync(url + "/sensores");
                 tarea.Wait();
                 HttpResponseMessage respuesta = tarea.Result;
                 if (respuesta.IsSuccessStatusCode)
@@ -66,7 +67,9 @@ namespace Web.Controllers
                     Task<string> datosRespuesta = contenido.ReadAsStringAsync();
                     datosRespuesta.Wait();
                     string datos = datosRespuesta.Result;
-                   // dtoCamara.Sensor = JsonConvert.De);
+                    dtoCamara.Sensores = JsonConvert.DeserializeObject<List<string>>(datos);
+                    
+
                 }
                 else
                 {
@@ -81,10 +84,6 @@ namespace Web.Controllers
             {
                 ViewBag.Mensaje = ex.Message;
             }
-
-            // Asegurar que la propiedad Sensores no sea null para evitar NullReference en la vista
-            dtoCamara.Sensores = dtoCamara.Sensores ?? new string[0];
-
             return View(dtoCamara);
         }
 
@@ -123,7 +122,6 @@ namespace Web.Controllers
                     Task<string> datosRespuesta = contenido.ReadAsStringAsync();
                     datosRespuesta.Wait();
                     string datos = datosRespuesta.Result;
-                    //dtoTelescopio. = JsonConvert.DeserializeObject<Sensores>(datos);
                 }
                 else
                 {
@@ -180,7 +178,7 @@ namespace Web.Controllers
                     Task<string> datosRespuesta = contenido.ReadAsStringAsync();
                     datosRespuesta.Wait();
                     string datos = datosRespuesta.Result;
-                    dtoMontura.TipoMontura = JsonConvert.DeserializeObject<TiposMontura>(datos);
+                    dtoMontura.TipoMonturas = datos.Split(','); // Suponiendo que el API devuelve un string con los tipos de montura separados por comas
                 }
                 else
                 {

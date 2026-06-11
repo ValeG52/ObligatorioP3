@@ -19,7 +19,7 @@
                     <option value="">Seleccione un sensor</option>
                     @if (Model?.Sensores != null)
                     {
-                        for (var i = 0; i < Model.Sensores.Length; i++)
+                        for (var i = 0; i < Model.Sensores.Count; i++)
                         {
                             <option value="@i">@Model.Sensores[i]</option>
                         }

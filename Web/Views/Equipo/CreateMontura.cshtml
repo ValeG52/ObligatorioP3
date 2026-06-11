@@ -15,9 +15,12 @@
             <div class="form-group">
                 <label asp-for="TipoMontura" class="control-label"></label>
                 <select asp-for="TipoMontura" class="form-control">
-                    @for (var i = 0; i < Model.TipoMonturas.Length; i++)
+                    @if (Model?.TipoMonturas != null)
                     {
-                        <option value=" @i">@Model.TipoMonturas[i]</option>
+                        for (var i = 0; i < Model.TipoMonturas.Length; i++)
+                        {
+                            <option value="@i">@Model.TipoMonturas[i]</option>
+                        }
                     }
                 </select>
                 <span asp-validation-for="TipoMontura" class="text-danger"></span>

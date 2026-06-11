@@ -4,6 +4,7 @@ using ExcepcionesPropias;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Autenticacion;
+using CasosDeUso.InterfacesCasosDeUso.ICUUsuarios;
 
 namespace WebAPI.Controllers
 {
@@ -12,9 +13,17 @@ namespace WebAPI.Controllers
     public class UsuarioController : ControllerBase
     {
         public ICULoginUsuario CULoginUsuario { get; set; }
-        public UsuarioController(ICULoginUsuario cuLoginUsuario)
+        public ICUAltaUsuario CUAltaUsuario { get; set; }
+        public ICUListadoCoordinadores CUListadoCoordinadores { get; set; }
+        public ICUListadoUsuario CUListadoUsuarios { get; set; }
+        public ICUListadoSociosPorTelescopio CUListadoSociosPorTelescopio { get; set; }
+        public UsuarioController(ICULoginUsuario cuLoginUsuario, ICUAltaUsuario cuAltaUsuario, ICUListadoCoordinadores cuListadoCoordinadores, ICUListadoUsuario cuListadoUsuarios, ICUListadoSociosPorTelescopio cuListadoSociosPorTelescopio)
         {
             CULoginUsuario = cuLoginUsuario;
+            CUAltaUsuario = cuAltaUsuario;
+            CUListadoCoordinadores = cuListadoCoordinadores;
+            CUListadoUsuarios = cuListadoUsuarios;
+            CUListadoSociosPorTelescopio = cuListadoSociosPorTelescopio;
         }
 
         [HttpPost("login")]

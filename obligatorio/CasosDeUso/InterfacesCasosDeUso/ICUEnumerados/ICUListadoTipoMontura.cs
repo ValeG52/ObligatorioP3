@@ -6,7 +6,7 @@ namespace CasosDeUso.InterfacesCasosDeUso.ICUEnumerados
 {
     public interface ICUListadoTipoMontura
     {
-        string[] Ejecutar();
+        List<string> Ejecutar();
 
     }
 }

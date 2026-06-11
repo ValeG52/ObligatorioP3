@@ -1,4 +1,5 @@
 ﻿using CasosDeUso.DTOs.DTOPrestamos;
+using CasosDeUso.InterfacesCasosDeUso.ICUPrestamo;
 using LogicaNegocio.EntidadesNegocio;
 using LogicaNegocio.InterfacesRepositorios;
 using System;

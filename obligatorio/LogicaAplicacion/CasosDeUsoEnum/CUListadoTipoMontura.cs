@@ -9,10 +9,12 @@ namespace LogicaAplicacion.CasosDeUsoEnum
     public class CUListadoTipoMontura : ICUListadoTipoMontura
 
     {
-        public string[] Ejecutar()
+        public List<string> Ejecutar()
         {
             string[] lista = Enum.GetNames(typeof(TipoMontura));
-            return lista;
+            List<string> tipomontura = lista.ToList();
+
+            return tipomontura;
         }
     }
 }

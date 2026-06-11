@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CasosDeUso.InterfacesCasosDeUso.ICUAuditorias;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +9,14 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuditoriaController : ControllerBase
     {
+        public ICUBuscarAuditoriaByID CUBuscarAuditoriaByID { get; set; }
+        public ICUListadoAuditoriasById CUListadoAuditoriasById { get; set; }
+        public AuditoriaController(ICUBuscarAuditoriaByID cUBuscarAuditoriaByID, ICUListadoAuditoriasById cUListadoAuditoriasById)
+        {
+            CUBuscarAuditoriaByID = cUBuscarAuditoriaByID;
+            CUListadoAuditoriasById = cUListadoAuditoriasById;
+        }
+
         // GET: api/<AuditoriaController>
         [HttpGet]
         public IEnumerable<string> Get()
